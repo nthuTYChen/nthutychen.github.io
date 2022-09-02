@@ -1,0 +1,268 @@
+/*
+Main Title: Mukta;
+First Layer Title: Dosis;
+Second Layer Title: Thasadith;
+Content: Zilla Slab;
+Code Font: Lekton;
+*/
+
+/*
+font-family: 'Dosis', sans-serif;
+font-family: 'Lekton', sans-serif;
+font-family: 'Mukta', sans-serif;
+font-family: 'Thasadith', sans-serif;
+font-family: 'Zilla Slab', serif;
+*/
+
+/*
+text color: #383838; (light grey)
+link color: #cccccc; (super-light grey)
+link hovered color: #000000; (black)
+menu bg color: #b30000; (dark red)
+section bg color: #f2f2f2 (lighter grey);
+highlight color: #e68a00; (dark orange)
+code color:#226d6d; (cyan)
+*/
+
+@import url('https://fonts.googleapis.com/css2?family=Dosis:wght@700&family=Lekton&family=Mukta:wght@400;800&family=Thasadith:wght@400;700&family=Zilla+Slab:wght@300;700&display=swap');
+
+* {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	width: 100%;
+	height: 100%;
+	overflow-x: hidden;
+	font-size: 2.4vh;
+	line-height: 3.6vh;
+	font-family: 'Zilla Slab', serif;
+	background-color: white;
+	color: #383838;
+}
+
+body > nav {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 20%;
+	height: 100%;
+	padding: 1vw 0 1vw 1vw;
+	background-color: #b30000;
+	font-weight: 700;
+}
+
+body > nav a {
+	display: block;
+	margin-bottom: 2vh;
+	padding: 0.5vh;
+	width: 100%;
+	border-right: 0.5vw solid #ff9900;
+	color: white;
+	transition: 0.5s all ease-out;
+}
+
+body > nav a:hover, body > nav a.selected {
+	padding-left: 1vh;
+	border: 0;
+	background-color: white;
+	color: #b30000;
+}
+
+article {
+	padding: 0 1vw;
+}
+
+section {
+	margin: 2.4vh 0;
+	padding: 0.6vh 1.2vh;
+	background-color: #f2f2f2;
+}
+
+h1 {
+	font-family: 'Mukta', sans-serif;
+	font-size: 6.4vh;
+	line-height: 9.6vh;
+}
+
+h1 + p#animated {
+	position: relative;
+	width: intrinsic;           /* Safari/WebKit uses a non-standard name */
+  	width: -moz-max-content;    /* Firefox/Gecko */
+  	width: -webkit-max-content; /* Chrome */
+  	width: max-content;
+	background-color: #b30000;
+	color: #ffffff;
+	padding: 0.2vh 0.5vw;
+	animation: 2s infinite alternate fancy;
+	animation-iteration-count: infinite;
+	animation-timing-function: ease-out;
+}
+
+h2 {
+	font-family: 'Dosis', sans-serif;
+	font-size: 4vh;
+	line-height: 6vh;
+}
+
+h3 {
+	font-family: 'Thasadith', sans-serif;
+	font-size: 3.2vh;
+	line-height: 4.8vh;
+}
+
+em {
+	font-style: normal;
+	font-weight: 700;
+}
+
+em.extra {
+	color: #e68a00;
+}
+
+sub {
+	font-size: 1.6vh;
+	line-height: 2.4vh;
+}
+
+ol, ul {
+	margin-left: 2vw;
+}
+
+code, table {
+	font-family: 'Lekton', sans-serif;
+	background-color: #e68a00;
+	color: white;
+}
+
+code {
+	display: block;
+	padding: 0 0.5vw;
+}
+
+code > code {
+	padding-left: 4.8vh;
+}
+
+code > code > code {
+	padding-left: 4.8vh;
+}
+
+a {
+	text-decoration: none;
+	padding-bottom: 1px;
+	border: 0;
+	color: #b30000;
+	transition: 0.5s all ease-out;
+}
+
+a:hover {
+	border-bottom: 1px solid black;
+	color: black;
+	transition: 0.3s all ease-out;
+}
+
+a.examples {
+	margin: 0 3px;
+	padding: 0 3px;
+	background-color: black;
+	color: #ff9900;
+	font-weight: bold;
+}
+
+a.examples::before {
+	content: '[ ';
+}
+
+a.examples::after {
+	content: ' ]';
+}
+
+a.examples:hover {
+	border-bottom: 0;
+	background-color: #ff9900;
+	color: black;
+}
+
+q, q > em {
+	font-style: italic;
+}
+
+s {
+	color: #383838;
+}
+
+button {
+	padding: 0.5vh;
+	border: 1px solid #b30000;
+	border-radius: 0.3vh;
+	background-color: #b30000;
+	color: white;
+	font-family: inherit;
+	font-size: inherit;
+	font-weight: 700;
+	transition: 0.5s all ease-out;
+}
+
+button:hover {
+	background-color: white;
+	color: #b30000;
+	transition: 0.3s all ease-out;
+	cursor: pointer;
+}
+
+p, picture {
+	margin: 1.2vh 0;
+}
+
+p code, li code {
+	display: inline;
+	background-color: unset;
+	color: #226d6d;
+}
+
+picture {
+	display: block;
+	position: relative;
+	max-width: 100%;
+	height: auto;
+}
+
+picture > sub {
+	position: absolute;
+	top: 0;
+	left: 0;
+	padding: 0 1vw;
+	background-color: white;
+	opacity: 0.9;
+}
+
+picture > sub:hover {
+	opacity: 1;
+	transition: 0.3s all ease-out;
+}
+
+img {
+	max-width: inherit;
+}
+
+div.container {
+	width: 80%;
+	margin-left: 20%;
+}
+
+@keyframes fancy {
+	0% {
+		left: 0;
+		background-color: #b30000;
+	}
+	50% {
+		background-color: #ff0000;
+	}
+	100% {
+		left: 10%;
+		background-color: #b30000;
+	}
+}

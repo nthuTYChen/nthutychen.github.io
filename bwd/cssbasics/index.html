@@ -1,0 +1,691 @@
+<!DOCTYPE HTML>
+<html lang="en">
+	<head>
+		<title>Bilingual Web Design@DFLL NTHU; Tsung-Ying Chen</title>
+		<link rel="stylesheet" href="/css/style.css">
+		<script src="/js/jquery-3.2.1.min.js"></script>
+		<meta charset="UTF-8">
+	</head>
+	<body>
+		<nav>
+			<h2>
+				<a href="/bwd/">Intro</a>
+				<a href="/bwd/htmlbasics/">HTML Basics</a>
+				<a class="selected" href="/bwd/cssbasics/">CSS Basics</a>
+				<a href="/bwd/jsbasics/">JS Basics</a>
+				<a href="/bwd/jquery/">jQuery</a>
+				<a href="/bwd/webanimation/">Web Animation</a>
+				<a href="/bwd/mobile/">Mobile First</a>
+				<a href="/bwd/analysisdemo/">Analysis Demo</a>
+				<a href="/bwd/engissues/">English Issues</a>
+				<a href="/bwd/students/">Students</a>
+			</h2>
+		</nav>
+		<div class="container">
+			<article>
+				<h1>3. CSS Basics</h1>
+				<p><em>Cascading Style Sheet</em> - that's what CSS means, which is the flesh of your HTML document (or, the dress it wears). Most of simple website projects could be done with HTML and CSS alone, just like this course website. <em class="extra">Surprise!</em></p>
+				<p><a href="#beforewestart">Before we start...</a> / <a href="#cascading">Style sheet, understood. But "cascading"?</a> / <a href="#globalthinking">Global thinking, efficient execution</a> / <a href="#csssyntax">CSS syntax, a breakdown</a> / <a href="#experimenting">Experimenting different styles</a> / <a href="#fontcolors">Fonts and colors</a> / <a href="#cssunits">CSS Units</a> / <a href="#pagetextlayout">Page and text Layout</a> / <a href="#aesthetics">Aesthetics</a> / <a href="#position">Position</a> / <a href="#moreonselector">More on selector</a> / <a href="#beforethenextunit">Before the next unit...</a></p>
+				<section>
+					<h2 id="beforewestart">Before we start...</h2>
+					Let's take a look at some English writing issues I found in your autobiography, so you can keep improving the quality in the future.
+				</section>
+				<section>
+					<h2 id="cascading">Style sheet, understood. But "cascading"?</h2>
+					<p>These are the relevant definitions of <em>cascade</em> as a verb from <a href="https://www.oxfordlearnersdictionaries.com/definition/english/cascade_2?q=cascading" target="blank">Oxford Learner's Dictionary</a>:</p>
+					<p><q>to flow downwards in large amounts</q></p>
+					<p><q>to pass information, knowledge, etc. to a person or group so that they can pass it on to others; to be passed on in this way</q></p>
+					<picture>
+						<img src="img/waterfall.jpg"/>
+						<sub>Elakala Waterfall, Credit: <a href="https://commons.wikimedia.org/wiki/User:ForestWander" target="blank">ForestWander</a></sub>
+					</picture>
+					<p>Remember that in the <em>Document Object Model (DOM)</em>, we can define the relationship between HTML elements. In a style sheet, when you specify the style of a parent/ancestor, the style would <em>cascade down</em>, <em>flow downwards</em>, or <em>pass on</em> to its children, until the <em>flow</em> encounters a different style (that is, you specify a different style for the children). Alternatively, we can say that the child <em class="extra">inherits</em> a style from its parent/ancestor.</p>
+					<p>In the following HTML document, for instance, if <code>&lt;html&gt;</code> is specified to display texts in Times New Roman, it's <em>child</em> <code>&lt;div&gt;</code> will also <em>inherit</em> this font style, unless you specify a different font type (e.g., Calibri) for it - the style <em>flow</em> is then stopped.</p>
+					<code>
+						&lt;body&gt;
+						<code>
+							&lt;div&gt;<br/>
+							&lt;/div&gt;
+						</code>
+						&lt;/body&gt;
+					</code>
+					<p>The above principle applies to many CSS properties, but with <em class="extra">a bunch of exceptions</em>, too (see the <q>Inherited?</q> column on <a href="https://www.w3.org/TR/CSS21/propidx.html" target="_blank">this page</a>). For example, a font size would be reasonably inherited by default from a parent by its children, so you don't need to set the same font type over and over again. But a margin is not going to be automatically inherited from a parent, or every child element enclosed in the other element is going to be more distant from the edges of the parent, which is going to drive Web designers crazy. When we move on, you can come back and check <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/inheritance" target="_blank">this MDN Web Docs page</a> for some more details.</p>
+					<p>The most updated CSS system is CSS3, although we would mostly use the features that are well-developed following W3C standards from early on. There are also many new stuff in CSS3 that can create some very fancy effects in your webpage. But again, be very careful when you try to use them because some might be too new to be supported in all major Web browsers. <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Reference#Keyword_index" target="blank">MDN Web Docs</a> still provides you a very complete CSS guide that you should always refer to.</p>
+				</section>
+				<section>
+					<h2 id="globalthinking">Global thinking, efficient execution</h2>
+					<p>In the previous unit, I talked about how to organize the files in your website, which is part of the global thinking required for your Web development project. I told you that when you create a <em>css</em> directory in the <em>root</em> directory of a website project, it has the implication that the styles specified in the CSS files in this directory would apply to the entire website, presumably because, for instance, you have the same navigation pane in different webpages. You probably don't want to include styles that are specific to some elements in some specific webpages that belongs to a specific sub-project - these styles should go to a CSS file located in the <em>css</em> directory of the sub-project folder, which is only loaded when those specific webpages are presented in a Web browser.</p>
+					<p>Let me again use my course website as an example. In the file structure below, I have a <em>bwd</em> directory and a <em>meteor</em> directory right under the <em>root</em> directory because I have two course sub-projects. Under the <em>root</em> directory, I have a <em>css</em> directory for global CSS files, because I assume that my <em>bwd</em> and <em>meteor</em> would have a similar layout (for instance, the same style for the navigation pane) and I only need one CSS file for these common styles. But I also expect both projects to have some unique presentation of their contents, which requires some styles that are not useful for the other project, and I would put them into a CSS file in the <em>css</em> directory of each sub-project.</p>
+					<table>
+						<tr>
+							<td>/ (root)</td><td>─ index.html (default homepage)</td><td></td>
+						</tr>
+						<tr>
+							<td></td><td>┕ /css (global css files)</td><td></td>
+						</tr>
+						<tr>
+							<td></td><td>┕ /analysis</td><td>─ index.html (course default homepage)</td>
+						</tr>
+						<tr>
+							<td></td><td></td><td>┕ /css (analysis site css files)</td>
+						</tr>
+						<tr>
+							<td></td><td>┕ /personal</td><td>─ index.html</td>
+						</tr>
+						<tr>
+							<td></td><td></td><td>┕ /css (personal css files)</td>
+						</tr>
+					</table>
+					<h3>Are these manipulations crucial?</h3>
+					<p>Maybe, depending on the scale of your Web development project. It's not about the performance of your website, because modern computers are very powerful, and most of time you probably won't feel the difference in whether a website loads a tiny CSS file with only essential styles or a sizable one with lots of <em>redundancies</em>. Things could go wild very easily, however. The less planning you do, the more time you could waste on fixing problems.</p>
+				</section>
+				<section>
+					<h2 id="csssyntax">CSS syntax, a breakdown</h2>
+					<p>OK, enough life lessons. Let's first create a <em>css</em> directory <em class="extra">inside</em> your <em>cv</em> directory (because I'm assuming that your themetic website will look very distinct), and then create a <em>style.css</em> file in the <em>css</em> directory. The filename is not going to matter, but you always have to choose a <em>sensible</em> one - what could be more sensible to name the file <em>style.css</em> if the file is really just for styling...? (Let's agree to disagree). In the CSS file, the syntax of a given style should look like this:</p>
+					<code>
+						selector {
+							<code>
+								property: value;
+							</code>
+						}
+					</code>
+					<p>In the above style template, <em class="extra">selector</em> allows a Web browser to pin down a group of elements or one single specific element in a DOM. The curved brackets <code>{ }</code> defines the scope of a style, in which the value of properties of the style are specified. There are many <em>CSS properties</em> for you to change the visual representation of a webpage, such background color, font color, font style...just too many of them. We usually use one line for every single property which <em class="extra">must</em> ends with a semi-colon <code>;</code>, and in each line, the name of the property and its value must be separated by a colon <code>:</code>. Did you happen to notice the indention at the beginning of a property line, and know why this is recommended? In addition, we can still add some notes that will not be considered part of styling for our own reference with the following line:</p>
+					<code>/* some notes in a CSS file! */</code>
+					<p>Let's try to create your very first style and apply it to your personal website. In your <em>style.css</em> for the personal website, add the following style so the background of <code>&lt;body&gt;</code> will have a pink color.</p>
+					<code>
+						body {
+						<code>
+							background-color: pink;
+						</code>
+						}
+					</code>
+					<p>Now link the CSS file to <em>index.html</em> by adding the following line into <code>&lt;head&gt;&lt;/head&gt;</code>so the default homepage would be styled based on the CSS file. Note that in our case, the path in this link does not begin with <code>/</code>, because the CSS file is not located in a <em>css</em> directory under the <em>root</em> directory. Instead, the CSS file is located in the <em>css</em> directory in your <em>analysis</em> directory, along with the <em>index.html</em> file it styles. This type of paths is called <em class="extra">relative</em> path, because the path to the linked CSS file is <em>relative</em> to the HTML file.</p>
+					<code>&lt;link rel="stylesheet" href="css/style.css"&gt;</code>
+					<p>If you've done everything correctly, you should see the fancy pink color in the background of the homepage of your personal website. And you would observe the <em class="extra">cascading effect</em>, too; every element inside <code>&lt;body&gt;</code> has a pink backgroud. Let's try to stop this cascading effect by specifying a different background color for the <em>children</em> of <code>&lt;body&gt;</code>...say, <code>&lt;section&gt;</code>...? Add the following style to the <em>style.css</em> file, and you will see the contrast. Most of the elements inside <code>&lt;body&gt;</code> still has a pink background, except for every single <code>&lt;section&gt;</code> element (and it's children), which now has a white background.</p>
+					<code>
+						section {
+						<code>
+							background-color: white;
+						</code>
+						}
+					</code>
+					<h3>The &lt;style&gt; element and inline styling</h3>
+					<p>If you search for some information about CSS on the internet, you probably will see two alternative methods of styling the elements directly inside your HTML files. The first one is to define the styles directly inside the <code>&lt;style&gt;&lt;/style&gt;</code> element, which is then inserted into <code>&lt;head&gt;&lt;/head&gt;</code> as part of the metadata of a webpage, as in the following example:</p>
+					<code>
+						&lt;style&gt;
+						<code>
+							body {
+							<code>
+								background-color: pink;
+							</code>
+							}
+						</code>
+						&lt;/style&gt;
+					</code>
+					<p>This would be useful when you have some styles that are only applicable to the elements in a webpage. But I personally wouldn't recommend it. If later you decide to extend these styles to other webpages, you still need to move them to a CSS file so you don't have to repeat these styles again and again in different HTML files.</p>
+					<p>Alternatively, you could put CSS properties in the value of the <em>style</em> attribute of an HTML element (namely, <em class="extra">inline styling</em>) to style that particular element, as in the following example:</p>
+					<code>&lt;body style="background-color: pink;"&gt;</code>
+					<p>This technique would be useful if you need some special presentation for just <em>one</em> element, and you're pretty sure that you won't use it anywhere else. In this course website, I need to present some special examples from time to time, which requires some CSS styles just for these examples. This is the case where I choose to just use inline styling, because the styles are not going to be reused again. However, if you have lots of properties to specified even just for a single element, you'd better define this style in a CSS file since it would be easier to read in the source code. We will return to inline styling later in this unit.</p>
+					<p>In general, you can follow the tips below to decide where a style settles in:</p>
+					<ul>
+						<li>If a style applies to every single page in your website, put it inside <code>/css/style.css</code> and import it to every webpage.</li>
+						<li>If a style applies only to every single page in a sub-project in your website, put it inside <code>project/css/style.css</code>.</li>
+						<li>If a style applies only to one webpage, put the style in <code>&lt;style&gt;&lt;/style&gt;</code> of the HTML document.</li>
+						<li>If a style applies only one element of a webpage, use the <code>style</code> attribute of that element to specify the style.</li>
+					</ul>
+					<h3>Vendor prefix</h3>
+					<p>This is just a side note, but one special thing about CSS property you need to pay attention to is called <em>vendor prefix</em>. Sometimes a CSS property is just introduced and being experimented, so different Web browsers have their own ways of applying these properties and you need to add the proper vendor prefix to get the expected CSS effects across different Web browsers (for instance, <code>-webkit-transition</code>). Here is the list from this <a href="https://developer.mozilla.org/en-US/docs/Glossary/Vendor_Prefix" target="blank">MDN Web Docs page</a>:</p>
+					<ul>
+						<li><code>-webkit-</code> - for Webkit-based browsers like Chrome, Safari, and iOS browsers</li>
+						<li><code>-moz-</code> - for Mozilla Firefox</li>
+						<li><code>-o-</code> - for older Opera</li>
+						<li><code>-ms-</code> - for Internet Explorer and Microsoft Edge</li>
+					</ul>
+					<p>Most of times you can just use the name of a property without and vendor prefix at all. But in case that you find anything wrong with a CSS property <em class="extra">only</em> in some specific Web browsers, then you might want to check if you need a vendor prefix for that CSS property.</p>
+				</section>
+				<section>
+					<h2 id="experimenting">Experimenting different styles</h2>
+					<p>When you begin to style your webpages, you naturally keep adjusting the properties until you settle down on the layout that you're satisfied with. Normally, this means to constantly make changes to your CSS file in a text editor, upload it to your website, and check the changes in your Web browser. There is nevertheless a hidden tool in your Web browser that you can use to experiment and examine changes in real time, which is mostly called <em class="extra">Developer Tools</em>. Well, you may have come across it in your Web browser when you hit <em class="extra">F12</em> by accident and didn't know what to do with it:</p>
+					<picture>
+						<img src="img/devtools.png"/>
+					</picture>
+					<p>For a simple Web design project, there are two very useful sections in the Developer Tools. One is <em class="extra">Elements</em>, and the other is <em class="extra">Console</em>. Let's focus on <em>Elements</em> first, in which you will see the HTML elements and their structure in your webpage. When you click on an element, its style will appear in the <em class="extra">Styles</em> panel on the right. In the <em>Styles</em> panel, you can freely add new styles or adjust the existing ones, and the changes will apply to the current webpage accordingly.</p>
+					<p>Thus, with this tool, you could experiment some styling directly in your webpage first, and then make the same changes to your CSS file when you're contented. This will save you some time because you don't need to blindly change your CSS file repeatedly.</p>
+				</section>
+				<section>
+					<h2 id="fontcolors">Fonts and colors</h2>
+					<p>You don't just use the same font in a website, not only because your website could look boring, but also because texts in a webpage generally convey different messages - titles, headings, menu items, paragraphs...They all need be made distinct so readers know what they are looking at. In this course website, I use five different fonts: One for the (page) title using the first-level heading <code>&lt;h1&gt;</code>, two for the second-level and third-level heading <code>&lt;h2&gt;</code> and <code>&lt;h3&gt;</code> respectively, one for the texts in full paragraphs, and one more for examples that mostly involve some source codes. Of course, you don't use too many fonts in your website either to avoid making reading impossible.</p>
+					<p>At the very beginning, I've already asked you to explore <a href="https://fonts.google.com/" target="blank">Google Fonts</a> to see what kind of fonts you favor. Unsurprisingly, there are more fonts for English than for other languages, given the relatively small number of characters the developers need to create. For <em>Traditional Chinese</em>, we only have two choices <em>Noto Sans TC</em> and <em>Noto Serif TC</em>, but they are still <em>way more pretty</em> than the build-in Chinese fonts in some operating systems. Plus, it's free, so we cannot ask for more from Google.</p>
+					<p>In Google Fonts, you can click on a font you like, and select the font style you need. You can include all the fonts and their styles in a list at once. Then, in a panel on the right side of the webpage, you will see the <em class="extra">Embed</em> option as in the figure below, which provides two methods of introducing the selected fonts to your website.</p>
+					<picture>
+						<img src="img/googlefonts.png"/>
+					</picture>
+					<p>The first method provides you a line of <code>&lt;link&gt;</code> codes, which you can put into the <code>&lt;head&gt;</code> element as part of the metadata of your website:</p>
+					<code>&lt;link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet"&gt;</code>
+					<p>The second method provides you a line of <code>@import</code> codes, which you can put into the first line of your global/local CSS file (it is in fact embedded inside the <code>&lt;style&gt;</code> element which is supposed to be inserted into <code>&lt;head&gt;</code>, but I already explained why this might not be the best idea):</p>
+					<code>@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');</code>
+					<p>I personally always prefer the second method, since the font styles I choose are usually applied across all webpages. Since I already have to load the global/local CSS file for every webpage, why don't I just load the font styles from Google in my CSS file, so I don't have to repeat the <code>&lt;link&gt;</code> codes in the metadata of every webpage.</p>
+					<h3>How do you choose fonts?</h3>
+					<p>Hmm, good question. I'm no typographer, so I generally follow the rule of thumb and then pick the fonts I feel appropriate (so I could be wrong, and you need to dig deeper by yourself). All fonts could be categorized as either <em class="extra">Serif</em> or <em class="extra">Sans-serif</em>. The former type has small strokes attached to the end of main strokes (as in the fonts you're seeing now in this website), which give the characters more details. It is believed that serif fonts are easier to read than sans-serif fonts, especially in print, which is also the reason that they are commonly applied to body texts. Sans-serif fonts, without those extended small strokes, usually have square or round edges at the end of a stroke. They are usually used for large-size texts such as headings, rather than for body texts.</p>
+					<p>So, if you want to play safe, just follow the above rules, and the texts in your website should look just fine. Whenever you need to choose multiple serif or sans-serif fonts, you probably don't want to pick those that look very different, because you want some visual consistency in your website, too. Of course, bold combinations could have some unexpected positive effects, but I'm not the one to guide you. However, Google Fonts do give you some hint; In each font webpage, you'll see popular parings, and you could follow these suggestions:</p>
+					<picture>
+						<img src="img/popularpairings.png"/>
+					</picture>
+					<p>After you make your decision and embedded the essential codes into your website to load the fonts, you should also <em>add some notes</em> to your CSS file to remind yourself which font is for which part of texts in your website, just like what I do for mine, too:</p>
+					<code>
+						/*
+						<code>
+							Main Title/h1: Mukta<br/>
+							h2: Dosis<br/>
+							h3: Thasadith<br/>
+							body: Zilla Slab<br/>
+							code: Lekton
+						</code>
+						*/
+					</code>
+					<p>When you need to apply a font style to an element, add the <code>font-family</code> property to the style you defined in your CSS file, just like:</p>
+					<p><code>font-family: Zilla Slab, serif;</code></p>
+					<p>In this property, you can specify more than one fonts separated using a <em>comma</em>. A Web browser will try to apply the first font style, and if the first style is not available, it will try the second one, and so on, until it finds an available font style. In the above example, I added <em>serif</em> as the last resort, so a Web browser to use whatever serif font available to it when there's no other available choice. You should instead add <em>sans-serif</em> at the end if other specified fonts in the same line are also sans-serif, so some consistencies could be maintained, although the replacement would not give the best look of your website.</p>
+					<p>Now, take some time to get the font part done. You can surely change your mind later, but your initial attempt might not be bad at all!</p>
+					<h3>A colorful world</h3>
+					<p>There are more decisions to make, and this time it's about the colors in your website. Colors undoubtedly have their visual/emotional impacts, you need to choose them wisely. Again, I'm not expert, but the keywords for you to google would be <em class="extra">psychology of colors</em>. For this course website, I just followed my instinct to use the combination of red, organge, green, and black colors. Red and organge stand out because I use them to put an emphasis on various elements, so they become the theme of my website - McDonald's uses this color combination, too, so don't judge!</p>
+					<p>You don't use colors just to make your website look fancier than others. Colors are just like fonts, which would help convey <em class="extra">systematic messages</em> of your website:</p>
+					<ul>
+						<li>The theme of a webpage.</li>
+						<li>The highlights in a webpage.</li>
+						<li>Distinct sections in a webpage.</li>
+						<li>Etc.</li>
+					</ul>
+					<p>In CSS, you can specify a color in many different ways. One is to use the word that represents a color, such as black, red, and pink, which we have tried earlier (see <a href="https://www.w3.org/wiki/CSS/Properties/color/keywords" target="_blank">this W3 Org page</a> for all the color terms you can use directly). There's no much flexibility with this method since the subtly difference in colors cannot be specified using words in CSS. Alternatively, most Web designers would choose to use <em class="extra">RGB value or HEX code</em> to specify a color:</p>
+					<code>
+						background-color: rgb(0, 0, 0); /* both represents a black color */<br/>
+						background-color: #000000;
+					</code>
+					<p>I've never received any professional training in digital art, so I choose to use the HEX system only because it's easier to type. You can make your own choice based on what you know (or like) for sure. OK, let's set the tone for your website, and don't forget to add some note in your CSS file to remind you the function of each color of your choice, such as:</p>
+					<code>
+						/*
+						<code>
+							text color: #383838; (light grey)<br/>
+							link color: #cccccc; (super-light grey)<br/>
+							link hovered color: #000000; (black)<br/>
+							menu bg color: #b30000; (dark red)<br/>
+							section bg color: #f2f2f2; (lighter grey)<br/>
+							highlight color: #e68a00; (dark orange)<br/>
+							code color:#226d6d; (cyan)
+						</code>
+						*/
+					</code>
+				</section>
+				<section>
+					<h2 id="cssunits">CSS Units</h2>
+					<p>You must have been waiting for a tutorial for how to adjust the size of texts and elements in your website, and there you go! There are different units in a CSS file that you can use to define the size, distance, width, height, etc., and we'll start with <em class="extra">absolute length units</em> (from <a href="https://www.w3schools.com/CSSref/css_units.asp" target="blank">W3CSchool</a>). They are absolute because the units refer to an absolute scale and are not dependent of other specified lengths in an HTML document. Among the units in the following list, <em>px</em> is probably the most frequently used absolute length unit in Web design - the screen resolution is defined by pixels and the dimension of an image is commonly specified with pixel, too. When we learn to use JavaScript to retrieve the dimension of an element, you get pixel as the measure by default. Again, I could be wrong, but when referring to pixel, I also feel more comfortable with estimating the size of an element in an webpage across different devices.</p>
+					<ul>
+						<li><code>cm</code> - centimeters</li>
+						<li><code>mm</code> - millimeters</li>
+						<li><code>in</code> - inches (1in = 96px = 2.54cm)</li>
+						<li><code>px</code> - pixels (1px = 1/96th of 1in)</li>
+						<li><code>pt</code> - points (1pt = 1/72 of 1in)</li>
+						<li><code>pc</code> - picas (1pc = 12pt = 1/6 of 1in)</li>
+					</ul>
+					<p>Many things could be either <em class="extra">absolute</em> or <em class="extra">relative</em>, just like the path to a file that we have discussed previously, so it's natural that we have <em class="extra">relative length units</em> as in the following list, too. When you use a relative length unit, the actual length is relative to some other length. For instance, if the font size of a <code>&lt;div&gt;</code> element is set to <code>16px</code>, and you want emphasized texts in the element are twice larger, then you could set the font size of the emphasized texts to <code>2em</code>.Well, you could simply use <code>32px</code>, too, but soon you will find this strategy very inefficient because every time you change the base font size, you need to change all associated font sizes. <em class="extra">systematic messages</em> of your website.</p>
+					<ul>
+						<li><code>em</code> - relative to the font size of the current element</li>
+						<li><code>rem</code> - relative to the font size of the <em>root</em> element</li>
+						<li><code>vw</code> - relative to 1% of the viewport (the browser window size) width</li>
+						<li><code>vh</code> - relative to 1% of the viewport height</li>
+						<li><code>vmin</code> - relative to 1% of the smaller viewport dimension</li>
+						<li><code>vmax</code> - relative to 1% of the larger viewport dimension</li>
+						<li><code>%</code> - relative to the parent element</li>
+					</ul>
+					<p>My own strategy is even more radical. In some cases, I even start with the relative length unit as the base to make sure that the webpage is in general consistent across different devices. For instance, I might set the base font size to <code>1.5vh</code>, that is <em>1.5% of the browser window height</em>, so whether the screen width is 1920px, 768px, or 1280px, the font size is <em>proportionally the same</em> on a webpage. Why <em>vh</em>, rather than <em>vw</em>, then? Because the length of a font in fact determines the <em class="height">height</em> of the font, and its width is calculated automatically. With the baseline, the size of emphasized texts could be set to <code>2em</code>, which is equivalent to <code>3vh</code>. This strategy is also the foundation of <em class="extra">Responsive Web Design</em>, which focuses on providing a <em>unified</em> browsing experience for your website. We will be back to this a few weeks later.</p>
+					<p>One final thing about length unit is the complication that stems from the <em class="extra">border</em> of an element. It is common an element is decorated with borders for its edge to be visible, but now you need to choose if the calculation of height/width of the element includes the borders or not. If not, you choose to measure/define height/width with a <em class="extra">content-box</em>, which gives you the dimention of the red area in the block below. Alternatively, you could choose to measure/define the dimension of a <em class="extra">border-box</em>, which takes borders (the blue edges in below) into consideration.</p>
+					<div style="height: 10vw; width: 10vw; border: 5px solid blue; background-color: red;">
+					</div>
+					<h3>CSS Pixel Ratio</h3>
+					<p>Regardless of whether you use an absolute unit or a relative unit, the font size should not always be estimated using the <em>physical screen resolution</em> of a device. For example, with a screen resolution of 1920 x 1200 pixels, if you set <code>font-size</code> to be <em>16px</em>, you would think that each character is as tall as <em>16 / 1200 = 1.33%</em> of the screen height. This is almost always true for a laptop or desktop computer. For mobile devices, however, things would be different due to <em>CSS pixel ratio</em>. Modern mobile devices usually have a high-definition physical screen resolution, such as 1125 x 2436 pixels for iPhone XS. If you still have the same font size of 16px, each character would be just like an atom on its screen. So, to avoid damaging our eyes, software engineers have decided to set a different resolution specifically for Web design through a CSS pixel ration. For iPhone XS, the ration is 3:1, which means that the resolution that will be processed by a Web browser in iPhone XS would be <em>1125/3 x 2436/3 = 375 x 812 pixels</em>. This way, everything will be presented in a more reasonable size in a mobile browser. When it comes to <em class="extra">Responsive Web Design</em>, you always need to check the CSS pixel ratio to know how to set the size of individual components in your website.</p>
+					<h3>Border-box or content-box?</h3>
+					<p>It might be more logical to adopt <em>border-box</em> as a default, since normally you wouldn't evaluate the dimension of an element by excluding its borders. For instance, when you want to clear an area on your wall to hang a beautful <em>framed</em> picture, you wouldn't just think about the dimension of the picture itself, but also the borders created with the frame, right? This would be mostly irrelevant because not many elements need borders, and the edge of an element could be made distinct in many different ways (by setting a background color, for example). But for now, let's make <em>border-box</em> as the default for <em>all</em> elements in your webpage by setting following style in your CSS file (the selector <code>*</code> is a <a href="https://en.wikipedia.org/wiki/Wildcard_character" target+"blank">wild card character</a> that means <em class="extra">any character</em>, which thus selects <em>every</em> elements): <em class="extra">systematic messages</em> of your website. And since this style applies to all webpage, you know where to put this, right? It should be placed inside <code>/css/style.css</code>.</p>
+					<code>
+						* {
+							<code>
+								box-sizing: border-box;
+							</code>
+						}
+					</code>
+				</section>
+				<section>
+					<h2 id="pagetextlayout">Page and text layout</h2>
+					<p>Now you have the knowledge to quickly fine-tune the layout of your webpage, and let's us start with <em class="extra">margin</em> and <em class="extra">padding</em>. Margin specifies the space between elements, both vertically and horizontally. Padding defines the space between contents and borders, both vertically and horizontally. You can define the spacing toward a specific direction (<em>top, right, bottom, and left</em>), using the properties such as <code>margin-left</code> or <code>padding-bottom</code>:</p>
+					<table style="height: 10vw; border-collapse: collapse;">
+						<tbody>
+							<tr>
+								<td rowspan="2" style="padding: 0 0.5vw; background-color: purple; color: white;">left element</td><td rowspan="2" style="padding: 0 0.5vw;">margin-left</td><td style="padding: 0 0.5vw; background-color: purple; color: white; height: 70%;">target element</td>
+							</tr>
+							<tr>
+								<td style="padding: 0 0.5vw; background-color: blue; color: white;">padding-bottom</td>
+							</tr>
+						</tbody>
+					</table>
+					<p>Alternatively, you can define the spacing in general using the property <code>margin</code> and <code>padding</code>. Depending on the number of values you specify for these two properties, the spacing is set <em class="extra">clockwise</em> around or within an element: <em class="extra">systematic messages</em> of your website.</p>
+					<code>
+						margin: 0; /* zero margin on all four sides */<br/>
+						margin: 0 0 0 0; /* as above */<br/>
+					 	margin: 1px 2px 3px 4px; /* 1/2/3/4px for top/right/bottom/left respectively */<br/>
+						margin: 0 2px; /* zero for top/bottom, 2px for left/right */<br/>
+						margin: 0 2px 5px; /* zero for top, 2px for left/right, 5px for bottom */
+					</code>
+					<p>The above logic applies to all CSS properties that refers to the four sides of an element, such as <code>border</code>.</p>
+					<h3>Resetting margins and paddings</h3>
+					<p>Different Web browsers have their default margins and paddings for some elements, so to provide a <em>unified</em> layout across the browsers, we need to <em class="extra">reset margins and paddings</em> with the following style in your CSS file, namely to set zero margins and paddings for <em>all</em> elements. Again, you should always do this for your every single webpage, so it should go to <code>/css/style.css</code>:</p>
+					<code>
+						* {
+						<code>
+							box-sizing: border-box; /* from the old style */<br/>
+							margin: 0;<br/>
+							padding: 0;
+						</code>
+						}
+					</code>
+					<h3>Margin Collapsing</h3>
+					<p>Before we end the current tutorial about margin and padding, there's something you should know when you set the margin for adjacent elements, that is, <em class="extra">margin collapsing</em>. For instance, when you define the following style in your CSS file, you might hope to a <code>&lt;div&gt;</code> element from its previous and following elements (as well as the top and the bottom edge of a webpage) by 15px.</p>
+					<code>
+						div {
+						<code>
+							margin: 15px 0;
+						</code>
+						}
+					</code>
+					<p>But if this style applies to two adjacent <code>&lt;div&gt;</code> elements without any adjustment, the two elements are supposed to be separated by <em class="extra">15px (margin-bottom of the first) + 15px (marigin-top of the second) = 30px</em>. This is not what you hope for, and the Web browser simply collapses these margins for you and make it just 15px. This strategy of presenting your webpage makes sense because you don't need extra spacing with <em class="extra">additive margins</em>.</p>
+					<p>You might have already thought of some workaround, such as using <code>margin-top</code> to separate elements by top margin, but in this case you would have to specify the bottom margin for the last element of a webpage. So, why not just give in and take full advantage of your Web browser's ability to read your mind? :-) There many different conditions where margin collapsing does or does not apply. See the <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Box_Model/Mastering_margin_collapsing" target="blank">MDN Web docs page</a> for more details. It is a rather minor issue, but you might want to <em>master</em> it to always get the expected layout right.</p>
+					<h3>Typesetting</h3>
+					<p><em>OH MY GOD.</em> How long did it take us to here? Your favorable fonts are waiting, and you must be wondering when we will put them to use. Previously, we talked about <code>font-family</code>, which allows you to set the specific font type for an element, but there's a whole family about font style in CSS:</p>
+					<ul>
+						<li><code>font-family</code> - see previous section for explanations</li>
+						<li><code>font-style</code> - normal/italic</li>
+						<li><code>font-weight</code> - bold/bolder/(specific font weight)</li>
+						<li><code>font-variant</code> - small-caps</li>
+						<li><code>font-size</code> - define font size with length units</li>
+						<li><code>line-height</code> - define line spacing with length units</li>
+					</ul>
+					<p>You could also use the shorthand <code>font</code> by specifying the above properties in the order <em class="extra">(style)-(variant)-(weight)-(size/line-height)-family</em>. In the first example below, the <code>font</code> property set an italic, non-small-caps, and bold font with a size of 20px and a line height of 30px using Zilla Slab or any serif font. In the second example, the font size is set to 10px, and the font family is set to sans-serif; other values that are <em>omitted</em> are set to default.</p>
+					<code>
+						font: italic normal bold 20px/30px Zilla Slab, serif;<br/>
+						font: 10px sans-serif;
+					</code>
+					<p>With the above in mind, we can start to set the font style for the entire webpage, by adding the <code>font</code> property to the style of <code>&lt;body&gt;</code> to your CSS file, just like the example below.</p>
+					<code>
+						body {
+						<code>
+							font: 1.6vw/2.4vw Zilla Slab, serif;
+						</code>
+						}
+					</code>
+					<p>Note two things here. First, I adopt the <em>more radical</em> approach by using the <em>relative length unit</em> for my font size and line height, because I want the two properties to adapt to different screen resolutions. Second, the values assigned to the <code>font</code> property here are for the body texts; the font size is appropriate for large amount of texts, and the font type is a <em>serif</em> font. This makes sense because we are styling <code>&lt;body&gt;</code>, rather than other elements, and everything we do has to be <em class="extra">semantically</em> meaningful. Also note that I prefer to set the line height to be <em>150%</em> of the font size in an element, which in general makes texts easier to read. You can also define the font color for body texts using the property <code>color</code> and assign an RGB or HEX value to it. <em class="extra">systematic messages</em> of your website. Since you already have a <em class="extra">root element</em>, which is <code>&lt;body&gt;</code>, you can use another relative length unit for the font size and line height. Do you still remember which one it is? (select the following blank section to find out!) </p>
+					<code style="color: #e68a00;">
+						h1 {
+						<code style="color: #e68a00;">
+							font: 2rem/3rem Mutka, sans-serif; /* rem = relative to the root element */
+						</code>
+						}
+					</code>
+					<p>We can also set margins and paddings for our <em>containers</em>, such as <code>&lt;article&gt;</code>, <code>&lt;section&gt;</code>, and <code>&lt;p&gt;</code>. In this course website, every webpage is viewed as an article, and I prefer to have some small space between its contents and the four edges, thus the <code>padding</code> setting below:</p>
+					<code>
+						article {
+						<code>padding: 0.5vh 1vw; /* 0.5vh padding from top/bottom and 1vw padding from left/right */</code>
+						}
+					</code>
+					<p>Then, both <code>&lt;section&gt;</code> and <code>&lt;p&gt;</code> are used by me to represent a paragraph in this course website, so I add some margins for them to slightly separate them from each other <em>vertically</em>. Note how it is possible to have more than one <em>selector</em> in your CSS file - just separate them with a <em class="extra">comma</em>:</p>
+					<code>
+						section, p {
+						<code>
+							margin: 0.5vh 0; /* 0.5vh top/bottom margin */
+						</code>
+						}
+					</code>
+					<p>You can try many different margins and paddings for various elements until you're satisfied with the visual presentation of the overall layout.</p>
+				</section>
+				<section>
+					<h2 id="aesthetics">Aesthetics</h2>
+					<p>You might be eager to try other things to beautify your webpage, and here are some more tips for you. There are just too many of them, so it's not possible for me to answer all <em>How do you...</em> questions. But I'm pretty sure that once you feed Google with your questions, you will find the answers pretty soon. For example, if you google <q>How to animate background color in CSS?</q>, you will see many solutions.</p>
+					<h3>Body</h3>
+					<p>The first thing we would do here is to further style the <code>&lt;html&gt;</code> with the <code>width</code> and <code>height</code> properties and set their value to <code>100%</code>, so the entire HTML document takes up the entire viewport by default.</p>
+					<code>
+						html {
+						<code>
+							height: 100%;<br/>
+							width: 100%;<br/>
+						</code>
+						}
+					</code>
+					<p>Then we set <code>&lt;body&gt;</code> element to have Next, we add the <code>overflow-x</code> property and set it to <code>hidden</code> so the horizontal scroll bar does not appear. This will guarantee the display of your webpage to only take up the full width of the browser window. We also add and set the <code>overflow-y</code> property to <code>auto</code>, so the vertical scroll bar appears when the <em>height</em> of a webpage exceeds the height of a browser window. It's always easier to both read and scroll from top to bottom than from left to right (or right to left).</p>
+					<code>
+						body {
+						<code>
+							overflow-x: hidden;<br/>
+							overflow-y: auto;<br/>
+							font: 1.6vw/2.4vw Zilla Slab, serif;
+						</code>
+						}
+					</code>
+					<h3>Hyperlink</h3>
+					<p>Most Web designer would also choose to style hyperlinks marked up by <code>&lt;a&gt;</code> since the default style in a Web browser doesn't look decent. Hyperlinks usually are underlined by default, but you can change this by set the <code>text-decoration</code> property to <em>none</em> (or you can play with the property to adopt <a href="https://www.w3schools.com/cssref/pr_text_text-decoration.asp" target="blank">different kinds of text decoration</a>). But you still need to make hyperlinks distinct from other normal texts, so you probably want to use a different font color for <code>&lt;a&gt;</code>. You can further differentiate hyperlinks by making them <em>bold</em>. Again, try many different things, and find the style you prefer.</p>
+					<code>
+						a {
+						<code>
+							color: grey;<br/>
+							text-decoration: none;<br/>
+							font-weight: bold;
+						</code>
+						}
+					</code>
+					<h3>Border</h3>
+					<p>As mentioned earlier, one way of making the edges of an element apparent is to style its <code>border</code>. Just like <code>margin</code> and <code>padding</code>, you can choose to style one of the four borders (with <code>border-left</code>, for instance), or use the shorthand <code>border</code> to style the four borders altogether. In each <code>border</code> property, the values are specified in the order <em class="extra">width-style-color</em> as in the following example (see <a href="https://www.w3schools.com/CSSref/pr_border-style.asp" target="blank">this W3CSchool page</a> for different border styles that you can play with):</p>
+					<code style="border: 2px solid red;">border: 2px solid red;</code>
+					<h3>Border radius</h3>
+					<p>You might not just want a rectangular with right angles, and that's when the <code>border-radius</code> property is useful. In the following example, the value <code>3px</code> means to align a circle with a diameter of 3px to each of the four corner of a square, and cut the corner edge following the edge of the circle, thus the round edges. As usual, it's possible to set each of the four corners separately, starting with the top-left corner. I'll just leave it to you.</p>
+					<code style="border: 2px solid red; border-radius: 5px;">border-radius: 5px;</code>
+					<h3>Shadow</h3>
+					<p>I sometimes like to add shadows to make some elements fancier (for instance, headings), although not in this website. The properties <code>text-shadow</code> and <code>box-shadow</code> could be used to decorate texts inside an element and an element itself respectively with some shadows. The two first values control the <em>direction</em> of the shadow (positive value = toward the right/bottom; negative value = toward the left/top). The third value control the blurriness of the shadow, and the last value determines the color of the shadow:</p>
+					<code style="text-shadow: 0.3vh 0.3vw 0.2vw grey;">text-shadow: 0.3vh 0.3vw 0.2vw grey;</code>
+					<code style="border: 2px solid red; box-shadow: 0.3vh 0.3vw 0.2vw red;">box-shadow: 1vh 1vw 0.2vw red;</code>
+					<p>There are just too many tricks you can do to make your website pretty - <em>just google your ideas</em>!</p>
+				</section>
+				<section>
+					<h2 id="position">Position</h2>
+					<picture>
+						<img src="img/puzzles.png"/>
+						<sub>Credit: <a href="https://www.flickr.com/photos/sightrays/4054093512/" target="blank">Electric-Eyes</a></sub>
+					</picture>
+					<p>You really, really, really want to juggle things around, so you need to know how to <em class="extra">position elements in a webpage</em>, with the <code>position</code> CSS property, of course. There are four common position settings in CSS:</p>
+					<ul>
+						<li><code>static</code> - the default position</li>
+						<li><code>relative</code> - relative to the original (static) position</li>
+						<li><code>fixed</code> - fixed to a given position relative to the viewport (browser window)</li>
+						<li><code>absolute</code> - relative to a positioned parent/ancestor, or <code>&lt;body&gt;</code> if there's no such element.</li>
+					</ul>
+					<p>Except for the default position <code>static</code>, other positions could be defined along with the CSS properties <code>top</code>, <code>right</code>, <code>bottom</code>, and <code>left</code>. We will play around these properties in this section.</p>
+					<h3>Relative</h3>
+					<p>Remember that with the default position, elements are presented <em>from top to bottom (block elements) and left to right (inline elements)</em> following their order in an HTML document. When you set the position of an element to be <code>relative</code> to move the element from its default position. In the example below, a <code>&lt;div&gt;</code> is moved from its bottom edge by <em>30px</em> (<code>top: -30px;</code> would do the same effect), and that's why the block overlaps with the last curved bracket of the source code (the curved bracket is made visible by styling the block with the CSS property <code>opacity</code>):</p>
+					<code>
+						div {
+						<code>
+							position: relative;<br/>
+							bottom: 30px;
+						</code>
+						}
+					</code>
+					<div style="height: 3vh; width: 3vh; background-color: blue; position: relative; bottom: 30px; opacity: 0.5;"></div>
+					<p>One thing to note here is that you can see the space left by the moved block, since the area the block occupies <em class="extra">does not vanish</em> even after it's moved from its original position with <code>position: relative;</code>. In the following example, <code>left: 30%;</code> means to move from its left by 30% of its parent's width:</p>
+					<code>
+						div {
+						<code>
+							position: relative;<br/>
+							left: 30%;
+						</code>
+						}
+					</code>
+					<div style="height: 3vh; width: 3vh; background-color: blue; position: relative; left: 30%;"></div>
+					<h3>Fixed</h3>
+					<p>When an element's position is set to <code>fixed</code>, the element will stay in the same position in the <em>browser window</em> even if you scroll the page. Many designer found it useful for various reasons: Keep the navigation pane in the same position, always show a <em>Go to top</em> button in the bottom-right corner for users to navigate back to the beginning of a webpage very easily, etc. You are smart, so you know it must be similar to how you set the position of an element as <code>relative</code>. Why not try it yourself?</p>
+					<p>Before you get too excited with your achievement, I need you to pay attention to the area originally occupied by the element...is it still there?</p>
+					<h3>Absolute</h3>
+					<p>As noted above, the position <code>absolute</code> has two different meanings - absolute to its positioned parent/ancestor, or absolute to <code>&lt;body&gt;</code>. Suppose that we have the following structure:</p>
+					<code>
+						&lt;body&gt;
+						<code>
+							&lt;article&gt;<br/>
+							<code>
+								&lt;section&gt;<br/>
+								&lt;/section&gt;
+							</code>
+							&lt;/article&gt;
+						</code>
+						&lt;/body&gt;
+					</code>
+					<p>If <code>&lt;article&gt;</code> is styled with <code>position: relative;</code> and <code>&lt;section&gt;</code> with <code>position: absolute;</code>, the properties such as <code>left</code> and <code>top</code> refer to the edges of <code>&lt;article&gt;</code>. However, if <code>&lt;section&gt;</code> has a <code>static</code> position, then the properties would refer to the edges of <code>&lt;body&gt;</code> (or other non-static-positioned element in between). Let's try this on a separate page because I hate to ruin my webpage!</p>
+					<h3>Inline vs. block vs. inline-block</h3>
+					<p>In previous sections/units, we have been working on both <em>inline elements</em> (such as <code>&lt;a&gt;</code>) and <em>block-level elements</em> (such as <code>&lt;p&gt;</code>). The former creates a text flow from left to right, whereas the latter is arranged from top to down with a line break after each, thus interrupting the text flow if being inserted into the middle of texts (see <a href="https://nthutychen.github.io/bwd/htmlbasics/">HTML Basics</a> for the demo). We usually don't have to manually style inline and block-level elements with CSS since Web browsers have the default style for these elements with the CSS property <code>display</code>:</p>
+					<code>
+						display: block; /* default for block-level elements */<br/>
+						display: inline; /* default for inline elements */
+					</code>
+					<p>Of course, with this CSS property, one could convert a default block-level element into an inline element or the other way around. Or, you can make an element something in between with the <code>inline-block</code> value:</p>
+					<p><code>display: inline-block; /* something between block and inline */</code></p>
+					<p>Here are the pairwise comparisons between these three values for the <code>display</code> property for you to know the differences among them better:</p>
+					<ul>
+						<li><code>inline vs. block</code> - height and width only work for block-level elements, and only block-level elements comes with a line break after it</li>
+						<li><code>inline vs. inline-block</code> - the only difference is that height and width only work for inline-block elements</li>
+						<li><code>inline-block vs. block</code> - the only difference is that inline-block elements do not come with a line break, so they do not break the text flow.</li>
+					</ul>
+					<p>One very common use of <code>inline-block</code>, following the topic of <em>position</em> of this section, is to make it possible to juxtapose block-level elements in the same line and use the CSS property <code>text-align</code> to adjust their horizontal position. This is convenient especially when you try to align these block-level elements to the center of their parent:</p>
+					<div style="text-align: center; font-size: 0;">
+						<div style="display: inline-block; height: 3vw; width: 3vw; background-color: red;"></div>
+						<div style="display: inline-block; height: 3vw; width: 3vw; background-color: blue;"></div>
+						<div style="display: inline-block; height: 3vw; width: 3vw; background-color: purple;"></div>
+					</div>
+					<p>CSS is just a very <em>flexible</em> system to make sure that you can do it your own way!</p>
+					<h3>Locate your &lt;nav&gt; and the container block</h3>
+					<p>During the previous lectures, I've also already guided you to create a <code>&lt;nav&gt;</code> element for the navigation pane of your website, and a <code>&lt;div&gt;</code> element as the container of the main contents. With the CSS properties for positioning, I'll demonstrate how the layout of the current website is created. Here's our target template from the previous unit, with <code>&lt;nav&gt;</code> on the left and <code>&lt;div&gt;</code> on the right:</p>
+					<table style="width: 10vw; height: 10vw; text-align: center;">
+						<tr style="height: 100%;">
+							<td style="width: 30%; background-color: red; color: white;">nav</td>
+							<td style="width: 70%; background-color: blue; color: white;">div</td>
+						</tr>
+					</table>
+					<p>First of all, let's add an <code>id</code> attribute to the <code>&lt;div&gt;</code> element to give it a <em>name</em> of <code>container</code>. This attribute does not change its appearance at all; it simply makes <em class="extra">selection</em> of this element in a CSS file easy. Note that you must be <em class="extra">very discreet</em> about using this strategy - we'll return to this issue below in <a href="#moreonselector">More on selector</a>.</p>
+					<code>&lt;div id="container"&gt;</code>
+					<p>Next, let's give 70% of the entire browser window width to your container, and align it to the right edge of the window in the CSS file to give the space on the left to the navigation pane:</p>
+					<code>
+						div#container {
+						<code>
+							width: 70%;<br/>
+							margin-left: 30%;
+						</code>
+						}
+					</code>
+					<p>In the above style example, the hashtag <code>#</code> is used to identify an element with an <code>id</code> of a specific value. The selector can thus be translated as <q>find a <code>&lt;div&gt;</code> element that has an <code>id</code> set to <code>container</code></q>. Then, the <code>width</code> of <code>70%</code> refers to the width of the parent of the container, which is <code>&lt;body&gt;</code>. Since <code>&lt;body&gt;</code> is styled to have a width of 100% (the full browser window width), the container with a width of 70% occupies 70% of the browser window horizontally. Since I want to align the container to the right edge of the browser window, I set the left margin of the container to 30% - a gap of 30% browser window width to the left, and an element of 70% browser window width to the right...see the logic?</p>
+					<p>The empty space on the left is for the <em>navigation pane</em>, and I have a few goals here. First, I want it to occupy that 30% of the browser window width as well as the full browser window height. Second, I want it to fix to its position, so it is always aligned to the <em>top</em> and <em>left</em> edges of the browser window regardless of the scrolling action. I list the CSS properties you need for this styling below, and try it yourself first:</p>
+					<ul>
+						<li><code>position</code></li>
+						<li><code>top</code></li>
+						<li><code>left</code></li>
+						<li><code>width</code></li>
+						<li><code>height</code></li>
+					</ul>
+					<p>Still couldn't get it right? Select the following blank section for the answer:</p>
+					<code style="color: #e68a00;">
+						nav {
+						<code style="color: #e68a00;">
+							position: fixed;<br/>
+							top: 0;<br/>
+							left: 0;<br/>
+							width: 30%;<br/>
+							height: 100%;
+						</code>
+						}
+					</code>
+					<p>Now why don't you try the layout with the navigation pane at the top and container at the bottom, if this has been what you look for?</p>
+				</section>
+				<section>
+					<h2 id="moreonselector">More on selector</h2>
+					<p>In the previous section, I add an <code>id</code> attribute to the container element so I can specifically select this element when trying to style it. However, this is actually not the best practice in Web design. The CSS selector allows an element to be identified from DOM in many different ways, and most of times you do not need any <code>id</code> (or <code>class</code>) attribute when you just try to style an element or a set of elements. Before I had learned more about how to use selectors and semantic HTML elements efficiently, I once made mistakes by only using <code>&lt;div&gt;</code> elements and giving them specific ids just in order to style them, which is something you need to avoid.</p>
+					<h3>(Adjacent) Siblings</h3>
+					<p>For instance, you might have <code>&lt;p&gt;</code> elements that are <em>siblings</em> of an either <code>&lt;h2&gt;</code> or <code>&lt;h3&gt;</code> heading as in the following example, and you want these <code>&lt;p&gt;</code> elements to be styled differently.</p>
+					<code>
+						&lt;h2&gt;<br/>
+						&lt;/h2&gt;<br/>
+						&lt;p&gt;<br/>
+						&lt;/p&gt;<br/>
+						&lt;h3&gt;<br/>
+						&lt;/h3&gt;<br/>
+						&lt;p&gt;<br/>
+						&lt;/p&gt;
+					</code>
+					<p>Since the headings and the paragraphs are adjacent to each other, you can use the <code>+</code> <em>operator</em> to denote the sibling relationship, and you don't need to give any specific id to the paragraphs immediately next to different headings:</p>
+					<code>
+						h2 + p {
+						<code>
+							...
+						</code>
+						}<br/>
+						h3 + p {
+						<code>
+							...
+						</code>
+						}
+					</code>
+					<p>There could also be <em class="extra">non-adjacent</em> siblings when, for instance, a <code>&lt;picture&gt;</code> element is inserted between headings and paragraphs:</p>
+					<code>
+						&lt;h2&gt;<br/>
+						&lt;/h2&gt;<br/>
+						&lt;picture&gt;<br/>
+						&lt;/picture&gt;<br/>
+						&lt;p&gt;<br/>
+						&lt;/p&gt;
+					</code>
+					<p>In this case, if you need to style the paragraphs below the headings, you can use the <code>~</code> operator to denote the non-adjacent sibling relation, such as:</p>
+					<code>
+						h2 ~ p {
+						<code>...</code>
+						}
+					</code>
+					<h3>(Immediate) Child</h3>
+					<p>In a similar vein, you and identify the ancestor-child relation in a CSS selector. In the following example, we have different <code>&lt;p&gt;</code> elements inside <code>&lt;body&gt;</code> and <code>&lt;section&gt;</code>, which are thus immediate children of <code>&lt;body&gt;</code> and <code>&lt;section&gt;</code>:</p>
+					<code>
+						&lt;body&gt;
+						<code>
+							&lt;p&gt;<br/>
+							&lt;/p&gt;
+						</code>
+						&lt;/body&gt;<br/>
+						&lt;section&gt;
+						<code>
+							&lt;p&gt;<br/>
+							&lt;/p&gt;
+						</code>
+						&lt;/section&gt;
+					</code>
+					<p>Now, suppose that you only want to style the child paragraphs of <code>&lt;section&gt;</code>. You can use the operator <code>&gt;</code> in the selector to denote this relation:</p>
+					<code>
+						section > p {
+						<code>...</code>
+						}
+					</code>
+					<p>Now, if the paragraph is not the immediate child of an ancestor element, you can still specify this grandparent-grandchild relation in the CSS selector, just with a <em class="extra">space</em> between the grandparent and the grandchild:</p>
+					<code>
+						section p {
+						<code>...</code>
+						}
+					</code>
+					<h3>Pseudo-class and pseudo-elements</h3>
+					<p>In CSS, there are various <em class="extra">pseudo-class</em> and <em class="extra">pseudo-elements</em> that you can use in the selector to style classes and elements that are not defined by HTML tags and attributes (and that's why they have a <em>pseudo-</em> prefix). Here are some frequently used pseudo-classes that are denoted using <code>:</code> (for instance, <code>selector:pseudo-class</code>):</p>
+					<ul>
+						<li><code>:hover</code> - elements with the mouse cursor hovering over them</li>
+						<li><code>:first-child</code> - the first immediate child of an element</li>
+						<li><code>:last-child</code> - the last immediate child of an element</li>
+						<li><code>:nth-child(n)</code> - the nth child of an element (n = nth)</li>
+						<li><code>:nth-last-child(n)</code> - the nth child of an element counting from the last child (n = nth)</li>
+						<li><code>:first-of-type</code> - the first element of the same sibling group</li>
+						<li><code>:last-of-type</code> - the last element of the same sibling group</li>
+						<li><code>:nth-of-type(n)</code> - the nth element of the same sibling group</li>
+						<li><code>:not(selector)</code> - all elements that do not match (selector)</li>
+					</ul>
+					<p>Pseudo-elements are very useful for <em>styling the texts</em> of an elements, which are denoted using <code>::</code> as listed below:</p>
+					<ul>
+						<li><code>::first-line</code> - the first line of selected elements</li>
+						<li><code>::first-letter</code> - the first letter of selected elements</li>
+						<li><code>::before</code> - before selected elements (works with the <code>content</code> property)</li>
+						<li><code>::after</code> - after selected elements (works with the <code>content</code> property)</li>
+					</ul>
+					<p>Let me give you a small test here: What does the following style do? (select the line below the CSS style to find the answer)</p>
+					<code>
+						body section:not(:last-child) &gt; a::after {
+						<code>content: '[link]';</code>
+						}
+					</code>
+					<p><code style="color: #f2f2f2;">/* Add texts '[link]' after every &lt;a&gt; that is the immediate child of a &lt;section&gt; that is not the last child of its ancestor &lt;body&gt;. */</code></p>
+					<p>The full list of <em>pseudo-classes</em> could be found on this <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Pseudo-classes" target="blank">MDN Web Docs page</a>. Note that some of these pseudo-classes are still experimental and are not supported by all Web browsers. Check compatibility before using them in your own webpage.</p>
+					<h3>Priority/Specificity</h3>
+					<p>When elements are selected by <em>multiple selectors</em> in a CSS file and the properties in these styles are the same, one of these styles would have a higher <em>priority</em> to be applied to the selected elements. Let's start with the simpler case. Suppose that you carelessly style the background color of <code>&lt;body&gt;</code> twice in your CSS file, the last style <em>overrides</em> the first one:</p>
+					<code>
+						body {
+						<code>
+							background-color: white; /* overriden */
+						</code>
+						}<br/>
+						...<br/>
+						body {
+						<code>
+							background-color: grey;
+						</code>
+						}<br/>
+						...
+					</code>
+					<p>You don't have to be worried about it if the styles selecting the same element(s) use different properties - the two styles will be <em>merged</em> into one.</p>
+					<p>In the next scenario, we have to deal with the <em class="extra">specificity</em> of a selector - the properties in a more specific selector override those in a less specific selector. Now, assuming we have an element specified with a <code>class</code> attribute, such as <code>&lt;p class="intro"&gt;</code>, and we have the following two styles for the background color of <code>&lt;p&gt;</code>. The second selector is <em>more specific</em> than the first one since it selects all <code>&lt;p&gt;</code> with a class attribute of <code>intro</code>, denoted with a period <code>.</code>. Thus, although <code>&lt;p class="intro"&gt;</code> is selected by both selectors, the more specific one applies.</p>
+					<code>
+						p {
+						<code>
+							background-color: white; /* overriden */
+						</code>
+						}<br/>
+						...<br/>
+						p.intro {
+						<code>
+							background-color: grey;
+						</code>
+						}
+					</code>
+					<p>The above example seems pretty straightforward, so let take a look at a some more complex case. Now suppose we have a <code>&lt;p&gt;</code> element inside a <code>&lt;section&gt;</code> element, and we have the following two styles in our CSS file. Both styles will be applied to the <code>&lt;p&gt;</code> elements to change its background color, but since the first selector is less specific than the second one, the first <code>background-color</code> property is overriden by the second one.</p>
+					<code>
+						p {
+						<code>
+							background-color: white; /* overriden */
+						</code>
+						}<br/>
+						...<br/>
+						section > p {
+						<code>
+							background-color: grey;
+						</code>
+						}
+					</code>
+					<p>Finally, <em>inline styling</em> with the <code>style</code> attribute could override the value of the same CSS properties specified for the selected element, but it doesn't cascade to its children that are specified with the same property:</p>
+					<p><code>&lt;p style="background-color: red;"&gt; &lt;!-- more specific than the two styles above --&gt;</code></p>
+					<p>For a more detailed explanation for the calculation of specificy, check <a href="https://specifishity.com/" target="_blank">Specifishity!</a></p>
+					<h3>!important</h3>
+					<p>When you need to override every more specific and conflicting style, just add <code>!important</code> right after the value of a CSS property. However, this is not a recommended practice, because most of the time, you need to style your HTML elements based on their hierarchy, rather than blindly prioritize a CSS setting. But later, we will see that sometimes, we need <code>!important</code> to allow CSS styles set by JavaScript to be overriden by the CSS styles set in CSS files.</p>
+					<code>
+						p {
+						<code>
+							background-color: white !important; 
+						</code>
+						}<br/>
+						...<br/>
+						section > p {
+						<code>
+							background-color: grey; /* more specific, but is overriden */
+						</code>
+						}
+					</code>
+					<p>If you have multiple selectors as complex as the one you were just tested, then you should refer to the full system of how specificity is calculated on this <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Specificity" target="blank">MDN Web Docs page</a>. Selectors in most small to medium website projects would be straightforward, I think.</p>
+				</section>
+				<section>
+					<h2 id="beforethenextunit">Before the next unit...</h2>
+					<picture>
+						<img src="img/sky.jpg"/>
+						<sub>Credit: <a href="https://commons.wikimedia.org/wiki/File:Sky_with_puffy_clouds.JPG" target="blank">Wikipedia</a></sub>
+					</picture>
+					<p>Feel a little bit lost after all these? I believe you're not alone. Look at the sky, get a grip, and reflect on what you have just learned - they are really useful for your own bilingual website projects. It just takes time to digest, and you certainly will master these skills. Take a deep breath, and a new challenge is ahead of you.</em></p>
+					<p><button onclick="jsbasics()">>> JavaScript Basics</button></p>
+					<script>
+						function jsbasics() {
+							window.location.href = '/bwd/jsbasics/';
+						}
+					</script>
+				</section>
+				<sub>All Copyright Reserved; Tsung-Ying Chen 2021</sub>
+			</article>
+		</div>
+	</body>
+</html>

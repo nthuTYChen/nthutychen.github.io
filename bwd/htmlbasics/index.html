@@ -1,0 +1,215 @@
+<!DOCTYPE HTML>
+<html lang="en">
+	<head>
+		<title>Bilingual Web Design@DFLL NTHU; Tsung-Ying Chen</title>
+		<link rel="stylesheet" href="/css/style.css">
+		<script src="/js/jquery-3.2.1.min.js"></script>
+		<meta charset="UTF-8">
+	</head>
+	<body>
+		<nav>
+			<h2>
+				<a href="/bwd/">Intro</a>
+				<a class="selected" href="/bwd/htmlbasics/">HTML Basics</a>
+				<a href="/bwd/cssbasics/">CSS Basics</a>
+				<a href="/bwd/jsbasics/">JS Basics</a>
+				<a href="/bwd/jquery/">jQuery</a>
+				<a href="/bwd/webanimation/">Web Animation</a>
+				<a href="/bwd/mobile/">Mobile First</a>
+				<a href="/bwd/analysisdemo/">Analysis Demo</a>
+				<a href="/bwd/engissues/">English Issues</a>
+				<a href="/bwd/students/">Students</a>
+			</h2>
+		</nav>
+		<div class="container">
+			<article>
+				<h1>2. HTML Basics</h1>
+				<p><em>HyperText Markup Language</em> - that's what HTML stands for. It builds the fundamental structure of a webpage for you, just like the bones in your body.</p>
+				<p><a href="#beforewestart">Before we start...</a> / <a href="#htmltags">HTML tags/elements</a> / <a href="#firstindexhtml">Revisite your first index.html</a> / <a href="#addsomespice">Add some spices</a> / <a href="#thebuildingblocks">The building blocks</a> / <a href="#formattingsourcecodes">Formatting source codes</a> / <a href="#inlineelements">Inline elements</a> / <a href="#htmlw3c">HTML and W3C Standards</a> / <a href="#blueprint">Making a blueprint</a> / <a href="#finalizethedraft">Finalize the draft</a> / <a href="#forthenextunit">For the next unit...</a></p>
+				<section>
+					<h2 id="#beforewestart">Before we start...</h2>
+					<ul>
+						<li>What's your most and least favorable website?</li>
+						<li>Have you found your favorable color combination(s)?</li>
+					</ul>
+				</section>
+				<section>
+					<h2 id="htmltags">HTML tags/elements</h2>
+					<picture>
+						<img src="img/braincloth.jpg" style="height: 70%;" />
+						<sub>Credit: <a href="https://www.reddit.com/r/ProgrammerHumor/comments/p7c9je/html/" target="blank">Reddit</a></sub>
+					</picture>
+					<p>Every webpage is a structured HTML document <em>translated</em> by your Web browser properly into the layout you see on a computer screen.</p>
+					<p>An HTML element is like <code>&lt;html&gt;</code>, with the name of the element enclosed in two angle brackets <code><</code> and <code>></code>. In an HTML file, you usually see two types of HTML elements. One marks up a <em class="extra">scope</em> of contents in an HTML document, which determines how these contents are represented in a webpage; for instance:</p>
+					<code>&lt;html&gt;some contents&lt;/html&gt;</code>
+					<p>In the above example, you see the tag representing the beginning of the element without a slash as well as the tag representing the end of the element with a slash. The other HTML element type is itself presented as a <em class="extra">single object</em> in a webpage; for instance:</p>
+					<code>&lt;br/&gt;</code>
+					<p>In the above example, you only see one tag that will be interpreted as a <em>line break</em> element (thus its "br" name), which ends with a slash in it.</p>
+					<p>You will also see some other markups that are not HTML elements themselves but have some special meanings. For example, we will use <code>&lt;!DOCTYPE&gt;</code> to declare the document type for a webpage, and we also use <code>&lt;!-- Here's some note! --&gt;</code> to add some important notes just for our own reference.</p>
+				</section>
+				<section>
+					<h2 id="firstindexhtml">Revisite your first index.html</h2>
+					<p>With the above overview, let's revisit your first <em>index.html</em> inside the <code>analysisdemo</code> folder to explain the HTML elements and structure necessary for a Web browser to parse the structure of a webpage and then present it.</p>
+					<picture>
+						<img src="img/firsthtml.png"/>
+					</picture>
+					<p>As noted earlier, you need to tell your Web browser the type of the document it needs to present, we always have <code>&lt;!DOCTYPE&gt;</code> at the beginning of a document. But since we are composing an HTML file, we needs to specifically declare the document as HTML with:</p>
+					<code>&lt;!DOCTYPE HTML&gt;</code>
+					<p>Following the declaration of the document type, you would naturally see the <em>element</em> representing the HTML document, which are represented with <code>&lt;html&gt;&lt;/html&gt;</code>.</p>
+					<p>Inside <code>&lt;html&gt;&lt;/html&gt;</code>, you then see the element <code>&lt;head&gt;&lt;/head&gt;</code>, where the <em>metadata</em> is located. The metadata is not part of the webpage itself; you can consider it to be the <em>description</em> of the webpage. That explains why you see the element <code>&lt;title&gt;&lt;/title&gt;</code> in this section; the title of a webpage is part of its metadata. When we incorporate some external files or codes into the webpage (we'll talk about it later), we put them here as well to make sure they are <em class="extra">loaded first</em>.</p>
+					<p>After <code>&lt;/head&gt;</code>, you would see the <code>&lt;body&gt;&lt;/body&gt;</code> element. This is where the contents that will be presented in a webpage go.</p>
+				</section>
+				<section>
+					<h2 id="addsomespice">Add some spices</h2>
+					<p>Now that we understand how HTML tags work in our first <em>index.html</em>, we have to make some additional tweaks to optimize the decoding of your HTML document in different Web browsers.</p>
+					<p>First, let's change <code>&lt;html&gt;</code> to:</p>
+					<code>&lt;html lang="en-us"&gt;</code>
+					<p>In this change, we add the <em class="extra">attribute</em> <em>lang</em> to the <code>&lt;html&gt;</code> element and enclose the <em class="extra">value</em> of the attribute with <em class="extra">double quotation marks</em>. An attribute assigns a <em>property</em> to a specific element. In the above change, the value <em>en-us</em> of the <em>lang</em> attribute explicitly requires the browser to arrange texts following <em>US English</em>. When your webpage goes bilingual, then the value of this attribute for your Taiwan Mandarin webpages should be <em class="extra">zh-Hant-TW</em> (rather than just zh-tw).</p>
+					<p>Next, inside <code>&lt;head&gt;&lt;/head&gt;</code>, let's add the following line after <code>&lt;/title&gt;</code>:</p>
+					<code>&lt;meta charset="UTF-8"&gt;</code>
+					<p>This  <code>&lt;meta&gt;</code> element is obviously adding some metadata to our HTML document, and the attribute <em>charset</em> is specified with <em>UTF-8</em>, which tells a Web browser to treat the contents as Unicode texts, so texts could be encoded properly even if they are from different languages. You can't imagine how hard it was to get foreign websites encoded properly 20 years ago. Most of modern Web browsers set UTF-8 encoding as their default, but it doesn't hurt to always have this by default just in case.</p>
+				</section>
+				<section>
+					<h2 id="thebuildingblocks">The Building Blocks</h2>
+					<p>Now it's about the time to introduce elements that are commonly used inside <code>&lt;body&gt;&lt;/body&gt;</code>, that is, the content of your webpage. Let's start with some <em>building blocks</em>.</p>
+					<ul>
+						<li><code>&lt;nav&gt;&lt;/nav&gt;</code> - This is a block for you to put your NAVigation pane into (just like the menu you see on the left of this website.</li>
+						<li><code>&lt;article&gt;&lt;/article&gt;</code> - If you have an article in a webpage, you probably want to put this article in this block.</li>
+						<li><code>&lt;section&gt;&lt;/section&gt;</code> - Well, if you have multiple sections in an article, it's convenient for you to put each individual section in separate <code>&lt;section&gt;</code> blocks.</li>
+						<li><code>&lt;p&gt;&lt;/p&gt;</code> - It is natural that each section comes with multiple paragraphs, which should reside in separate <code>&lt;p&gt;</code> blocks.</li>
+					</ul>
+					<p>To see how these tags work, we can find an article from an English website and divide it into a structured webpage using the above tags.</p>
+					<p>OK. You've tried, but the texts put into different blocks <em>do not</em> seem to differ in their style at all! What's going on!? Don't panic. This behavior is in fact absolutely normal. Once we get to the CSS part, we'll learn how to style these individual blocks, but at this time, if we just put some texts into these blocks, they are presented in the same way.</p>
+					<h3>Why do we need these building blocks, then?</h3>
+					<p>Before I answer this question, let me introduce another <em>building block</em> to you:</p>
+					<ul>
+						<li><code>&lt;div&gt;&lt;/div&gt;</code> - A block that represents one DIVision in your webpage.</li>
+					</ul>
+					<p>Let's try to find one extra short text paragraph, throw it into a <code>&lt;div&gt;</code> block, and append this block to the end of the body...and still, the texts are just like those in other building blocks we added earlier.</p>
+					<h3>Semantic vs. non-semantic elements</h3>
+					<p>While the <code>&lt;div&gt;</code> block seems to work in the same way as other blocks do, <code>&lt;div&gt;</code> is <em class="extra">non-semantic</em>, whereas other blocks are <em class="extra">semantic</em>. When you see the name of a semantic element, you know what the contents of this element could be (article, section, paragraph, and so on), which is not possible when you use a non-semantic one (unless you use some other attributes to make it special; we'll get there soon). In HTML5, you're encouraged to use semantic elements and avoid non-semantic ones. This strategy brings benefits to your design process - for example, you can choose to directly style a <code>&lt;section&gt;</code> element, rather than an <code>&lt;div&gt;</code> element that is specified as a section. Note that it is absolutely possible to achieve the same visual representation of a webpage even if you only use <code>&lt;div&gt;</code>, but its maintainence is going to be <em>difficult</em>. Finally, this is not saying that you cannot use <code>&lt;div&gt;</code> at all - if you need a block that does not fit the semantics of the aforementioned elements, just use <code>&lt;div&gt;</code>.</p>
+					<p>Here are some other common semantic building blocks:</p>
+					<ul>
+						<li><code>&lt;header&gt;&lt;/header&gt;</code> - Appear at the top of a webpage and is usually used as a navigation pane (thus include <code>&lt;nav&gt;</code>).</li>
+						<li><code>&lt;footer&gt;&lt;/footer&gt;</code> - Appear at the bottom of a webpage and is usually used to present copyright or contact information.</li>
+						<li><code>&lt;ol&gt;&lt;/ol&gt;</code> - An unordered list.</li>
+						<li><code>&lt;ul&gt;&lt;/ul&gt;</code> - An ordered list.</li>
+						<li><code>&lt;li&gt;&lt;/li&gt;</code> - A list item.</li>
+					</ul>
+					<p>Note that <code>&lt;header&gt;</code> and <code>&lt;footer&gt;</code> cannot contain each other.</p>
+					<h3>A heading for each semantic block</h3>
+					<p>When you has a sementic block, the Web browser expects it to have a heading. Thus, a proper heading for a sementic block helps a Web browser parse the structure of a webpage. You can use <code>&lt;h1&gt;&lt;/h1&gt;</code> for a <em class="extra">first-level</em> heading or <code>&lt;h6&gt;&lt;/h6&gt;</code> for a <em class="extra">sixth-level</em> heading (and of course, everything in between). The level of a heading for a parent block should be <em>higher</em> than that for a child block. See <a href="https://html.spec.whatwg.org/multipage/sections.html#rank" target="blank">Section & Rank</a> for more info. Again, it is not fatal even if you don't follow this suggestion, but it's going to be helpful in many ways.</p>
+				</section>
+				<section>
+					<h2 id="formattingsourcecodes">Formatting source codes</h2>
+					<p>In the source code, you can see that lines inside an element are indented. This is a convenient way of understanding the relationship between elements in the so-called <em class="extra">Document Object Model (DOM)</em>. Lines aligned together may represent elements that are <em>sibilings</em>; the indented lines would denote <em>child</em> elements of their <em>parent</em> elements that include them. This is the reason why a good text editor like Sublime Text indents lines of child elements automatically for you.</p>
+					<p>You can also check the structure of your HTML document in the <em class="extra">Developer Tools</em> of your Web browser. In Windows, you can always press the F12 key in any Web browser to use the tool. For Mac users, you need to press <em>Command+Option+C</em> for Chrome, and here's the instruction for <a href="https://support.apple.com/guide/safari/use-the-developer-tools-in-the-develop-menu-sfri20948/mac" target="_blank">Safari</a>.</p>
+						<picture>
+						<img src="img/devtools.png"/>
+					</picture>
+					<p>It is true that even if you remove all indentions, the webpage remains unchanged (<em>try it!</em>), because a Web browser does not understand the relationship between elements based on line indentions. However, you should always indent lines in your source codes whenever appropriate. It not only means you understand the structure of your webpage, it makes your codes easier to read for others. You'll also need a similar mindset when we get to the <em>JavaScript</em> tutorials.</p>
+				</section>
+				<section>
+					<h2 id="inlineelements">Inline elements</h2>
+					<p>The elements introduced above are...<em>blocks</em>. It means that they all occupy a paragraph-like area that is separate from the texts before and after it. For instance, if you add the following line inside <code>&lt;body&gt;&lt;/body&gt;</code>, you will see that the texts inside <code>&lt;div&gt;&lt;/div&gt;</code> are forced to form an independent paragraph itself:</p>
+					<p><code>This sentence is going to be broken by &lt;div&gt;this block&lt;/div&gt; into three parts.</code></p>
+					<p>To the contrary, inline elements do not break the text flow, just like the following line that includes an <code>&lt;em&gt;</code> element:</p>
+					<p><code>This sentence won't be broken by &lt;em&gt;this inline element&lt;/em&gt; into different parts!</code></p>
+					<p>There are quite a number of frequently used inline elements listed below, most of which are for text decoration or represent an object in a webpage:</p>
+					<ol>
+						<li><code>&lt;a&gt;&lt;/a&gt;</code> - Marks up a hyperlink which is underlined by default.</li>
+						<li><code>&lt;b&gt;&lt;/b&gt;</code> - Marks up special but unimportant texts and make them bold by default.</li>
+						<li><code>&lt;em&gt;&lt;/em&gt;</code> - Marks up emphasized texts and make them italic by default.</li>
+						<li><code>&lt;mark&gt;&lt;/mark&gt;</code> - Marks up and highlight texts.</li>
+						<li><code>&lt;sub&gt;&lt;/sub&gt;</code> - Marks up subscript texts.</li>
+						<li><code>&lt;s&gt;&lt;/s&gt;</code> - Strikes out marked texts.</li>
+						<li><code>&lt;u&gt;&lt;/u&gt;</code> - Marks up underlined texts.</li>
+						<li><code>&lt;img/&gt;</code> - Insert an image.</li>
+						<li><code>&lt;br/&gt;</code> - Insert a line break.</li>
+						<li><code>&lt;input/&gt;</code> - Insert an input field.</li>
+					</ol>
+					<p>See this <a href="https://www.w3schools.com/htmL/html_blocks.asp" target="blank">W3CSchool page</a> for a more complete list of block-level and inline elements. Note that this default <em>block</em> vs. <em>inline</em> contrast from the elements is not absolute. We'll learn how to change this property when it comes to CSS.</p>
+				</section>
+				<section>
+					<h2 id="htmlw3c">HTML and W3C standards</h2>
+					<p>The most updated version of HTML is HTML5, which has been developed following the W3C (World Wide Web Consortium) standards. With the standards, same HTML tags should be compatible to different browsers - but you have to be careful! Some old HTML tags might have become <em class="extra">deprecated/obsolete</em>, while newly introduced HTML tags might be more or less <em class="extra">experimental</em> and are thus not fully supported by all mainstream browsers.</p>
+					<p>If you want to use a tag that you have never seen before and it seems useful, check some reliable sources to see if it support the majority of Web browsers, such as <a href="https://developer.mozilla.org/en-US/docs/Web/HTML" target="blank">MDN web docs.</a> In this course, we will just check our webpage using Google Chrome, but in reality, you should test your webpage in all different kinds of Web browsers.</p>
+					<p>In this course, we will try not to go wild, but use some common HTML tags to construct our websites. Neither will I go through old and new <em>browser wars</em> - google it if you're interested.</p>
+					<picture>
+						<img src="img/browserwar.png"/>
+						<sub>Credit: <a href="https://shoze.blogspot.com/2011/06/brorwser-wars.html" target="blank">Shoze</a></sub>
+					</picture>
+				</section>
+				<section>
+					<h2 id="blueprint">Making a blueprint</h2>
+					<p>OK. I know you've been waiting for this moment. But let's do something real to help develop your personal website, and we would start with its layout. When you make slides for your presentation, you also need to choose a template, don't you?</p>
+					<p>We need to consider the layout of two basic <em>blocks</em> in your website: a <code>&lt;nav&gt;</code> block and a container of the main contents, perhaps inside a <code>&lt;div&gt;</code> block, and there are two options.</p>
+					<p>The first common option is to put <code>&lt;nav&gt;</code> at the top:</p>
+					<table style="height: 10vw; width: 10vw; text-align: center;">
+						<tr style="height: 30%; width: 100%; background-color: red; color: white;">
+							<td>nav</td>
+						</tr>
+						<tr style="height: 70%; width: 100%; background-color: blue; color: white;">
+							<td>div</td>
+						</tr>
+					</table>
+					<p>In this layout, you will have the full page width at your disposal for rich contents, but you will have to think about how to present your <code>&lt;nav&gt;</code> block when you scroll down to the bottom of the page. Another common choice is to juxtapose <code>&lt;nav&gt;</code> with the main container (<code>&lt;nav&gt;</code> to the left in this example):</p>
+					<table style="width: 10vw; height: 10vw; text-align: center;">
+						<tr style="height: 100%;">
+							<td style="width: 30%; background-color: red; color: white;">nav</td>
+							<td style="width: 70%; background-color: blue; color: white;">div</td>
+						</tr>
+					</table>
+					<p>The benefit of this layout is rather obvious: The navigation pane would be more spacious for menu items (as if we have lots to say in our personal website!), and the presentation of the navigation pane do not interfere with that of the main contents. The drawback is also obvious; the space for the main contents would be much narrower.</p>
+					<p>We also have the third option: To create a <em>hidden menu</em> as in the demo website - We won't do it now since you need to be more familiar with CSS/JavaScript, but we'll get there. Alright! Let's add these two blocks into <code>&lt;body&gt;</code> of the <em>index.html</em> in your project directory!</p>
+				</section>
+				<section>
+					<h2 id="finalizethedraft">Finalize the draft</h2>
+					<p>Hold on! You just added the two blocks, but they were always presented vertically following their order in <code>&lt;body&gt;</code>! This is exactly the way how HTML elements are presented by default in a Web browser. We have not yet learned how to position an element, which will come next in the CSS tutorial. For now, we live with the default presentation.</p>
+					<p>Now, supposed that you already have some items in your navigation pane, how can someone use them to walk through your website? Easy - just mark up each individual item as a hyperlink using <code>&lt;a&gt;</code>, as if a item is linked to one of the webpages in the website. Crucially, we need the <em class="extra">href</em> <em>attribute</em> for this element to specify the <em class="extra">path</em> of the hyperlink, as in:</p>
+					<code>This is a &lt;a href="/somepath/"&gt;hyperlink&lt;/a&gt;!</code>
+					<p>With the path specified in the above example, the hyperlink will direct a Web browser to the <em>somepath</em> directory under the <em>root directory</em> (because the path begins with <code>/</code>). You can also specify a complete Web address for this attribute for an <em>external</em> link. Although you probably do not have the webpage that the individual menu items should be linked to, it's not a bad idea to think about the path to each webpage in advance, and then use the path as the name of the directory for each webpage later.</p>
+					<p>We have our menu ready, and it's time to add some general personal info to the container! We will need <code>&lt;article&gt;</code> (since it's an article about your personal info), <code>&lt;section&gt;</code> (since there could be different categories of your personal info), and <code>&lt;p&gt;</code> (since different entries of the same type of info may need an indepent paragraph). Remember, the Web browser expects a heading for every <code>&lt;article&gt;</code> and <code>&lt;section&gt;</code>!</p>
+					<h3>Text alignment using an invisible table</h3>
+					<p>At this point, we don't have many choices when trying to align out texts; we simply add <code>&lt;br/&gt;</code> to create a line break an thus align different lines of texts to the left edge of a page. But a <code>&lt;table&gt;</code>element would be a great choice if we want us to effeciently use the space in our webpage to organize our texts. The crucial elements relevant are as follows:</p>
+					<ul>
+						<li><code>&lt;table&gt;&lt;/table&gt;</code> - A table <em>block</em>.</li>
+						<li><code>&lt;thead&gt;&lt;/thead&gt;</code> - A table header block.</li>
+						<li><code>&lt;tbody&gt;&lt;/tbody&gt;</code> - A table body block.</li>
+						<li><code>&lt;tfoot&gt;&lt;/tfoot&gt;</code> - A table footer block.</li>
+						<li><code>&lt;tr&gt;&lt;/tr&gt;</code> - A table row.</li>
+						<li><code>&lt;th&gt;&lt;/th&gt;</code> - A table header cell.</li>
+						<li><code>&lt;td&gt;&lt;/td&gt;</code> - A table value cell.</li>
+					</ul>
+					<p>Supposed that our contact information includes both mobile number and e-mail, we can have a 2x2 table, in which the first row is the header of the info (such as <em>tel</em> and <em>e-mail</em>), and the second row contains the corresponding information. This way, the header will be align perfectly with their information to the on separate lines. The example below is not magic, and let's give it a try!</p>
+					<code>
+						<table>
+							<tr style="font-weight: 700; text-align: left;">
+								<th>Mobile</th><th>E-mail</th>
+							</tr>
+							<tr>
+								<td style="padding-right: 2vw;">+886-936-123456</td><td>chen.ty@mx.nthu.edu.tw</td>	
+							</tr>
+						</table>
+					</code>
+					<p>The <em>draft</em> of your personal website is now ready. It's certainly not pretty at all, but it will be given some new life soon!</p>
+				</section>
+				<section>
+					<h2 id="forthenextunit">For the next unit...</h2>
+					For the next unit, you will have to complete the following task:
+					<ol>
+						<li>Modify the <em>index.html</em> inside your <code>personal</code> directory to have necessary HTML elements and add an English autobiography no longer than 250 words.</li>
+						<li>Please complete it before Oct 1, 2021. It's not an assignment, but it will be taken into consideration in my assessment of your personal website project.</li>
+					</ol>
+					<p><button onclick="cssbasics()">>> CSS Basics</button></p>
+					<script>
+						function cssbasics() {
+							window.location.href = '/bwd/cssbasics/';
+						}
+					</script>
+				</section>
+				<sub>All Copyright Reserved; Tsung-Ying Chen 2021</sub>
+			</article>
+		</div>
+	</body>
+</html>

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en-us">
+	<head>
+		<link rel="stylesheet" href="./demo.css">
+		<script src="../../js/jquery-3.2.1.min.js"></script>
+		<script src="./demo.js"></script>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="UTF-8" >
+		<title>Expository Essay Analysis: Example</title>
+		<style>
+			span.joint {
+				color: #a6611a;
+			}
+
+			span.vocab {
+				position: relative;
+				padding: 0 4px;
+				border-radius: 2px;
+				background-color: #018571;
+				color: white;
+			}
+
+			span.vocab > span {
+				display: none;
+				position: fixed;
+				top: 50%;
+				left: 10px;
+				max-width: 50vw;
+				padding: 0 4px;
+				border-radius: 2px;
+				background-color: #dfc27d;
+				color: #000a16;
+				text-indent: 0;
+				opacity: 0;
+				transform: translateY(-50%);
+				transition: all 0.3s ease-out;
+			}
+
+			span.vocab:hover > span {
+				display: block;
+				z-index: 2;
+				opacity: 0.9;
+				transition: all 0.3s ease-out;
+			}
+
+			article > section {
+				position: relative;
+				top: 50px;
+				opacity: 0;
+			}
+		</style>
+		<script>
+			$(document).ready(()=>{
+				$(document).on('scroll', animateSection);
+			});
+
+			$(window).on("load", animateSection());
+
+			function animateSection() {
+				let allSections = $('article > section');
+				let screenHeight = $(window).height(), scrollTop = $(window).scrollTop();
+				allSections.each((index)=>{
+					let section = allSections.eq(index);
+					if(screenHeight + scrollTop - 50 > section.offset().top) {
+						section.animate({top: 0, opacity: 1}, 500);
+					}
+				});
+			};
+		</script>
+	</head>
+	<body>
+		<nav>
+			<a><span>+</span></a>
+			<a href="/bwd/analysisdemo/">Home</a>
+			<a href="example.html">Essay Example</a>
+			<a href="guidelines.html">Analysis Guidelines</a>
+			<a href="analysis.html">Structural Analysis</a>
+		</nav>
+		<article>
+			<h1>Seeking Early Signals of Dementia in Driving and Credit Scores</h1>
+			<p>Aug 23, 2021 @ The New York Times [<a href="https://www.nytimes.com/2021/08/23/health/dementia-behavior-alzheimers.html" target="_blank">Original Article</a>]<br/>
+				by Paula Span
+			</p>
+			<p class="insNote"><em>Instructor's Note:</em> In this section, you need to copy and paste the information from the original article and also the article itself. You don't have to follow the original structure since some shorter paragraphs are clearly related and can be merged into a longer, more coherent paragraph (See the Coherence section on the <a href="guidelines.html">Analysis Guidelines</a> page). Use an orange block to show where smaller paragraphs are jointed together in your own version. Use a right pointer <span class="joint">&#9658;</span> with the color code <span style="padding: 0 4px; background-color: #a6611a; color: white;">#a6611a</span> to show each joint point. Next, mark all the new vocabularies/phrases you have learned when reading this article with the color code <span class="vocab">#018571</span>. In addition, mark every section explicitly.</p>
+			<figure style="text-align: center;">
+				<img src="img/nytimes.jpg" style="max-width: 80vw;" />
+			</figure>
+			<section id="sec1">
+				<h3>[Sec. #1]</h3>
+				<p>Learning your odds of eventually developing dementia — a pressing concern for many, especially those with a family history of it — requires medical testing and counseling. But what if everyday behavior, like overlooking a couple of credit card payments or habitually braking while driving, could foretell your risk?<span class="joint">&#9658;</span> <span class="vocab">A spate of<span><b>"a spate of"</b> - a large number of things</span></span> experiments is underway to explore that possibility, reflecting the growing awareness that the pathologies underlying dementia can begin years or even decades before symptoms emerge.</p>
+			</section>
+			<section id="sec2">
+				<h3>[Sec. #2]</h3>
+				<p>“Early detection is key for intervention, at the stage when that would be most effective,” said Sayeh Bayat, the lead author of a driving study funded by the National Institutes of Health and conducted at Washington University in St. Louis. <span class="joint">&#9658;</span> Such efforts could help identify potential volunteers for clinical trials, researchers say, and help protect older people against financial abuse and other dangers.</p>
+				<p>In recent years, many once-promising dementia drugs, particularly for Alzheimer’s disease, have failed in trials. One possible reason, researchers say, is that the drugs are administered too late to be helpful. Identifying risks earlier, when the brain has sustained less damage, could create a pool of potential participants with “preclinical” Alzheimer’s disease, who could then test preventive measures or treatments. <span class="joint">&#9658;</span> It could also bring improvements in daily life. “We could support people’s ability to drive longer, and have safer streets for everyone,” Ms. Bayat offered as an example.</p>
+			</section>
+			<section id="sec3">
+				<h3>[Sec. #3]</h3>
+				<p>For now, the search for older people who are likely to develop Alzheimer’s or other dementias takes place mostly in research settings, where patients learn their risk status through some combination of genetic testing, spinal taps or PET scans to detect amyloid in the brain, as well as through questions about family history. <span class="joint">&#9658;</span> “It’s all about finding people soon enough to intervene and prevent or delay the onset of the disease,” said Emily Largent, a medical ethicist and health policy researcher at the Penn Memory Center in Philadelphia, which undertakes many such studies. <span class="joint">&#9658;</span> Other kinds of predictive tests are on the horizon, including over-the-counter blood tests for tau, another Alzheimer’s biomarker, but are several years away, Dr. Largent said.  That leaves methods that are invasive, like spinal taps, or expensive, like PET scans. These approaches can’t be used to screen large groups of people. “They’re not available everywhere,” Ms. Bayat said. “They’re not very accessible or scalable.”</p>
+			</section>
+			<section id="sec4">
+				<h3>[Sec. #4]</h3>
+				<p>But a GPS device in someone’s car could monitor driving behavior almost continuously at low cost, providing so-called digital biomarkers. “Studies have shown that driving changes in people with symptomatic Alzheimer’s,” Ms. Bayat said. “But some changes occur even earlier.” <span class="joint">&#9658;</span> The Washington University study enrolled 64 older adults with preclinical Alzheimer’s, as determined by spinal taps (the results were not shared with participants), and 75 who were deemed cognitively normal. For a year, researchers measured both groups’ driving performance — how often they accelerated or braked aggressively, exceeded or fell well below the speed limit, made abrupt moves — and their “driving space” (number of trips, average distance, unique destinations, trips at night). “Only now, because we have these technologies, can we do this kind of research,” Ms. Bayat said. <span class="joint">&#9658;</span> The study found that driving behavior and age could predict preclinical Alzheimer’s 88 percent of the time. Those findings could spur recruitment for clinical trials and allow interventions — like an alert when a car drifts — to help keep drivers on the road. In areas with inadequate public transportation (which is most areas), that could enhance seniors’ independence. <span class="joint">&#9658;</span> Dr. Jason Karlawish, a geriatrician and co-director of the Penn Memory Center, called the study “<span class="vocab">provocative<span><b>"provocative"</b> - institgate thoughts and feelings</span></span>” and well designed. “The results suggest that monitoring a real-world, cognitively intense behavior can detect the earliest, subtle signs of emerging cognitive impairment,” he said in an email.</p>
+				<p>Similarly, a study analyzing medical records and consumer credit reports for more than 80,000 Medicare <span class="vocab">beneficiaries<span><b>beneficiary</b> - a person who benefits from the result of something.</span></span> showed that seniors who eventually received a diagnosis of Alzheimer’s disease were significantly more likely to have delinquent credit card payments than those who were demographically similar but never received such diagnoses. They also were more likely to have subprime credit scores. <span class="joint">&#9658;</span> “We were motivated by anecdotes in which family members discover a relative’s dementia through a catastrophic financial event, like a home being seized,” said Lauren Nicholas, the lead author and a health economist at the University of Colorado School of Public Health. “This could be a way to identify patients at risk.” <span class="joint">&#9658;</span> The problems appeared early, with at least two consecutive payments skipped as much as six years before a diagnosis, and subprime credit two and a half years before. Although smaller studies have pointed to an association between self-reported financial mismanagement and dementia, this is the largest and the first to use actual financial data, Dr. Nicholas added.</p>
+				<p>In Japan, researchers have developed a machine-learning tool that scrutinizes phone conversations for signs of preclinical Alzheimer’s. Using audio files recorded during interviews last year, they compared healthy patients’ vocal features — pitch, intensity, silent intervals — with those with Alzheimer’s and found that the models could predict cognitive status. <span class="joint">&#9658;</span> IBM researchers have picked up elevated risk in writing tests, finding that word patterns and usage predicted later Alzheimer’s diagnoses. Any of these findings might, one day, be used for early screening.</p>
+				<p>Such approaches raise concerns about privacy, however. “Are people comfortable with a bank or an auto insurance company having and communicating that information?” Dr. Largent asked. “It becomes medical information in the hands of people who are not physicians.” <span class="joint">&#9658;</span> At the Penn Memory Center, where information is indeed in health professionals’ hands, “some people who are cognitively unimpaired, after testing in the clinic, indicate they’d like to be monitored,” she said. “Others find that unbelievably intrusive.”</p>
+			</section>
+			<section id="sec5">
+				<h3>[Sec. #5]</h3>
+				<p>Bioethicists have <span class="vocab">grappled for years with<span><b>grapple with</b> - struggle with</span></span> questions about informing patients of higher-than-normal risk for a feared disease for which there is, still, no effective treatment. Studies have shown that in research settings, results can be communicated safely and effectively. But fears of discrimination and stigma remain. <span class="joint">&#9658;</span> Even using established biomarkers like amyloid in PET scans, these advance findings aren’t definitive, which researchers take pains to point out to patients. “It’s neither necessary nor sufficient to have these risk factors,” Dr. Largent explained. People with elevated amyloid have higher risk but may not progress to cognitive impairment; people without it can nevertheless develop dementia. <span class="joint">&#9658;</span> Still, Dr. Largent said, “I generally think having that information can be useful to people.” <span class="joint">&#9658;</span> In a number of studies, Dr. Largent has examined what happens when dementia risks are disclosed to patients and families. She has found that about one-third of patients respond to the information by changing their health behavior, undertaking legal and financial planning or taking other preparatory steps. “They do things like update their wills, draft advance directives, exercise more, maybe move closer to an adult child,” she said.</p>
+				<p>Paul Gondek, 68, who lives in Philadelphia and teaches social psychology at Drexel University, chose to learn his risk status two years ago, volunteering for several studies at the Penn Memory Center. Alzheimer’s tends to run in families and, having watched his mother’s slow decline from the disease, he knew he had a higher chance of developing it. <span class="joint">&#9658;</span> To Mr. Gondek’s relief, the PET scan showed that he did not have elevated amounts of amyloid in his brain. And a calculated risk score showed that his odds of Alzheimer’s by age 85 were about 19 percent — higher than the 11 percent risk for the general population, but lower than he had feared. <span class="joint">&#9658;</span> If other early indicators were available through driving or financial records or other behaviors and were reliable, he said, “I would want to use them. I’d rather know than not.”</p>
+			</section>
+		</article>
+	</body>
+</html>

@@ -1,0 +1,488 @@
+<!DOCTYPE HTML>
+<html lang="en">
+	<head>
+		<title>Bilingual Web Design@DFLL NTHU; Tsung-Ying Chen</title>
+		<link rel="stylesheet" href="/css/style.css">
+		<style>
+			.slideAnimDemo {
+				position: relative;
+				top: 20px;
+				opacity: 0;
+			}
+		</style>
+		<script src="/js/jquery-3.2.1.min.js"></script>
+		<script>
+			function slideUpTargets () {
+				let divs = $('.slideAnimDemo'), vh = $(window).height(), scrollTop = $(window).scrollTop();
+				divs.each(function() {
+					let divTop = $(this).offset().top;
+					if(vh + scrollTop > divTop) {
+						$(this).animate({
+							top: 0,
+							opacity: 1
+						}, 500);
+					}
+				});
+			}
+			$(document).ready(function() {
+				slideUpTargets();
+				$(document).on('scroll', function() {
+					slideUpTargets();
+				});
+			});
+		</script>
+		<meta charset="UTF-8">
+	</head>
+	<body>
+		<nav>
+			<h2>
+				<a href="/bwd/">Intro</a>
+				<a href="/bwd/htmlbasics/">HTML Basics</a>
+				<a href="/bwd/cssbasics/">CSS Basics</a>
+				<a href="/bwd/jsbasics/">JS Basics</a>
+				<a href="/bwd/jquery/">jQuery</a>
+				<a class="selected" href="/bwd/webanimation/">Web Animation</a>
+				<a href="/bwd/mobile/">Mobile First</a>
+				<a href="/bwd/analysisdemo/">Analysis Demo</a>
+				<a href="/bwd/engissues/">English Issues</a>
+				<a href="/bwd/students/">Students</a>
+			</h2>
+		</nav>
+		<div class="container">
+			<article>
+				<h1>7. Web Animation</h1>
+				<p id="animated">I just need to show you how this works :P</p>
+				<p><a href="#overview">Overview</a> / <a href="#transition">Transition</a> / <a href="#keyframes">Keyframes</a> / <a href="#jquery">jQuery animation</a> / <a href="#conclusion">Concluding remarks</a></p>
+				<section>
+					<h2 id="overview">Overview</h2>
+					<p>This is finally the last section in this tutorial, and you have probably waited for this to come since you're really keen to add more spice to your websites. Here I am going to share some basics with you, which would be enough for some non-commercial websites. These tips only takes up a very small portion of the world of Web animation, which is still expanding rapidly. But I hope they will help build a strong foundation for you to learn some more advanced skills, which is what I'm still doing now! I would once again to highlight the risk of an excessively animated website, which will burden a Web browser especially in an old device.</p>
+				</section>
+				<section>
+					<h2 id="transition">Transition</h2>
+					<picture>
+						<img src="img/soapbubble.gif" style="max-width: 33%;" />
+						<sub>Soruce: <a href="https://www.boredpanda.com/frozen-bubble-winter-photography-zaluskart/" target="_blank">ZALUSKArt</a></sub>
+					</picture>
+					<p>We can start with the simplest approach, that is, to use the CSS property <code>transition</code> to create some Web animation when there's some interaction that changes an HTML element from one state into a different state. What do I mean by this? You probably have had the answer already - for instance, when the mouse cursor hovers over an HTML element, the element is in the <code>:hover</code> <em class="extra">pseudo-class</em>.</p>
+					<p>In our previous unit, we did try to make changes to the style of hovered elements with the pseudo-class, but all the changes were <em>abrupt</em>. With the CSS property <code>transition</code>, we will be able to give some life by making <em class="extra">gradual</em> styling changes. The <code>transition</code> property is in fact a family of CSS properties that allows you to fine-tune the changes between different styles:</p>
+					<ul>
+						<li><code>transition-property</code> - You can apply a transition to almost all CSS properties, such as <code>width</code>, <code>background-color</code>, and more. If you don't need to separate the transitions of different CSS properties from each other, you can just use the value <code>all</code>. One CSS property that you <em>can't</em> really apply a gradual transition to is <code>display</code> - What does even a gradual transition from <code>block</code> to <code>inline-block</code> mean? I know. You're probably thinking about the gradual transition between <code>none</code> and <code>block</code>, for instance, but we have other approaches to this transition below.</li>
+						<li><code>transition-duration</code> - You can also determine how long the transition should be. If you set the value as <code>1s</code>, then the whole transition process will take just one second.</li>
+						<li><code>transition-timing-function</code> - By default, you might think of some <code>linear</code> gradual transition. That is, the speed of a transition remains <em>constant</em> from the beginning to the end. However, CSS3 offers you many different options, such as <code>ease-in</code> (slower at the beginning, faster toward the end) and <code>ease-out</code> (faster at the beginning, slower toward the end). A complex easing function could be generated with a CSS function <code>cubic-bezier()</code>, and here's an <a href="https://cubic-bezier.com/" target="_blank">online tool</a> for you to manipulate your own easing functions very easily.</li>
+						<li><code>trainsition-delay</code> - By specifying this property with a time in second, you can delay the transition effect. Most of times we won't be using this property, but it can help create a <em>trailing tail</em> for a moving object and keep the end result of a transition bit longer.</li>
+					</ul>
+					<p>Since all of the above individual properties have a pretty long name, it is indeed more reasonable (if compared to <code>font</code>) to use the shorthand <code>transition</code> and specify the four properties in the same order:</p>
+					<code>
+						transition: property duration timing-function delay;
+					</code>
+					<p>Let's do a quick demonstration. Create a <code>&lt;div&gt;</code> in an HTML document and define the element's appearance with the following styles. With these styles, the block element will gradually enlarge when you move your mouse cursor over it, and at the same time the background color will also smoothly change from an orange color to a red color. And the whole process will take one second to complete.</p>
+					<code>
+						body > div {
+						<code>
+							position: absolute;<br/>
+							top: 50%;<br/>
+							left: 50%;<br/>
+							transform: translate(-50%, -50%); /* aligned to the center */<br/>
+							width: 100px;<br/>
+							height: 100px;<br/>
+							background-color: orange;
+						</code>
+						}<br/><br/>
+						body > div:hover {
+						<code>
+							width: 150px;<br/>
+							height: 150px;<br/>
+							background-color: red;<br/>
+							transition: all 1s ease-in;
+						</code>
+						}
+					</code>
+					<p>Currently, we only add the transition that takes place when the target <code>&lt;div&gt;</code> element is changed into the <code>:hover</code> pseudo-class, so when you move your mouse cursor away from the element, the style changes back to the default <em class="extra">abruptly</em>. To also make a gradual transition back to the element's default style, we also have to add <code>transition</code> to the default style as well:</p>
+					<code>
+						body > div {
+						<code>
+							/* old styles above... */<br/>
+							transition: all 1s ease-out; /* use ease-out here to reverse the ease-in effect */
+						</code>
+					</code>
+					<p>Maybe you want the transition to be different for <code>background-color</code> and for <code>width</code> and <code>height</code>. Then, you could separate the transition for <code>background-color</code> from <code>all</code> transitions with a <em class="extra">comma</em> in the <code>transition</code> property:</p>
+					<code>
+						body > div:hover {
+						<code>
+							width: 150px;<br/>
+							height: 150px;<br/>
+							background-color: red;<br/>
+							transition: all 1s ease-in, background-color 10s ease-out; /* apply transitions separately */
+						</code>
+						}
+					</code>
+					<h3>Catch me if you can</h3>
+					<p>As mentioned earlier, it is not really possible to make a transition between <code>none</code> and other values for the <code>display</code> property, supposed that your goal is to make an element appear/disappear gradually. But there are other solutions, too. The first one is to make a gradual transition for the property <code>opacity</code>, and let's try this with the following HTML content, in which a <code>&lt;div&gt;</code> element is enclosed inside another <code>&lt;div&gt;</code> element. Our goal is to create the effect that when the mouse is over the outer <code>&lt;div&gt;</code>, the inner <code>&lt;div&gt;</code> appears gradually next to it.</p>
+					<code>
+						&lt;div&gt;
+						<code>
+							&lt;div&gt;Hello!&lt;/div&gt;
+						</code>
+						&lt;/div&gt;
+					</code>
+					<p>Below are the default styles for both <code>&lt;div&gt;</code> elements. Crucially, we can see that the inner <code>&lt;div&gt;</code> element is set to have <code>position: absolute;</code> as well, and since its ancestor is also specified with a <em>non-static</em> position, the inner <code>&lt;div&gt;</code> would be positioned with respect to the edges of the outer <code>&lt;div&gt;</code>. Thus, when the inner <code>&lt;div&gt;</code> is set to have <code>left: 100%;</code>, it means that the inner <code>&lt;div&gt;</code> is moved from the <em>left edge of its ancestor</em> by the full width of the ancestor (which is equal to <code>100px</code>). So, although the inner <code>&lt;div&gt;</code> is enclosed inside another <code>&lt;div&gt;</code>, it is moved out by the CSS style in the final presentation.</p>
+					<code>
+						body > div {
+						<code>
+							position: absolute;<br/>
+							top: 50%;<br/>
+							left: 50%;<br/>
+							transform: translate(-50%, -50%);<br/>
+							width: 100px;<br/>
+							height: 100px;<br/>
+							background-color: green;
+						</code>
+						}<br/><br/>
+						body > div > div {
+						<code>
+							position: absolute;<br/>
+							left: 100%;<br/>
+							width: 100px;<br/>
+							height: 100px;<br/>
+							background-color: red;<br/>
+							color: white;<br/>
+							opacity: 0; /* You can't see me, but I'm still here! */
+						</code>
+						}
+					</code>
+					<p>Again, to achieve our goal, we have to rely on the pseudo-class <code>:hover</code>. But to which element should we add this pseudo-class in our CSS file? It's the outer <code>&lt;div&gt;</code> - because we want the inner <code>&lt;div&gt;</code> to appear when the mouse cursor hovers over the outer one, that is, to make the outer one belong to the <code>:hover</code> pseudo-class.</p>
+					<code>
+						body > div:hover > div {
+						<code>
+							opacity: 1;<br/>
+							transition: all 0.3s ease-out;
+						</code>
+						}
+					</code>
+					<p>This approach is convenient but you have to be sure that the transparent element doesn't overlap with other clickable contents because the transparent element would be an invisible wall.</p>
+					<p>In the second approach, we do not manipulate the opacity but the width (or the height) of the inner <code>&lt;div&gt;</code> element in the transitional process. In our example above, we can start by setting the inner <code>&lt;div&gt;</code> to have a <code>width</code> of <code>0</code> in its default setting, so it is made invisible because it has a zero width! To complete hiding everything in the inner <code>&lt;div&gt;</code>, we would have to add the <code>overflow</code> property and set it as <code>hidden</code>. You will also need to have <code>white-space</code> set as <code>nowrap</code>. These properties and settings guarantees that the texts <em>stay in the same line</em> but are hidden when they go beyond the edge of their container.</p>
+					<code>
+						body > div > div {
+						<code>
+							position: absolute;<br/>
+							left: 100%;<br/>
+							width: 0; /* I'm still here, but too thin to be seen! */ <br/>
+							height: 100px;<br/>
+							overflow: hidden;<br/>
+							white-space: nowrap;<br/>
+							background-color: red;<br/>
+							color: white;
+						</code>
+						}
+					</code>
+					<p>Now, it shouldn't be hard to see how to set the <code>transition</code> property to the style for the hovered outer <code>&lt;div&gt;</code>, right?</p>
+					<code>
+						body > div:hover > div {
+						<code>
+							width: 100px;<br/>
+							transition: all 0.3s ease-out;
+						</code>
+						}
+					</code>
+				</section>
+				<section>
+					<h2 id="keyframes">Keyframes</h2>
+					<picture>
+						<img src="img/frames.gif" style="max-width: 35%;" />
+						<sub>Source: <a href="https://anime.stackexchange.com/questions/3768/why-is-it-hard-to-draw-people-running-in-animes/3770" target="_blank">Stack Exchange</a></sub>
+					</picture>
+					<p>In the previous section, we rely on the pseudo-class <code>:hover</code> and the <code>transition</code> CSS property to create some very simple Web animations when some interactions take place. But in some cases, you want to create Web animations even when there's no interaction at all as if some magician casts a spell on your website to make HTML elements do funny things, just like the texts moving back and forth above. Then you need to learn to use <code>@keyframes</code> in CSS, which allows you create animation frame by frame. Let's start with the basic syntax below. The keyword <code>@keyframes</code> tells a Web browser that a new Web animation is created, which is followed by the name of this particular animation, which is <code>bgChange</code> in this example. With the <em>customized</em> name, you can apply the same animation to different HTML elements, as we will demonstrate below.</p>
+					<code>
+						@keyframes bgChange {
+						<code>
+							from { /* The very beginning */
+							<code>background-color: #000000;</code>
+							}<br/>
+							to { /* The very end */
+							<code>background-color: #FFFFFF;</code>
+							}
+						</code>
+						}
+					</code>
+					<p>Inside a <code>@keyframes</code> scope, we can have the two basic <em class="extra">anchoring points</em> - <code>from</code> defines the styles at the very beginning of the animation, and <code>to</code> defines the styles at the end of the animation. The difference between the two points create a transition effect which we have seen in the previous section, which gradually changes a black background to a white background.</p>
+					<p>Now, supposed that we have two <code>&lt;div&gt;</code> elements inside <code>&lt;body&gt;</code>, we can apply a <code>@keyframes</code> animation to both elements in the style with the <code>animation</code> CSS property:</p>
+					<code>
+						div {
+						<code>
+							height: 100px;<br/>
+							width: 100px;<br/>
+							animation: bgChange 1s ease-in; /* animation-name animation-duration animation-timing-function */
+						</code>
+						}
+					</code>
+					<p>The above settings of the <code>animation</code> property are a shorthand of the three properties of the <code>animation</code> family, including <code>animation-name</code>, <code>animation-duration</code>, and <code>animation-timing-function</code>. All these only give you a <em>one-time</em> effect, so you are certainly not satisfied. Don't worry, you have <code>animation-iteration-counts</code> and <code>animation-direction</code> at your disposal. The former decides how many times an animation should repeat, but you can certain let it go forever by setting it as <code>infinite</code>. The latter determines how individual frames are ordered in each iteration. By default, it is set as <code>forward</code>, so in each iteration it starts with <code>from</code> and ends with <code>to</code>. But you can change it to <code>reverse</code> to make an animation run backwards in each iteration. Or, you could choose to set it as <code>alternate</code> or <code>alternate-reverse</code>, so the animation is reversed when it reaches the end point, which may be <code>to</code> or <code>from</code> depending on the value of your choice. All these can be put into just <code>animation</code> as a shorthand.</p>
+					<code>
+						div {
+						<code>
+							height: 100px;<br/>
+							width: 100px;<br/>
+							/* 1-3: animation-name animation-duration animation-timing-function */<br/>
+							/* 4-5: animation-iteration-counts animation-direction */<br/>
+							animation: bgChange 1s ease-in infinite alternate; 
+						</code>
+						}
+					</code>
+					<p>One last <code>animation</code> family member that is used frequently is <code>animation-delay</code>. This property allows you to create an animation with a different start time for individual <em>layers</em> of your animation, thus a trailing shadow effect. Assuming that we have two <code>&lt;div&gt;</code> elements fixed to the same position. We can set the one in a lower layer to be slightly opaque than the one in an upper layer to serve as the shadow of the box. While the same moving animation is applied to both <code>&lt;div&gt;</code> element, the lower one is delayed by <code>0.5s</code>, and you see a trailing shadow.</p>
+					<code>
+						div { /* universal style for divs */
+						<code>
+							position: fixed;<br/>
+							top: 5vh;<br/>
+							left: 5vw;<br/>
+							width: 100px;<br/>
+							height: 100px;<br/>
+							background-color: red;
+						</code>
+						}<br/><br/>
+						div:first-of-type { /* earlier = lower */
+						<code>
+							opacity: 0.5;<br/>
+							animation: moving 1s ease-in 0.2s infinite alternate;
+						</code>
+						}<br/><br/>
+						div:last-of-type { /* later = higher */
+						<code>
+							animation: moving 1s ease-in infinite alternate; /* no delay */
+						</code>
+						}<br/><br/>
+						@keyframes moving { /* a moving animation */
+						<code>
+							left: 10vh;
+						</code>
+						}
+					</code>
+					<p>Do you want to know how to create an animation simulating a heartbeat? We'll do this in class, and we will need these CSS properties <code>offset-path</code> and <code>offset-distance</code>. And we will need this <a href="https://editor.method.ac/" target="_blank">online tool</a>, too. Do you know which Web browsers do not support these fun CSS properties just yet? <em>Safari</em>. Oh, and Internet Explorer.</p>
+					<h3>Frame-by-frame design</h3>
+					<p>In the above demonstrations, we only created animations based on two anchor points. But you may have noticed that in the text bar that bounces around at the top of this page, the background color gradually changes to a red color toward the midpoint before reverting back to a crimson color on both edges. This is because in a <code>@keyframes</code> scope, we can certainly insert more anchor points between <code>from</code> and <code>to</code> with <code>%</code> - <code>0%</code> is equivalent to <code>from</code>, <code>100%</code> is the same as <code>to</code>, and <code>50%</code>, for instance, stands for the midpoint. So, let's create an animation for a block element with the following steps:</p>
+					<ul>
+						<li>The block moves from the left edge of an HTML document and reaches a distance of <code>20vw</code> from the left edge by the end of the animation.</li>
+						<li>Starting from 25% of the entire process, the block starts to rotate clockwise, and by 75% of the entire process, the block completes its rotation by 45 degrees.</li>
+						<li>Toward the midpoint of the entire process, the background color changes gradually from a red color to an orange color. After the midpoint, the background color gradually reverts back to a red color.</li>
+					</ul>
+					<p>If you need to rotate an element, you should use the <code>rotate()</code> function for the <code>transform</code> property. Just google it! Now, do you have the solution? Or do you want to see how I deal with this case (select the section below)?</p>
+					<code style="color: #e68a00;">
+						@keyframes moveRotateBgChang {
+						<code style="color: #e68a00;">
+							0% {
+							<code style="color: #e68a00;">
+								/* Still need to define the initial position if you don't have it in the default style of the element */<br/>
+								left: 0; 
+							</code style="color: #e68a00;">
+							}<br/>
+							25% {
+							<code style="color: #e68a00;">
+								/* This is where the block starts to rotate, so set the initial appearance here */<br/>
+								transform: rotate(0deg);
+							</code>
+							}<br/>
+							50% {
+							<code style="color: #e68a00;">
+								background-color: orange;<br/>
+								animation-timing-function: linear; /* Set the easing function for each step */
+							</code>
+							}<br/>
+							75% {
+							<code style="color: #e68a00;">
+								transform: rotate(45deg); /* The point where the rotation should ends */<br/>
+								animation-timing-function: linear;
+							</code>
+							}<br/>
+							100% {
+							<code style="color: #e68a00;">
+								transform: rotate(45deg); /* The end result of rotation should hold */<br/>
+								left: 20vw; /* The end point, and the movement should end here */<br/>
+								animation-timing-function: ease-out;
+							</code>
+							}
+						</code>
+						}
+					</code>
+				</section>
+				<section>
+					<h2 id="jquery">jQuery animation</h2>
+					<p>Now, you're very last mission - to learn how to animate HTML elements using <em>jQuery</em>. You need to go through this final stage for sure, because non-interactive animations may not be relevant to the visual representation of your user interface at all, and the pure CSS solution with <code>:hover</code> is just limited to the <code>mouseover</code> event. You need to write JS codes to animate your elements beyond the above cases. It may sound scary, but it's in fact not at all with jQuery - remember, it means to make things easier.</p>
+					<p>We can start with the functions that are extremely straightforward (which are <em class="extra">unavailable in the slim build!</em>):</p>
+					<ul>
+						<li><code>fadeIn()</code> - Make selected elements opaque by gradually changing <code>opacity</code> to 1.</li>
+						<li><code>fadeOut()</code> - Make selected elements opaque by gradually changing <code>opacity</code> to 0.</li>
+						<li><code>fadeTo()</code> - Gradually changing <code>opacity</code> to a specific level.</li>
+						<li><code>fadeToggle()</code> - Gradually make selected visible elements opaque and then hide them at the end, or make selected elements visible and then gradually make them opaque.</li>
+						<li><code>hide()</code> - Gradually shrink and hide selected elements.</li>
+						<li><code>show()</code> - Gradually expand and display selected elements.</li>
+						<li><code>toggle()</code> - Gradually shrink and hide visible elements or expand and display hidden elements.</li>
+						<li><code>slideUp()</code> - Gradually slide up and hide selected elements.</li>
+						<li><code>slideDown()</code> - Gradually slide down and show selected elements.</li>
+						<li><code>slideToggle()</code> - Gradually slide up and hide selected elements or slide down and display selected elements.</li>
+					</ul>
+					<p>For each jQuery animation function above, the default length of an animation is <em>400 ms</em>. You can pass over a <em>parameter</em> and control the pace of an animation. You can start by passing a string like <code>'slow'</code> or <code>'fast'</code>, which corresponds to <em>200 ms</em> and <em>600 ms</em> respectively. Alternatively, you could pass over a number in millisecond to specify the length of an animation directly:</p>
+					<code>
+						$(selector).hide('fast'); // complete hiding in 200 ms<br/>
+						$(selector).hide('slow'); // complete hiding in 600 ms<br/>
+						$(selector).hide(1000); // complete hiding in 1 sec
+					</code>
+					<p>One rare drawback in jQuery Web animation is that by default there are only two <em>easing functions</em> allowed in an animation function, which are <code>linear</code> and <code>swing</code> respectively. The latter is the default and corresponds to the <code>ease-in-out</code> value for the CSS properties <code>transition-timing-function</code> and <code>animation-timing-function</code> as demonstrated below. To have more easing functions at your disposal, you will have to incorporate the <a href="https://api.jqueryui.com/easings/" target="_blank">jQuery UI plug-ins</a> into your website (with benefits more than just a complete collection of easing functions).</p>
+					<code>
+						$(selector).hide('fast', 'linear'); // linear hiding animation;<br/>
+						$(selector).hide('fast', 'swing'); // ease-in-out hiding animation
+					</code>
+					<p>If you want to make something happen after an animation is complete, you can also pass a <em class="extra">callback</em> function (remember what it is?) as a parameter to an animation function, which will be executed at the end of the animation. For instance, if you hope to show one element after another, you can add the <code>show()</code> function in a callback function passed to another <code>show()</code> function:</p>
+					<code>
+						$('#firstLine').show(500, 'linear', function() {
+						<code>
+							$('#secondLine').show(500, 'linear'); // executed after the first animation is done.
+						</code>
+						});
+					</code>
+					<p>Alternatively, if you need an element to animate continuously, you could add animation functions one after another without using any callbacks at all, so the next animation applies after the previous is done. Here I use <code>hide()</code> and <code>slideDown()</code> to demonstrate how an element is shrinked and hidden in 1000 ms and then gradually appears with a sliding-down effect in 2000 ms:</p>
+					<code>
+						$('#thirdLine').hide(1000).slideDown(2000);
+					</code>
+					<p>Also, you could insert a <code>delay()</code> function between every two animation functions to delay one animation after another animation:</p>
+					<code>
+						// slideDown() delayed by 1000 ms after hide()<br/>
+						$('#thirdLine').hide(1000).delay(1000).slideDown(2000);
+					</code>
+					<p>So far, we have learned how to run a series of animations that terminate after the last one is done, but we have seen that with the CSS property <code>animation</code>, we could repeat the same animations very easily. Is it possible to achieve this with the jQuery animation functions? The answer is <em>of course</em>, and you need to write a <em class="extra">recursive</em> function that runs itself. Put differently, inside a function, you attach multiple animation functions to an element, and after the last animation is done, you use a <em>callback</em> function in which calls the main function itself. I've provided some keywords here, so you can try to do it...or just select the following block for my solution.</p>
+					<code style="color: #e68a00;">
+						// Create the function that runs animations<br/>
+						function repeatAnimation () {
+						<code style="color: #e68a00;">
+							$('#target').hide(1000).delay(500).slideDown(2000, ()=>{
+							<code style="color: #e68a00;">
+								// Call the function itself in the callback of the last animation function, so it's recursive<br/>
+								repeatAnimation();
+							</code>
+							});
+						</code>
+						}<br/>
+						// Call the function for the first time<br/>
+						repeatAnimation();
+					</code>
+					<h3>animate()</h3>
+					<p>jQuery provides convenient functions to do simple animations, but they are mostly about showing and hiding things. This is not surprising because we constantly need to show or hiding things (such as a navigation pane) in an interactive Web user interface, but we frequently need something else, too, such as re-positioning an element or changing the apearance of an element. In these cases, you use the (almost) mighty <code>animate()</code> function.</p>
+					<p>Earlier in this unit, we saw that an element can have a transition between two CSS styles depending on its <em>hovering</em> state. The logic is similar when it comes to the <code>animate()</code> function - you pass a CSS style <em>as an object</em> into the function and specify the length for an element to gradually make a transition from its style specified in a CSS stylesheet to the CSS style passed to the function. The main difference is that <code>animate()</code> need not be attached to a <code>mouseenter</code> event (that is, hovering). It can runs actively when it is attached directly to an element, or it can be enclosed inside an event listener of all different kinds of events, not just hovering:</p>
+					<code>
+						// Change the opacity to 1 and the distance to the left edge to 50vw in 1000 ms<br/>
+						$(selector).animate({
+						<code>
+							opacity: 1,<br/>
+							left: '50vw'
+						</code>
+						}, 1000);<br/><br/>
+						// Do the same thing, but only when the selected element is clicked<br/>
+						$(selector).on('click', function() {
+						<code>
+							$(this).animate({
+							<code>
+								opacity: 1,<br/>
+								left: '50vw'
+							</code>
+							}, 1000);
+						</code>
+						});
+					</code>
+					<p>The <code>animate()</code> is so powerful that it could do almost everything you need to animate an element, and you can always check the <a href="https://api.jquery.com/animate/" target="_blank">official document</a> to master its use. But maybe it's useful to summarize some important points here for you:</p>
+					<ul>
+						<li>You cannot use it to animate a CSS property that has a <em class="extra">non-numeric</em> value, such as <code>background-color</code> (it could be made possible with the <a href="https://github.com/jquery/jquery-color" target="_blank">jQuery Color</a> plug-in, though!) or <code>display</code> (again, animating <code>opacity</code> is a workaround, or see the official document for a slightly more complex solution).</li>
+						<li>The function cannot be applied to CSS shorthands that require <em class="extra">multiple values</em> to be specified, such as <code>font</code> and <code>border</code>.</li>
+						<li>When you refer to a CSS property that comes with a dash, such as <code>font-size</code>, the name of the key in the object passed to <code>animate()</code> should get rid of the dash (e.g., <code>fontSize</code>) or be enclosed inside a pair of quotation marks (e.g., <code>'font-size'</code>).</li>
+						<li>Finally, if you directly specify a numeric value without any unit for a CSS property in the object passed to <code>animate()</code>, the value will be treated as <code>pixels</code>. You can provide the unit as well, but with the number the entire value should be enclosed inside a pair of quotation marks as in the above example (e.g., <code>'50%'</code> or <code>'50vw'</code>).</li>
+					</ul>
+					<h3>Case study</h3>
+					<p>With these tips in mind, you can explore the function's potential by yourself, but here we can practice doing an animation that has become fairly common in recent years. That is, as you scroll down a Web page, when en element enters the viewport of a Web browser, it slightly slides up and fade in at the same time (check this <a href="https://codepen.io/chriscoyier/full/DjmJe" target="_blank">Codepen.io example</a>). To do this, we need to achieve the following goals using both CSS and jQuery:</p>
+					<ul>
+						<li>In your CSS file, set the targets of the animation to be fully transparent and slightly lower from it's default position.</li>
+						<li>Inside a function in your JS file, obtain three types of information - 1. The height of the viewport, 2. The distance from the top of the viewport to the top of the entire document, and 3. The distance from the top edge of a target element to the top edge of the entire document.</li>
+						<li>With the above information, calculate if the sum of the viewport height and the distance between the viewport top edge and the document top edge is higher than the distance from a target element top edge to the document top edge.</li>
+						<li>If yes, it means the top edge of a target element enters the viewport, so you can animate the target element back to its original position.</li>
+						<li>In your JS file, run the above function right at the beginning, because some target elements might be in the viewport already when the webpage is fully loaded.</li>
+						<li>In your JS file, add an event listener to <code>document</code> for a <code>scroll</code> event and execute the above function when the event is fired.</li>
+					</ul>
+					<p>Let's do this bit by bit, supposed that our target elements are a set of <code>div</code> blocks. To make them slightly lower than their default position, we need the CSS settings <code>position: relative;</code> and <code>top: 20px;</code>:</p>
+					<code class="slideAnimDemo">
+						div {
+						<code>
+							width: 50px;<br/>
+							height: 50px;<br/>
+							background-color: red;<br/>
+							margin: 10px 0; /* To separate blocks from each other */<br/>
+							position: relative;<br/>
+							top: 20px; /* Lower from its default position by 20 px */<br/>
+							opacity: 0; /* Fully transparent by default */
+						</code>
+						}
+					</code>
+					<p>Now, let's build our animation function. To get the viewport height of a Web browser in jQuery, we can use <code>$(window).height();</code>. The distance between the top edge of the browser window and the top edge of the window viewport could be obtained by <code>$(window).scrollTop();</code> - that is, the distance <em>in pixel</em> by which the current viewport is scrolled down from the top edge of the entire browser window. Finally, the distance between the top edge of each target element and the top edge of entire document could be obtained with <code>offset()</code>. This function return an object including the distance <em>in pixel</em> from each of the four borders of an element to each of the four edges of the document. So, <code>offset().top</code> gives us the information we need. Now, with these numbers, we can use the <code>each()</code> function in jQuery to check if <em>every target</em> element enters the viewport in an <code>if</code> condition, and animate a target if the condition is true.</p>
+					<code class="slideAnimDemo">
+						function slideUpTarget () {
+						<code>
+							var divs = $('div'); // Get all target div elements<br/>
+							var vh = $(window).height(); // Get viewport height<br/>
+							var scrollTop = $(window).scrollTop(); // Get the scrolling distance<br/>
+							divs.each(function() { // A function runs for each element in divs
+							<code>
+								// 'this' means the current element from divs<br/>
+								var divTop = $(this).offset().top; // Get the element distance<br/>
+								// Use a separate function to run the animation because of the limited layout of this course website...<br/>
+								// Pass over necessary data<br/>
+								sliding(this, vh, scrollTop, divTop);
+							</code>
+							});
+						</code>
+						}<br/><br/>
+						function sliding (target, vh, scrollTop, divTop) {
+						<code>
+							/* Run animation only when the current viewport height plus the scrollTop<br/>
+							 is heigher than divTop */<br/>
+							if(vh + scrollTop > divTop) {
+							<code>
+								// Change top back to 0 (default position) and make it fully opaque<br/>
+								target.animate({top: 0, opacity: 1}, 1000);
+							</code>
+							}
+						</code>
+						}
+					</code>
+					<p>The two functions have no effect because we haven't called them. The first time we need to call it is when the webpage is ready, as indicated by the <code>ready()</code> function in jQuery:</p>
+					<code class="slideAnimDemo">
+						$(document).ready(function() {
+						<code>
+							slideUpTarget(); // Animate qualified targets when the webpage is ready
+						</code>
+						});
+					</code>
+					<p>Then, we can call it in an event listener attached to the entire document for the <code>scroll</code> event:</p>
+					<code class="slideAnimDemo">
+						$(document).ready(function() {
+						<code>
+							slideUpTarget(); // Animate qualified targets when the webpage is ready<br/>
+							$(document).on('scroll', function() {
+							<code>
+								slideUpTarget(); // Run every time you scroll the webpage
+							</code>
+							});
+						</code>
+						});
+					</code>
+					<p>Hmm. Is it easy? Maybe yes, and maybe not. But it can be done in jQuery within twenty short lines of JS codes, so by any computational standard it is by no means complicated :). It would probably take you an hour to do your research and get it done after tries and errors, but even as amateurish as I am, I can do it in just a few minutes after a few years of experience (and also a few minutes of googling). The key is that you need to keep doing Web programming, and you can achieve whatever you plan to much faster than ever.</p>
+					<p>Now I am going to leave one very last challenge to you. In the above example, once the target elements are animated, they won't animate again even if you scroll up and then scroll back down. So I hope you can find a way to <em>reset</em> the animation, so when you scroll up and scroll back down, the same animation applies to the target elements again. You just need to make a few tweaks to the above JS codes, and I guess by this time you already don't need any hint, do you?</p>
+				</section>
+				<section>
+					<h2 id="forthenextunit">For the next unit...</h2>
+					<p><button onclick="rwd()">>> Responsive Web Design</button></p>
+					<script>
+						function rwd() {
+							window.location.href = '/bwd/rwd/';
+						}
+					</script>
+				</section>
+				<sub>All Copyright Reserved; Tsung-Ying Chen 2021</sub>
+			</article>
+		</div>
+	</body>
+</html>

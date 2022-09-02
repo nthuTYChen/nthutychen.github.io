@@ -1,0 +1,667 @@
+<!DOCTYPE HTML>
+<html lang="en">
+	<head>
+		<title>Bilingual Web Design@DFLL NTHU; Tsung-Ying Chen</title>
+		<link rel="stylesheet" href="/css/style.css">
+		<script src="/js/jquery-3.2.1.min.js"></script>
+		<meta charset="UTF-8">
+	</head>
+	<body>
+		<nav>
+			<h2>
+				<a href="/bwd/">Intro</a>
+				<a href="/bwd/htmlbasics/">HTML Basics</a>
+				<a href="/bwd/cssbasics/">CSS Basics</a>
+				<a href="/bwd/jsbasics/">JS Basics</a>
+				<a class="selected" href="/bwd/jquery/">jQuery</a>
+				<a href="/bwd/webanimation/">Web Animation</a>
+				<a href="/bwd/mobile/">Mobile First</a>
+				<a href="/bwd/analysisdemo/">Analysis Demo</a>
+				<a href="/bwd/engissues/">English Issues</a>
+				<a href="/bwd/students/">Students</a>
+			</h2>
+		</nav>
+		<div class="container">
+			<article>
+				<h1>5. jQuery</h1>
+				<p>Tired of juggling with crazily long JavaScript codes? Here's the tool to help you deal with your poor cognitive load.</p>
+				<p><a href="#overview">Overview</a> / <a href="#dollarsign">The dollar sign</a> / <a href="#functions">The essential functions</a> / <a href="#useful">Some more useful functions</a> / <a href="#casestudy">Case studies</a> / <a href="#async">Wait, I haven't done my job!</a> / <a href="#forthenextunit">For the next unit...</a></p>
+				<section>
+					<h2 id="#overview">Overview</h2>
+					<picture>
+						<img src="./img/jquery.png" style="width: 25%; height: auto;"/>
+					</picture>
+					<p>All JavaScript codes make perfect sense: <code>addEventListener</code>? Sure. <code>document.querySelector()</code>? Fine. <code>document.getElementByTagName('div')[0].addEventListener()</code>? Probably a bit too much, right? Here's your savior: <em class="extra">jQuery</em> (<a href="https://jquery.com/" target="blank">https://jquery.com/</a>). It's still based on JavaScript, but it makes JavaScript programming much easier.</p>
+					<p>Before introducing the basics of jQuery, let's try to embed jQuery into our website so we can use it. You can see different versions of jQuery at <a href="https://code.jquery.com/" target="blank">https://code.jquery.com/</a>, and of course we go for the most updated 3.x version. On this webpage, you would see various types of codes for jQuery Core, including <em>uncompressed</em>, <em>minified</em>, <em>slim</em>, and <em>slim minified</em>. Most people would probably use the <em class="extra">minified</em> version, which comes without any comments and with simplified codes and a reduced file size to facilitate data transmission. The <em>slim</em> versions further exclude some functions that are considered more marginal, such as those related to CSS animation, so for us they could be a bit oversimplified.</p>
+					<h3>Get ready</h3>
+					<p>There are two ways of incorporating jQuery into your website projects. First, we can use the <code>&lt;script&gt;</code> HTML tag inside <code>&lt;head&gt;&lt;/head&gt;</code> in an HTML document to retrieve the jQuery file from the official website (here <em>v3.6.0</em> is used as the example), just like how we linked a JS file to our webpage:</p>
+					<code>
+						&lt;script src="https://code.jquery.com/jquery-3.6.0.min.js"&gt;&lt;/script&gt;
+					</code>
+					<p>Or, following the official suggestion, we should have the complete line below for security reasons:</p>
+					<code>
+						&lt;script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"&gt;&lt;/script&gt;
+					</code>
+					<p>You can move the above line into <code>&lt;body&gt;&lt;/body&gt;</code>, which may not affect how your website works eventually. But to be safe, it is still the best idea to have the above line inside <code>&lt;head&gt;&lt;/head&gt;</code> as part of the metadata of a webpage, which is always loaded first. Crucially, if you have any JS codes depending on jQuery to be run the JS codes or the link to the JS file depending on jQuery must come <em class="extra">after</em> the line that imports the jQuery file. Or, your website may not work properly since the jQuery codes are run when the jQuery file is still on its way.</p>
+					<p>Alternatively, if your Web space can afford an additional file sized just a few hundreds KBs, which is likely the case if you host your website at GitHub, then why not just download the entire jQuery Core file and put it in your own website? One benefit of doing this is that you don't rely on the external source of your jQuery Core file, so your website remains unaffected even when the official jQuery website is down (very unlikely, but who knows?). So assuming that you have a <code>js</code> directory under the <em class="extra">root</em> directory <code>/</code> as suggested in previous units, we can store the jQuery Core file to that directory. Again, the files you store in the subdirectories directly under the root directory are assumed to be used globally in your entire website, rather than specifically for a given webpage. Now, we can embed the following HTML codes inside <code>&lt;head&gt;&lt;/head&gt;</code> to load the jQuery file stored in your own website into your webpage:</p>
+					<code>
+						&lt;!-- The first "/" in the path refers to the root directory --&gt;<br/>
+						&lt;script src="/js/jquery-3.6.0.min.js"&gt;&lt;/script&gt;
+					</code>
+					<p>Because from now on, your codes will be based on the jQuery Core file, your links to other JS files you have for a particular webpage must follow the above lines used to load the jQuery Core file. Once again, if you have any jQuery codes that need to be run at the very beginning after a webpage is loaded, then you want to be sure that the jQuery Core file is loaded first.</p>
+					<p>So, now you're ready to enjoy Web programming even more, and I'm here to help. This won't be a complete guide, so just in case that you want to know further about what jQuery can make things easier, check the full jQuery API documentation at <a href="https://api.jquery.com/" target="blank">https://api.jquery.com/</a>.</p>
+				</section>
+				<section>
+					<h2 id="dollarsign">The dollar sign</h2>
+					<picture>
+						<img src="./img/showme.gif" style="width: 50%; height: auto;" />
+						<sub>Source: Jerry McGuire the movie</sub>
+					</picture>
+					<p>In our JavaScript tutorial, we have learned the <code>window</code> object is at the center of JavaScript programming, which refers to the Web browser window and could be omitted when we try to access the HTML document itself inside the browser window with the keyword <code>document</code>. Here in this tutorial, we would start with the dollar sign <code>$</code>, which stands for <em class="extra">jQuery</em> itself. For instance, the two lines of jQuery codes below are exactly the same thing, except that the first line is simpler than the second line:</p>
+					<code>
+						$.ajax(); // You don't have to know what ajax is at this point<br/>
+						jQuery.ajax(); // The same thing<br/>
+					</code>
+					<p>Not only does it help to save your effort in writing your codes, it also helps reduce the size of your JS files and speed up the loading of your entire website. Let's see how much effort jQuery saves in terms of the action we possibly need the most in our JS codes - retrieving HTML elements.</p>
+					<h3>The query selector in three characters</h3>
+					<p>I hope you still remember a few JS functions we have used to access an HTML document and retrieve some HTML elements. These includes <code>getElementById()</code>, <code>getElementsByTagName()</code>, <code>getElementsByClassName()</code>, <code>querySelector()</code>, and <code>querySelectorAll()</code>. The last two are the most crucial ones when you need to get HTML elements depending on the complex relationship between children and ancestors in a DOM. Supposed that you need to retrieve all <code>&lt;p&gt;</code> elements that have <code>&lt;body&gt;</code> as their immediate ancestor, you might need to write the expectedly long JS codes like:</p>
+					<code>
+						document.querySelectorAll('body > p'); // Get all &lt;p&gt; elements immediately inside &lt;body&gt;
+					</code>
+					<p>In jQuery, we can exactly replicate the same function of <code>querySelectorAll()</code> with three characters, namely <code>$()</code>:</p>
+					<code>
+						$('body > p'); // Also get all &lt;p&gt; elements immediately inside &lt;body&gt;
+					</code>
+					<p>Just like <code>querySelectorAll()</code>, <code>$()</code> returns an <em class="extra">array</em> of one or more matched HTML elements as a <em>jQuery object</em> or an <em>empty</em> array that has a length of <em class="extra">zero</em>. Let's create the following HTML document with some practices of retrieving HTML elements using jQuery:</p>
+					<code>
+						&lt;body&gt;
+						<code>
+							&lt;p id="first"&gt;
+							<code>
+								p1
+							</code>
+							&lt;/p&gt;<br/>
+							&lt;p class="special"&gt;
+							<code>
+								p2
+							</code>
+							&lt;/p&gt;<br/>
+							&lt;p class="special" id="last"&gt;
+							<code>
+								&lt;p&gt;<br/>
+								&lt;/p&gt;
+							</code>
+							&lt;/p&gt;
+						</code>
+						&lt;/body&gt;
+					</code>
+					<p>Now, let's try to do the find the following HTML elements and print their <em class="extra">HTML contents</em> out in the browser console:</p>
+					<ol>
+						<li>The <code>&lt;p&gt;</code> element that is the immediate child of the element whose class is <code>last</code>.</li>
+						<li>The last <code>&lt;p&gt;</code> element whose ancestor is &lt;body&gt;.</li>
+						<li>All <code>&lt;p&gt;</code> elements that are an immediate child of &lt;body&gt;.</li>
+						<li>The second <code>&lt;p&gt;</code> element of the class <code>special</code>.</li>
+					</ol>
+					<h3>eq(), html(), and attr()</h3>
+					<p>The way you completed the above task may still involve some old thinking with the idea of array, which is absolutely nothing wrong. For instance, you might use the following code to retrieve the first <code>&lt;p&gt;</code> element, where the square brackets are used to indicate the first element of the array returned by <code>$()</code>:</p>
+					<code>
+						$('p')[0]; // The first of all &lt;p&gt; elements
+					</code>
+					<p>The above line will give you the expected results, but its problems are threefold. First, if you choose to do Web programming and access HTML elements using jQuery, then you should try your best to always stay with jQuery to maintain the consistency in your codes. If this first reason is just conceptual for you, the second reason is definitely more <em>practical.</em> That is, jQuery makes every other move in plain JavaScript easier. Imagine that there is an array of HTML elements, and now you need to retrieve the <em>last</em> element of the array of an <em>unknown</em> length. What do you need to do in JavaScript? First, we know the number that represents the last position of an array is always 1 less than the length of the array, since the position number starts with <code>0</code>. Thus, you must get the length first and substract 1 from the length as the position number, and use this number to get the last item of an array:</p>
+					<code>
+						let allPs = $('p'); // Get all &lt;p&gt; elements
+						let lastPos = allPs.length - 1; // Calculated the number of the last position
+						allPs[lastPos]; // Get the last item in the array
+					</code>
+					<p><em>Gee!</em> It's just a lot of works. The jQuery developers must have been bothered by the same problem, which drove them to create a great jQuery function to help simplify the process, namely <code>eq()</code>, which stands for <em>equal</em>. Similar to the square brackets <code>[]</code>, <code>eq()</code> allows you to choose a specific item based on an index, except that you can count backward from the last item of an array with a <em class="extra">negative</em> number:</p>
+					<code>
+						$('p').eq(0); // The first of all &lt;p&gt; elements<br/>
+						$('p').eq(-1); // The last of all &lt;p&gt; elements
+					</code>
+					<p>Finally, when you use <code>eq()</code> to retrieve an HTML element from a set of matched elements, the element is <em>wrapped</em> in the jQuery format, meaning that you can keep taking advantage of simpler jQuery functions to complete some tasks. For example, if you need to get the HTML contents of a retrieved element, you can use the jQuery function <code>html()</code> (which corresponds to the <code>innerHTML</code> property in plain JavaScript):</p>
+					<code>
+						$('p').eq(0).innerHTML; // 'undefined', since innerHTML doesn't work for an element wrapped using jQuery<br/>
+						$('p').eq(0).html(); // The HTML contents of the first of all &lt;p&gt; elements
+					</code>
+					<p>If you're very sure that you just need the <em>first</em> element of a group of selected elements, you can further simplify the above code by removing <code>eq(0)</code>:</p>
+					<code>
+						$('p').html(); // Still the HTML contents of the first of all &lt;p&gt; elements
+					</code>
+					<p>Let me introduce one more convenient function, <em>attr()</em>, which is the shortened form of <em>attribute</em>. This jQuery function allows you to get the value of any attribute of a retrieved HTML element. For example, if you need to get the <code>id</code> attribute of the first <code>&lt;p&gt;</code> element in the HTML document we created above, both lines below work:</p>
+					<code>
+						$('p').eq(0).attr('id'); // You get "first"<br/>
+						$('p').attr('id'); // You get "first", too!
+					</code>
+					<p>Isn't it so much easier to do different things in jQuery? That's why jQuery becomes so popular in Web programming. Note that jQuery is still not magic at all - it is still based on the original JavaScript and the developers of jQuery simply create functions to help simply our use of JavaScript. Thus, the convenience of jQuery comes at the cost of the computational efficiency of JavaScript, although with very powerful computers and mobile devices at our disposal, the difference is often negligible.</p>
+				</section>
+				<section>
+					<h2 id="functions">Some essential functions</h2>
+					<p>With a general understanding of how jQuery works, let's move to some tutorials introducing jQuery functions that you will be using a lot in addition to <code>eq()</code>, <code>html()</code>, and <code>attr()</code> above.</p>
+					<h3>val()</h3>
+					<p>In the JavaScript tutorial, we had examples in which we tried to retrieve or set the <em>value</em> of an HTML element, with a length code like <code>document.querySelector(some element).value</code>. Now, it can be reduced with the jQuery function <code>val()</code>. This can be demonstrated with an HTML document that has the following <code>input</code> element in <code>&lt;body&gt;</code>:</p>
+					<code>
+						&lt;input type="text" value="This is a default value." /&gt;
+					</code>
+					<p>In a JS file, we can try to show an alert box with the value of the <code>input</code> element with the <code>val()</code> function when the window is fully loaded:</p>
+					<code>
+						window.onload = function() {
+						<code>
+							var defaultInputVal = $('input').eq(0).val();<br/>
+							alert(defaultInputVal);
+						</code>
+						}
+					</code>
+					<p>
+						Of course, it means that you can set the value of an HTML element with the same function, too:
+					</p>
+					<code>
+						window.onload = function() {
+						<code>
+							$('input').eq(0).val('This is not the default value.'); // Set a new value<br/>
+							alert('A new input value is set!');
+						</code>
+						}
+					</code>
+					<h3>on() and off()</h3>
+					<p>Remember the <code>addEventListener()</code> function of an HTML object accessed in a JS file to create some interactive interface for your website? There's of couse an equivalent function in jQuery as well, which is <code>on()</code>. This function requires two types of data: The first one is event type (as a <em>string</em>), and the second one is a <em class="extra">callback</em> function executed when an event is <em>fired</em>. Let's try the <code>click</code> event first:</p>
+					<code>
+						window.onload = function() { // Make sure the document is fully loaded
+						<code>
+							$('input').eq(0).on('click', function() {
+							<code>
+								alert('An input is clicked!');
+							</code>
+							});
+						</code>
+						}
+					</code>
+					<p>Now let's do a more complicated trick with the <code>keypress</code> event. That is, to update what you type in the <code>input</code> to a <code>&lt;textarea&gt;&lt;/textarea&gt;</code> <em class="extra">inline</em> element instantly. Let's create the element we need right before the <code>&lt;input&gt;</code> element:</p>
+					<code>
+						&lt;!-- Set the inline style to make a larger textarea, and add a line break after it --&gt;<br/>
+						&lt;textarea style="width: 300px; height: 300px;"&gt;&lt;/textarea&gt;&lt;br/&gt;
+					</code>
+					<p>What we need to do next is to write jQuery codes doing the following things: First, add an event listener for the <code>keypress</code> event to the <code>&lt;input&gt;</code> element. Second, set the inner HTML contents of the <code>&lt;textarea&gt;</code> element every time you edit the contents of the <code>&lt;input&gt;</code> element.</p>
+					<code>
+						window.onload = function() {
+						<code>
+							$('input').eq(0).on('keypress', function() {
+							<code>
+								$('textarea').eq(0).html($(this).val()); // Do you know what this line means?
+							</code>
+							});
+						</code>
+						}
+					</code>
+					<p>In fact, jQuery comes with functions that directly correspond to the event types accepted in <code>on()</code>, such as <code>click()</code> and <code>keypress()</code>, which only takes a <em>function</em> that is executed when an event is fired. How about let's rewrite the above two sections of codes with the two functions that seem more direct?</p>
+					<code>
+						// Try the other one by yourself! <br/>
+						window.onload = function() {
+						<code>
+							$('input').eq(0).click(function() { // Replace on() with click()
+							<code>
+								alert('An input is clicked!');
+							</code>
+							});
+						</code>
+						}
+					</code>
+					<p>I usually still go for <code>on()</code> when I do jQuery programming. The main reason is that I found the equivalent functions like <code>click()</code> or <code>keypress()</code> don't work in all contexts for some reason. Maybe it's just my own issue since I'm pretty <em class="extra">amateurish in this field</em>.</p>
+					<p>Before we move on, I'd like to talk a bit more about the special interaction between <code>on()</code> and <code>eq()</code>. When I talked about <code>val()</code> earlier in this section, I specifically said that you could omit <code>eq()</code> if you are pretty sure that you always just need the value of the <em>first</em> element of a group of selected elements. However, if you omit <code>eq()</code> when you try to add an event listeners with <code>on()</code>, you're actually attaching exactly the same event listener to <em class="extra">ALL</em> elements selected by <code>$()</code>. Let's add another <code>&lt;input&gt;</code> element in the previous text-syncing example, and remove <code>eq(0)</code> after <code>$()</code> and see what happens:</p>
+					<code>
+						...<br/>
+						&lt;!-- Add another input element in the HTML file --&gt;<br/>
+						&lt;input type="text" value="This is a default value." /&gt;<br/>
+						&lt;input type="text" value="This is a second input element." /&gt;<br/>
+						...<br/>
+						// Remove eq(0) in your JS file<br/>
+						window.onload = function() {
+						<code>
+							// Attach the same even listener to all input elements<br/>
+							$('input').on('keypress', function() {
+							<code>
+								$('textarea').eq(0).html($(this).val());
+							</code>
+							});
+						</code>
+						}
+					</code>
+					<p>Since you already understanding the meaning of <code>on()</code>, you possibly already know what <code>off()</code> means - yes, to remove an event listener, just like <code>removeEventListener()</code> in plain JavaScript. To demonstrate its use, let's follow an earlier text-syncing example with a button which, if clicked, would stop syncing:</p>
+					<code>
+						&lt;input type="text" value="This is a default value." /&gt;<br/>
+						&lt;input type="button" id="stopSync" value="Stop Syncing!" /&gt;
+					</code>
+					<p>Then, in addition to the event listener for the text-syncing function associated to the text input field, we also need an event listener attached to the button to detach the text-syncing event listener (what a tongue twister):</p>
+					<code>
+						window.onload = function() {
+						<code>
+							// Text-syncing event listener
+							$('input').eq(0).on('keypress', function() {
+							<code>
+								$('textarea').eq(0).html($(this).val());
+							</code>
+							});<br/>
+							// Stop-syncing event listener<br/>
+							$('#stopSync').on('click', function() {
+							<code>
+								$('input').eq(0).off('click'); // Specify the event type in off()
+							</code>
+							})
+						</code>
+						}
+					</code>
+					<p>Hopefully, the above tutorial allows you to get hold of the fundamental aspects of jQuery programming. It's actually the same logics that you've learned in the JavaScript tutorial, but represented in an easier way. But did you just think that the tutorial has come to an end? Nope, <em>you wish</em>.</p>
+				</section>
+				<section>
+					<h2 id="useful">Some more useful functions</h2>
+					<picture>
+						<img src="./img/killing.jpg" style="height: auto; width: 25%;" />
+						<sub>Source: <a href="https://www.gocomics.com/calvinandhobbes/" target="_blank">Bill Watterson</a></sub>
+					</picture>
+					<p>If the previous section is not a tutorial of useful jQuery programming, what could be? But we are actually not that far off the starting line. There are still a lot to do to equip you with the skills you need to design a great interactive website.</p>
+					<h3>css()</h3>
+					<p>In plain JavaScript, we have to again specify a long string of codes in order to get or set <em>JUST ONE</em> CSS property. <em class="extra">JUST ONE!!!</em> For instance, the following codes only get you an HTML document with a black background color:</p>
+					<code>
+						document.body.style.backgroundColor = 'black';
+					</code>
+					<p>Imagine how many lines you need to write to set multiple CSS properties, and even for a group of HTML elements. Here in jQuery, you can do it all at once with the function <code>css()</code>, which also adds <em class="extra">inline</em> CSS properties to an element or a set of elements. Let's try this function with the following blocks inside <code>&lt;body&gt;&lt;/body&gt;</code>.</p>
+					<code>
+						&lt;div style="height: 50px; width: 50px; background-color: yellow;"&gt;&lt;/div&gt;<br/>
+						&lt;div style="height: 50px; width: 50px; background-color: yellow;"&gt;&lt;/div&gt;<br/>
+						&lt;div style="height: 50px; width: 50px; background-color: yellow;"&gt;&lt;/div&gt;<br/>
+						&lt;input type="button" id="changeOne" value="Change the color of one!" /&gt;<br/>
+						&lt;input type="button" id="changeAll" value="Change the color of all!" /&gt;
+					</code>
+					<p>Our goal is to add a <code>click</code> event listener to each button and use the <code>css()</code> function to change the background color of the first block or all blocks. Since this involves only one CSS property, the <code>css()</code> function requires two string data - the first is the <em>name</em> of the CSS property, <em class="extra">as in a CSS file</em> (such as <code>background-color</code>), and the second is the <em>value</em> of that property. Let's do it.</p>
+					<code>
+						window.onload = function() {
+						<code>
+							// Use id to add an event listener<br/>
+							$('#changeOne').on('click', function() {
+							<code>
+								// Change only the first block<br/>
+								$('div').eq(0).css('background-color', 'red');
+							</code>
+							});<br/>
+							// Use id to add an event listener<br/>
+							$('#changeAll').on('click', function() {
+							<code>
+								// Change all blocks<br/>
+								$('div').css('background-color', 'red');
+							</code>
+							});
+						</code>
+						};
+					</code>
+					<p>Now, if you need to set multiple CSS properties with <code>css()</code>, just put in pairs of property names and values as strings separated by a colon <code>:</code> inside <code>{}</code> and separate every two pairs with a comma, very similar to what you've done in a CSS file! We can therefore easily change the background color of a block, as well as the size of it!</p>
+					<code>
+						...<br/>
+						$('#changeOne').on('click', function() {
+						<code>
+							// Specify multiple CSS properties in css()<br/>
+							$('div').eq(0).css({'background-color': 'red', 'height': '70px', 'width': '70px'});
+						</code>
+						...
+					</code>
+					<p>It is just this easy to change the appearance of an element with this second use of <code>css()</code> in jQuery! Well, you still can retrieve one CSS property at a time with the first use of <code>css()</code> - bummer. But again, we should not take everything for granted, and this is the best we can get so far.</p>
+					<h3>Making changes to more attributes</h3>
+					<p>So far we've seen some jQuery functions that allow you to retrieve/change the <em>attributes</em> of an element. The <em>value</em> attribute could be accessed with <code>val()</code>, and the <code>style</code> attribute could be accessed with <code>css()</code>. You can keep playing around with <code>css()</code> especially when you need to create an interactive Web interface that changes the appearance HTML elements based on users' actions - that is, when an action is detected, an event is fired to apply the <code>css()</code> function to a specific element.</p>
+					<p>But here we will learn another more elegant way of changing how a specific element looks like using the jQuery functions <code>addClass()</code> and <code>removeClass()</code>. As smart as you are, you might already know what these two functions mean, right? That is, to add and remove a specific label from the <code>class</code> attribute of HTML elements. Thus, the idea is that you can define the CSS properties for a particular <em>class</em> in your CSS file. Then, you only need to add the name of this class to HTML elements when necessary. And this approach opens up more possibilities in our Web design.</p>
+					<p>Let's wind back to our previous HTML example repeated below without the two buttons and the inline style. In this old example, we need the buttons combined with the <code>css()</code> function to change the appearance of one or all of the <code>&lt;div&gt;</code> elements. But now, we can define a class in our CSS file, and add this class to a clicked <code>&lt;div&gt;</code> element to change its size and color.</p>
+					<code>
+						&lt;div&gt;&lt;/div&gt;<br/>
+						&lt;div&gt;&lt;/div&gt;<br/>
+						&lt;div&gt;&lt;/div&gt;
+					</code>
+					<p>Let's move the inline styling for the <code>&lt;div&gt;</code> elements as well as the styling we used in the <code>css()</code> function into a CSS file defined for the class named <code>selected</code>:</p>
+					<code>
+						/* Default styling for all DIVs */<br/>
+						div {
+						<code>
+							background-color: yellow;<br/>
+							height: 50px;<br/>
+							width: 50px;
+						</code>
+						}<br/>
+						/* Styling for DIVs in the class (.) selected */<br/>
+						div.selected {
+						<code>
+							background-color: red;<br/>
+							height: 70px;<br/>
+							width: 70px;
+						</code>
+						}
+					</code>
+					<p>The last step is to associate an event listener to <em>all</em> <code>&lt;div&gt;</code> element using the jQuery function <code>on()</code>: When a <code>&lt;div&gt;</code> element is clicked, the class name <code>selected</code> is added to <em>that</em> particulart element with <code>addClass()</code>. Try it yourself! (and select the following section to get the solution)</p>
+					<code style="color: #e68a00;">
+						$('div').on('click', function() {
+						<code style="color: inherit;">
+							$(this).addClass('selected');
+						</code>
+						});
+					</code>
+					<p>Now, how do we <em>de-select</em> an element using <code>removeClass()</code>? Two steps are necessary here. First, we need to limit the first event listener to <code>&lt;div&gt;</code> elements <em>without</em> the <code>selected</code> class name, which could be achieved using the CSS <em class="extra">pseudo-class</em> <code>not()</code> (do you still remember how to use it?). This first step is essential because you want <code>addClass()</code> to be applied to <code>&lt;div&gt;</code> elements without the class name and <code>removeClass()</code> to be applied to those with the class name. Second, we have to add an event listener to a clicked element <em>after</em> <code>addClass()</code> is applied, which is fired to apply <code>removeClass()</code> when the element is clicked <em>again</em>. If you try to create this event listener separately in the <code>onload</code> function, it won't work (guess why?). Again, try it yourself (select the following section for the solution)!</p>
+					<code style="color: #e68a00;">
+						// Limit the first event listener to non-selected DIVs<br/>
+						$('div').not('.selected').on('click', function() {
+						<code style="color: inherit;">
+							$(this).addClass('selected');<br/>
+							// Add another event listener to apply removeClass() to selected DIVs<br/>
+							$(this).on('click', function() {
+							<code style="color: inherit;">
+								$(this).removeClass('selected');
+							</code>
+							})
+						</code>
+						});
+					</code>
+					<p>Note that in the current example, the selecting-de-selecting function only works once. Do you know why that is? The reason is that the first <code>click</code> event listener with <code>addClass()</code> is overwritten by the second one with <code>removeClass()</code>, so the code could never add <code>selected</code> back to a given element again. I've got a solution, which requires you to enclose the selcting-de-selecting steps in a <em>custom function</em>, and re-associate this function to the same element after <code>removeClass()</code> is applied. Let me just leave this to you to help you explore the world of JavaScript/jQuery coding.</p>
+					<p>Finally, how about creating another two buttons to (de-)select all <code>&lt;div&gt;</code> elements? Assuming that the buttons have <code>selectAll</code> and <code>selectNone</code> as their <code>id</code>, then the following event listeners are what you need for the functions:</p>
+					<code>
+						$('#selectAll').on('click', function() {
+						<code>
+							// Add class 'selected' to all DIVs<br/>
+							$('div').addClass('selected');
+						</code>
+						});<br/>
+						$('#selectNone').on('click', function() {
+						<code>
+							// Remove class 'selected' from all DIVs<br/>
+							$('div').removeClass('selected');
+						</code>
+						});
+					</code>
+					<h3>DOM insertion and removal</h3>
+					<picture>
+						<img src="./img/fang.png" style="height: auto; width: 35%;" />
+						<sub>Source: 九品芝麻官 the movie</sub>
+					</picture>
+					<p>While the contents of your personal websites would very likely stay intact, your might need to work on webpages in which elements could be added and deleted. Of course, JavaScript is ready for this need, let along jQuery - these three functions <code>append()</code>, <code>prepend()</code>, and remove() would do the job for you.</p>
+					<ul>
+						<li><code>append()</code> - Add an HTML element to be the <em class="extra">last</em> child of one or all selected elements.</li>
+						<li><code>prepend()</code> - Add an HTML element to be the <em class="extra">first</em> child of one or all selected elements.</li>
+						<li><code>remove()</code> - Remove all selected HTML elements.</li>
+					</ul>
+					<p>With these functions, we can easily (well, relatively) create a <em>to-do list</em> (which does not memorize things, though). Let's start with an HTML document with a <code>table</code> element and try to make it a to-do list. Inside <code>&lt;table&gt;&lt;/table&gt;</code>, we need <code>thead</code> for the headers and <code>tbody</code> for table rows. Again, their presentation is identical by default - we simply try to follow the semantic principles to use appropriate HTML tags for functionally different contents. Each row is represented using a <code>tr</code> element, in which two <code>td</code> elements are included to represent two columns. Inside <code>&lt;tbody&gt;&lt;/tbody&gt;</code>, the first column presents the date information, and the second presents the content of a to-do item. In each second column, we have the letter <em>X</em> for a clickable hyperlink that serves as a deletion button. Note that the <code>href</code> attribute is left blank since we don't need the "link" to redirect us to anywhere else.</p>
+					<code>
+						&lt;table&gt;
+						<code>
+							&lt;thead&gt;
+							<code>
+								&lt;tr&gt;&lt;td&gt;Date&lt;/td&gt;&lt;td&gt;Content&lt;/td&gt;&lt;/tr&gt;
+							</code>
+							&lt;/thead&gt;<br/>
+							&lt;tbody&gt;
+							<code>
+								&lt;tr&gt;&lt;td&gt;2020-10-25&lt;/td&gt;&lt;td&gt;Create a to-do list &lt;a href=""&gt;X&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;<br/>
+								&lt;tr&gt;&lt;td&gt;2020-10-26&lt;/td&gt;&lt;td&gt;Assignment Deadline &lt;a href=""&gt;X&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;
+							</code>
+							&lt;/tbody&gt;
+						</code>
+						&lt;/table&gt;
+					</code>
+					<p>We can then begin our first step to make it possible to remove an item with <code>remove()</code> when <em>X</em> is clicked. Let's first build a function that is executed when a click event is fired, and let's call it <code>removeItem</code>. Why do we need to create this function independently? Well, when we are able to add new items to the list, we also need the <em>X</em> link of these items to listen to the same clicking event and then execute the same function. So, by creating an independent function, it's easier to re-use the same codes. The function must be ready to receive an <code>event</code> object that is passed from an event listener when an event is fire. We need this object to stop the default action of a link with its <code>preventDefault()</code> function, so we won't be redirected to nowhere when <em>X</em> is clicked. Then, since our goal is to remove the entire row represented by a <code>tr</code> element, and every <em>X</em> is the child of a <code>tr</code>, we can rely on this relation to get the ancestor <code>tr</code> element when <em>X</em> is clicked. This can be done with the <code>closest()</code> function in jQuery, which finds the ancestor HTML tag (<code>tr</code> in this case) closest to the element listening to a fired event (<code>a</code> in this case). After finding this ancestor element, we can then apply <code>remove()</code> to get rid of the entire row. Finally, let's attach this function to the event listener with the function <code>on()</code>.</p>
+					<code>
+						function removeItem(event) {
+						<code>
+							// Need to stop the default action of a link<br/>
+							event.preventDefault();<br/>
+							// Get the 'tr' element that is the closest parent of the clicked 'X' (represented by 'this')<br/>
+							var targetRow = $(this).closest('tr'); <br/>
+							// Remove the target 'tr' element<br/>
+							targetRow.remove();
+						</code>
+						};<br/>
+						window.onload = function() {
+						<code>
+							// Make every 'a' inside 'td' listening to a clicking event and execute 'removeItem'<br/>
+							$('td > a').on('click', removeItem);
+						</code>
+						}
+					</code>
+					<p>Okay! We are now ready to move to the next stage - to be able to add items to a list. For this, we firstly need to add a <code>form</code> in which date and content can be input separately. We hope that when we click the <em>Add</em> button, the two fields could be obtained as date and content respectively, which will be combined with raw HTML codes, and then inserted as the last item into the list using <code>append()</code>. Then, we need to make the <em>X</em> link in the newly added items listen to a clicking event and execute <code>removeItem()</code> built above.</p>
+					<code>
+						&lt;form&gt;
+						<code>
+							&lt;input type="date" /&gt;<br/>
+							&lt;input type="text" placeholder="Content" /&gt;<br/>
+							&lt;input type="submit" value="Add" /&gt;<br/>
+							&lt;input type="reset" value="Clear" /&gt;
+						</code>
+						&lt;/form&gt;
+					</code>
+					<p>Let's also create the function executed when clicking the <em>Add</em> button as an independent one, so our JS codes look more organized.</p>
+					<code>
+						function addItem(event) {
+						<code>
+							// Avoid the default action caused by the Submit button<br/>
+							event.preventDefault();<br/>
+							// Get the value of the first 'input' element as date<br/>
+							let date = $('input').eq(0).val();<br/>
+							// Get the value of the second 'input' element as content<br/>
+							let content = $('input').eq(1).val();<br/>
+							// Create a clickable 'X' link for the newly created item<br/>
+							let removeLink = '&lt;a href=""&gt;X&lt;/a&gt;'<br/>
+							// Insert an empty new row into 'tbody' as the last item using append()<br/>
+							$('tbody').append('&lt;tr&gt;&lt;/tr&gt;');
+							// Combine everything together into two columns, and make them the HTML content of the newly inserted (last) 'tr' in 'tbody'<br/>
+							$('tbody > tr').eq(-1).html('&lt;td&gt;'+date+'&lt;/td&gt;&lt;td&gt;'+content+removeLink+'&lt;/td&gt;')<br/>
+							// Add the same 'removeItem' function to the event listener of the 'X' link of the newly created item<br/>
+							$('tbody > tr > a').eq(-1).on('click', removeItem);<br/>
+							// Simulate the clicking event for the Reset button with trigger()<br/>
+							$('input[type="reset"]').trigger('click');
+						</code>
+						};
+					</code>
+					<p>Just one more small step to make everything work - add the above <code>addItem</code> function to the event listener of the <em>Add</em> button. Should I still tell you how to do this in <code>window.onload</code>...?</p>
+					<code style="color: #e68a00">
+						$('input[type="submit"]').on('click', addItem);
+					</code>
+					<p>Before we wrap up this section, why don't you try to switch from <code>append()</code> to <code>prepend()</code> by yourself, and allow you to insert a new item to the <em>beginning</em> of the list?</p>
+					<p>Now you possibly have another question: <em>How do I insert a new item and then re-organize the entire list based on the ascending/descending order of the date column?</em> I won't explain carefully because it would probably take another 30 minutes to do the whole thing, but you're gonna need some <em class="extra">loops</em> in your JS codes for sure :)</p>
+				</section>
+				<section>
+					<h2 id="casestudy">Case Studies</h2>
+					<p>We've talked about so many things in jQuery, but perhaps not all of them are useful in your case. So, how about let's try to create an elegant side/top navigation pane using HTML, CSS, and jQuery together, just like the ones below?</p>
+					<div id="sampleTopMenu" style="position: relative; width: 100%; height: 4vh; margin-bottom: 12vh; padding: 0 1vw; background-color: #cccccc;">
+						<div style="display: inline-block; padding: 0 0.5vw; width: 8vw; line-height: 4vh; background-color: red; color: white; text-align: center; cursor: pointer;" onclick="clickDiv('subMenu1')">Menu 1</div><div id="Menu2" style="display: inline-block; margin-left: 0.5vw; padding: 0 0.5vw; width: 8vw; line-height: 4vh; background-color: red; color: white; text-align: center; cursor: pointer;" onclick="clickDiv('subMenu2')">Menu 2</div>
+						<div id="subMenu1" style="display: none; position: absolute; top: 4vh; left: 1vw; width: 8vw; padding: 0 0.5vw; background-color: red; color: white; text-align: center;">
+							<p>Menu 1-1</p>
+							<p>Menu 1-2</p>
+						</div>
+						<div id="subMenu2" style="display: none; position: absolute; top: 4vh; left: 9.5vw; width: 8vw; padding: 0 0.5vw; background-color: red; color: white; text-align: center;">
+							<p>Menu 2-1</p>
+							<p>Menu 2-2</p>
+						</div>
+					</div>
+					<div id="sampleSideMenu" style="width: 10%;">
+						<section style="line-height: 4vh; margin: 0; padding: 0;">
+							<a href="/" id="Menu1" style="display: block; background-color: red; color: white; text-align: center; text-decoration: none; border: unset;" onclick="return showSideSubMenu('Menu1');">Menu 1</a>
+							<p class="subMenu" style="display: none; margin: 0; background-color: white; color: red; text-align: center;">
+								<a href="/" style="text-decoration: none; border: unset;">Menu 1-1</a>
+								<a href="/" style="text-decoration: none; border: unset;">Menu 1-2</a>
+							</p>
+						</section>
+						<section style="line-height: 4vh; margin: 0; padding: 0;">
+							<a href="/" id="Menu2" style="display: block; background-color: red; color: white; text-align: center; text-decoration: none; border: unset;" onclick="return showSideSubMenu('Menu2');">Menu 2</a>
+							<p class="subMenu" style="display: none; margin: 0; background-color: white; color: red; text-align: center;">
+								<a href="/" style="text-decoration: none; border: unset;">Menu 2-1</a>
+								<a href="/" style="text-decoration: none; border: unset;">Menu 2-2</a>
+							</p>
+						</section>
+					</div>
+					<p>The two ideas include some lengthy codes and complex ideas, so to avoid making this section extremely long, let me explain all these in a lecture.</p>
+					<script>
+						function clickDiv(target) {
+							$('div > div[id^="sub"]').css('display', 'none');
+							$('#'+target).css('display', 'block');
+						};
+
+						function showSideSubMenu(target) {
+							$('p.subMenu').css('display', 'none');
+							$('a#'+target).siblings('p').css('display', 'block');
+							return false;
+						};
+					</script>
+				</section>
+				<section>
+					<h2 id="async">Synchronous asynchrony</h2>
+					<picture>
+						<img style="width: 20%; height: auto;" src="img/catsync.gif"/>
+						<sub>Source: Unknown</sub>
+					</picture>
+					<p>We are entering a slightly even more technical part of Web programming, that is, to know how to make a process <em class="extra">asynchronous</em>. This shouldn't be a problem that concerns you in your Web design projects, since most of times you only need to present data elegantly, and your JavaScript/jQuery codes are usually executed sequentially following their order in the JS files - The first line is done, then the second line, and then the third line, and so on. For instance, in the following JS codes, the third line always waits for the second line to complete, and you always get the sum of the two numbers. There's never the case where <code>alert()</code> is run before the sum is computed.</p>
+					<code>
+						var x = 5, y = 3;<br/>
+						var sum = x + y;<br/>
+						alert(sum); // Always get the sum of x and y
+					</code>
+					<p>However, a process can be asynchronous if it is independent of the <em>main flow</em> of the sequential execution of your codes, which makes sense considering the efficiency in running a computer program. For instance, perhaps some contents of your website are retrieved from some external servers, but the internet connection between the server of your website and the external server is extremely slow. If this step is sequential and thus synchronous, then it would block everything else following this process, including the codes that are unrelated to this process (such as animation), which makes your Web program in efficient.</p>
+					<code>
+						some codes here;<br/>
+						retrieving external info; // Extremely slow connection...<br/>
+						animation codes; // Wait for years to run...
+					</code>
+					<p>To avoid such an issue, the process of retrieving the external information is made <em>asynchronous</em> so it can take as long as it needs to complete the process, and the rest of the codes can keep running at the same time (which confusingly matches another definition of synchrony...). This is great because now the codes that animate HTML elements won't have to be delayed. Okay, so asynchrony is great from a computational perspective, but what about the data retrieved from the external server? How can we deal with it asynchronously? This is crucial because sometimes it is the content of your website that is determined by the external information, so your asynchronous process needs to take actions to present the information when the process is <em>done</em>, and this is exactly what you have to learn in this section.</p>
+					<p>Now, let's assume that you hope to thoughtfully provide weather information retrieved from an external weather server in your website. Then you can  sign up for a free account at <a href="https://openweathermap.org/" target="_blank">OpenWeatherMap.org</a> first, which allows you to get some basic current weather information using the following URL. We can try to get the current weather of Hsinchu City by replacing <code>{city}</code> with <code>hsinchu</code> and <code>{country}</code> with <code>tw</code>. You will also to replace <code>{AppId}</code> I provide in my lecture or from your account.</p>
+					<code>
+						https://api.openweathermap.org/data/2.5/weather?q={city},{country}&appid={AppId}
+					</code>
+					<p>By pasting this URL to your browser window, you will see almost immediately an object-like data (which is called a JSON object) returned from their weather server. You are referred to <a href="https://openweathermap.org/current" target="_blank">their API docs</a> for the data represented by each field. If you need to use this information in your jQuery codes, you could enclose the URL in <code>$.get()</code> (which is equivalent to <code>jQuery.get()</code>):</p>
+					<code>
+						$.get('https://api.openweathermap.org/data/2.5/weather?q={city},{country}&appid={AppId}');
+					</code>
+					<p>To deal with the data completely retrieved from the weather server after the process is <em>done</em>, we could add a <em>callback</em> function to <code>$.get()</code> as a second parameter, which receives the retrieved data as a single parameter as well:</p>
+					<code>
+						$.get(URL, function(result) {
+						<code>
+							alert('asynchronous done!');
+						</code>
+						});
+					</code>
+					<p>Or, more intuitively, perhaps, we can use the function <code>done()</code> of the object created using <code>$.get()</code>, which simply does a similar thing:</p>
+					<code>
+						$.get(URL).done(function(result) {
+						<code>
+							alert('asynchronous done!');
+						</code>
+						});
+					</code>
+					<p>This line of <code>$.get()</code> code doesn't block the execution of the codes following it, as demosntrated below:</p>
+					<code>
+						// Asynchronous<br/>
+						$.get(URL).done(function(result) {<br/>
+						<code>
+							alert('asynchronous done!');
+						</code>
+						});<br/>
+						// Synchronous, which is the message you get first<br/>
+						alert('synchronous done!');
+					</code>
+					<p>With a general understanding of how <code>$.get()</code> works, let's try to design a webpage that shows the current temperature in Hsinchu. In the following HTML codes, we have a "loading" text span, which appears by default. We also have a hidden text span that will be made visible after the content is filled with the weather data retrieved from the weather server.</p>
+					<code>
+						&lt;h3&gt;Current Temerature in Hsinchu&lt;/h3&gt;
+						&lt;p&gt;
+						<code>
+							&lt;span id="loading"&gt;Loading...&lt;/span&gt;
+							&lt;span id="temp" style="display: none;"&gt;&lt;/span&gt;
+						</code>
+						&lt;/p&gt;
+					</code>
+					<p>In our JS codes, we will attempt to get the weather data in <code>window.onload</code> with <code>$.get()</code>, fill the hidden text span with the temperature information with the jQuery function <code>html()</code>, hide the "loading" text using <code>css()</code>, and then make the hidden text span visible.</p>
+					<code>
+						$.get(URL).done(function(result) {
+						<code>
+							// Get the current temperature (round to the first decimal)<br/>
+							let currentTemp = Math.round(result.main.temp * 10)/10;<br/>
+							// Put the temperature into the hidden text span<br/>
+							$('#temp').html(currentTemp + ' C');<br/>
+							// Hide the "loading" text and make the hidden span visible<br/>
+							$('#loading').css('display', 'none');<br/>
+							$('#temp').css('display', 'inline');
+						</code>
+						});
+					</code>
+					<h3>"When" to "resolve" a "Deferred" process</h3>
+					<p>Alright, here's just one asynchronous process to deal with. But what if there are more? If we also hope to get some weather forecast data from the weather server, you need another request using the following URL template, which results in another asynchronous process:</p>
+					<code>
+						https://api.openweathermap.org/data/2.5/forecast?q={city},{country}&appid={AppId}
+					</code>
+					<p>How do we make sure that an action is taken after <em class="extra">both</em> asynchronous processes are done? One way that you could think of is to run one <code>$.get()</code> function after another <code>$.get()</code> is <em>done</em>:</p>
+					<code>
+						$.get(currentURL).done(function(current) {
+						<code>
+							$.get(forecastURL).done(function(forecase) {
+							<code>
+								console.log('both are done!');
+							</code>
+							});<br/>
+							console.log('Got current data!'); // You get this message first
+						</code>
+						});
+					</code>
+					<p>But this is just for two asynchronous processes. If there are more, you'll have to keep embeddeing each <code>$.get()</code> in another, and your JS codes would just look crazy. So, more intuitively, you would naturally think if there's anything you can do in jQuery to monitor every individual asynchronous process, and take some actions when all processes are complete. This is the case where you need <code>Deferred()</code>, <code>resolve()</code>, and <code>when()</code>.</p>
+					<p>First of all, you can use <code>$.Deferred()</code> to create an object linked to an asynchronous process as follows:</p>
+					<code>
+						// dfp = Deferred Process<br/>
+						var dfp = $.Deferred(function() {});
+					</code>
+					<p>With an asynchronous process created this way, you can decide when to send a signal to tell the process that monitors all asynchronous processes that this particular process is done, and you can do it with <code>resolve()</code>:</p>
+					<code>
+						var dfp = $.Deferred(function() {
+						<code>
+							dfp.resolve(); // Send a "done" signal
+						</code>
+						});
+					</code>
+					<p>Following this idea, we can logically create two independent asynchronic processes for the two weather data requests:</p>
+					<code>
+						// Request the current weather data<br/>
+						var dfpCurrent = $.Deferred(function() {
+						<code>
+							// Send you request here<br/>
+							$.get(currentURL).done(function(result) {
+							<code>
+								// Do something after complete data transmission<br/>
+								// Then send a "done" signal<br/>
+								dfpCurrent.resolve();
+							</code>
+							});
+						</code>
+						});<br/>
+						// Request the weather forecast data<br/>
+						var dfpForecast = $.Deferred(function() {
+						<code>
+							$.get(forecastURL).done(function(result) {
+							<code>
+								// Send a "done" signal after complete data transmission<br/>
+								dfpForecast.resolve();
+							</code>
+							});
+						</code>
+						});
+					</code>
+					<p>We have one more step to make everything work, which is to build a monitoring process for all these asynchronous processes using <code>$.when()</code>. You can pass all the created deferred processes to this function, and attach a <code>done()</code> to it to take some actions after <code>resolve()</code> is called for every deferred process passed to <code>$.when()</code>:</p>
+					<code>
+						// Pass deferred processes<br/>
+						$.when(dfpCurrent, dfpForecast).done(function() {
+						<code>
+							// Do something after all processes are "resolved"
+						</code>
+						});
+					</code>
+					<p>Now you have the tools to build a webpage that can present both current and some future weather information simultaneously with some elegant JS codes, right? Let's try to complete this mini project!</p>
+				</section>
+				<section>
+					<h2 id="forthenextunit">For the next unit...</h2>
+					<p><button onclick="rwd()">>> Web Animation</button></p>
+					<script>
+						function rwd() {
+							window.location.href = '/bwd/rwd/';
+						}
+					</script>
+				</section>
+				<sub>All Copyright Reserved; Tsung-Ying Chen 2021</sub>
+			</article>
+		</div>
+	</body>
+</html>

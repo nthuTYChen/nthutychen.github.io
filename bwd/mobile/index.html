@@ -1,0 +1,432 @@
+<!DOCTYPE HTML>
+<html lang="en">
+	<head>
+		<title>Bilingual Web Design@DFLL NTHU; Tsung-Ying Chen</title>
+		<link rel="stylesheet" href="/css/style.css">
+		<script src="/js/jquery-3.2.1.min.js"></script>
+		<meta charset="UTF-8">
+	</head>
+	<body>
+		<nav>
+			<h2>
+				<a href="/bwd/">Intro</a>
+				<a href="/bwd/htmlbasics/">HTML Basics</a>
+				<a href="/bwd/cssbasics/">CSS Basics</a>
+				<a href="/bwd/jsbasics/">JS Basics</a>
+				<a href="/bwd/jquery/">jQuery</a>
+				<a href="/bwd/webanimation/">Web Animation</a>
+				<a class="selected" href="/bwd/mobile/">Mobile First</a>
+				<a href="/bwd/analysisdemo/">Analysis Demo</a>
+				<a href="/bwd/engissues/">English Issues</a>
+				<a href="/bwd/students/">Students</a>
+			</h2>
+		</nav>
+		<div class="container">
+			<article>
+				<h1>6. Mobile First Web Design</h1>
+				<p>Who's still using a computer? And your websites should respond to this question.</p>
+				<p><a href="#overview">Overview</a> / <a href="#prepwork">Preparation work</a> / <a href="#rwdmenu">Responsive menus</a> / <a href="#flexbox">CSS flex box</a> / <a href="#touchevent">Touch events</a> / <a href="#forthenextunit">For the next unit...</a></p>
+				<section>
+					<h2 id="overview">Overview</h2>
+					<picture>
+						<img src="img/this-is-the-web.png" style="width: 30%;" />
+						<sub>Source: <a href="https://bradfrost.com/blog/post/this-is-the-web/" target="_blank">Brad Frost</a></sub>
+					</picture>
+					<p>The world is changing, and so is Web Design. There are just so many digital devices coming out each year, and they all get a different screen resolution, and a notable difference driven by this revolutionary progress is the contrast between the <em class="extra">portrait view</em> and the <em class="extra">landscape view</em>. In the former, the screen width is longer than the screen height, whereas it is the other way around in the latter. If your websites are designed to be best viewed with the portrait view, then its layout will inevitably a mess in the portrait view. Since this course website is not designed specifically to be viewed in the portrait mode, it won't look decent in your smart phone, albeit not a total disater.</p>
+					<p>This is why you need to make your websites <em class="extra">responsive</em> to different screen resolutions, so when somebody interested in you and check your websites with their mobile devices, they don't feel frustrated and instead recognize you as a professional Web designer.</p>
+				</section>
+				<section>
+					<h2 id="prepwork">Preparation work</h2>
+					<p>The first step in making your websites responsive is to tell Web browsers that your websites are responsive with the <em class="extra">metadata</em> added to <code>&lt;head&gt;</code> below.</p>
+					<code>
+						&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+					</code>
+					<p>In this <code>meta</code> element, we first include <code>name="viewport"</code> to tell <em class="extra">mobile browsers</em> to refer to a specific initial size of the <em class="extra">viewport</em> (that is, the visible area of Web contents). Why? When a website is not designed to be responsive, the width of an HTML document is almost certainly longer than the width of a mobile device in its portrait view. A mobile Web browser may thus use a <em>virtual viewport</em> to shrink the webpage and render the shrinked version to the <em>actual viewport</em>. Since a virtual viewport is always used by a mobile browser, it is not possible for a webpage to use a different layout based on a different device width. Setting <code>name="viewport"</code> stops a mobile Web browser from using a virtual viewport in all cases and allows the browser to adopt a designed layout for a viewport smaller than a specific size (with recourse to <em>media queries</em>. See below). This is relevant to the setting in <code>content="width=device-width, initial-scale=1.0"</code>. In the value of the <code>content</code> attribute, we define two separate <em class="extra">subvalues</em>. The first subvalue <code>width=device-width</code> means that the actual viewport width used by the Web browser varies by the width of different devices. This is the most crucial part in setting up a responsive website since users' devices have all different screen widths as discussed in the previous section. The second subvalue tells the browser to initially scale the viewport size to the original one (1.0 = 100%), so the layout is always adjusted based on the actual viewport width of the device. This line of metadata would work in most responsive website projects, but if you want to know a bit more about this part, see <a href="https://developer.mozilla.org/en-US/docs/Mozilla/Mobile/Viewport_meta_tag" target="_blank">this page in MDN Web Docs</a></p>
+					<h3>Media query</h3>
+					<p>After you set up the metadata for a responsive webpage properly, you can then define different layout in a CSS file with <em class="extra">media queries</em> using <code>@media</code> rules as in the following example:</p>
+					<code>
+						@media only screen and (max-width: 800px) {
+						<code>
+							/* some CSS styles */
+						</code>
+						}
+					</code>
+					<p>The above example defines a block of CSS styles that applies only when the media, which is set to be the device screen, has a width of 800 pixels at maximum. Following this logic, we can have CSS styles that apply by default except in some cases:</p>
+					<code>
+						/* Default DIV style */<br/>
+						div {
+						<code>
+							background-color: red;<br/>
+							width: 30%;
+						</code>
+						}<br/>
+						@media only screen and (max-width: 800px) {
+						<code>
+							/* DIV style applied in a narrower device */<br/>
+							div {
+							<code>
+								width: 100%;
+							</code>
+							}
+						</code>
+						}
+					</code>
+					<p>In this example, the width of a <code>&lt;div&gt;</code> element is by default 30% of the width of its immediate ancestor, but is adjusted into 100% in a device with a screen width of 800 pixels or lower. Since the property <code>background-color</code> is not set to a different value in the block inside the media query, it would remain unchanged and still embellish a <code>&lt;div&gt;</code> element with a red background color.</p>
+					<h3>Mobile first</h3>
+					<picture>
+						<img src="img/mobile-dominate.png" style="width: 40%; max-width: 600px;" />
+						<sub>Source: <a href="https://www.flickr.com/photos/gunman47/49929221131" target="_blank">Dickson Phua</a></sub>
+					</picture>
+					<p>Mobile devices are dominating the world. Period. So when you start a responsive website project, the first thing you need to think is the layout optimized for mobile devices by default, and then adjust this mobile-based layout for some desktop devices. Thus, you should set media query rules specifically for the desktop devices, rather than for mobile devices. As in the following example, we would define CSS styles that apply only to devices with a screen width of 1,200 pixels or higher (using <code>min-width</code>). The number 1,200 is going to be a safe <em>break point</em>, as most mobile devices have a viewport width shorter than 1,200 pixels (see <a href="https://docs.adobe.com/content/help/en/target/using/experiences/vec/mobile-viewports.html" target="_blank">this Adobe page</a>). About twenty five years ago, a desktop computer screen with a 1024 x 768 resolution would be considered a "large" screen, but I guess most of them are dead by now, so we should be fine.</p>
+					<code>
+						@media only screen and (min-width: 1200px) {
+						<code>
+							/* CSS styles applied in a wider device */<br/>
+						</code>
+						}
+					</code>
+					<h3>Mobile Safari sucks</h3>
+					<picture>
+						<img src="img/safari-background.jpg" style="width: 30%;" />
+						<sub>Source: <a href="https://www.telerik.com/blogs/safari-is-not-the-new-ie-but" target="_blank">TJ Van Toll</a></sub>
+					</picture>
+					<p>As we proceed to develop a mobile-friendly website, we would try different things to make it easier to navigate via a Web browser. Then, at some point of time, you will almost necessarily blame mobile Safari for producing unexpected bugs in your website. Since there is a vast body of iPhone users, you don't really want to exclude this user base that would greatly contribute to the number of page views of your website, which can lead to a higher profit if you work on a commercial project. This means that you always need to look for solutions that are specific to mobile Safari, which is really agitating. But if profit is not your primary concern, maybe you could choose not to give a damn, just like me. I am not the only person whining about how poor mobile Safari is (see <a href="https://www.eventbrite.com/engineering/mobile-safari-why/" target="_blank">this page</a> or <a href="https://www.telerik.com/blogs/safari-is-not-the-new-ie-but" target="_blank">this one</a>, for example), and Apple has been ignoring this issue for years. Let's hope Apple can fix all the issues in the coming years, rather than just focus on how expensive a new iPhone should be.</p>
+				</section>
+				<section>
+					<h2 id="rwdmenu">Responsive menus</h2>
+					<p>With media queries, there are two ways to present different navigation panes in different contexts. One is to have only one <code>&lt;nav&gt;</code> in your HTML document, which is <em>transformed</em> by different CSS styles in various browsers. The other is to have two <code>&lt;nav&gt;</code> elements that are organized and styled differently in a CSS file, and simply use media queries to decide when to display which one. The first transforming approach is more complicated on the CSS side, as you need to try hard to make sure the CSS styles applied in different contexts can adjust same navigation pane properly, but it is useful if your menu has a huge number of items so duplicating the entire menu may increase the size of a webpage unnecessarily. The second hide-and-seek approach is easier to implement, but only when your menu has only a few item. I'll do a very simple demonstration below, and it's up to you to choose the one that is most appropriate in your case. You can also create just one mobile-based drop-down menu for all contexts, although it could confuse the users a little bit when they are using their laptop or desktop computer.</p>
+					<h3>The transforming approach</h3>
+					<p>Let's first create a navigation pane with just two items with a <em class="extra">hamburger menu</em> Unicode symbol:</p>
+					<code>
+						&lt;nav&gt;
+						<code>
+							&lt;span&gt;&#9776;&lt;/span&gt;<br/>
+							&lt;a href="#"&gt;Item 1&gt;/a&gt;<br/>
+							&lt;a href="#"&gt;Item 1&gt;/a&gt;
+						</code>
+						&lt;/nav&gt;
+					</code>
+					<p>Now let's give the nagivation pane a decent look in a mobile-browsing context (remember the <em class="extra">mobile first</em> principle?). The main aspects in the following CSS styles are as follows. First, the <code>&lt;nav&gt;</code> element is set to take the full width of the viewport, and it is fixed to the top of the viewport. Second, the height of the menu is set to the 5% of the viewport height, which is also the line height of the element to help align texts vertically. Since this mobile-based menu is created as a drop-down menu, its items are hidden by default, and they will only be presented when the hamburger icon is clicked.</p>
+					<code>
+						nav {
+						<code>
+							position: fixed;<br/>
+							top: 0;<br/>
+							width: 100%;<br/>
+							background-color: black;<br/>
+							color: white;<br/>
+							height: 5vh;<br/>
+							line-height: 5vh;<br/>
+							opacity: 0.95;
+						</code>
+						}<br/><br/>
+						nav > a {
+							<code>
+								display: none;<br/>
+								color: white;<br/>
+								text-align: center;<br/>
+								text-decoration: none;
+							</code>
+						}
+					</code>
+					<p>The rest of the tricks relies on jQuery - we add a listener to the hamburger menu, and show its <code>&lt;a&gt;</code> siblings when it's clicked.</p>
+					<code>
+						window.onload = function() {
+						<code>
+							$('nav > span').on('click', function() {
+							<code>
+								$(this).siblings().css('display', 'inline');
+							</code>
+							});
+						</code>
+						};
+					</code>
+					<p>The above codes help present <code>&lt;a&gt;</code> elements as they were - namely <em class="extra">inline</em> elements. But we need a drop-down menu, and this can be done by changing <code>inline</code> to <code>block</code> in the above JS codes. Do you know why?</p>
+					<code>
+						$(this).siblings().css('display', 'block');
+					</code>
+					<p>Now only do <code>&lt;a&gt;</code> elements appear automatically below the menu bar, these elements also take up the full viewport width. Why? Once an inline element is turned into a block element, it takes width and height settings, which, in the current case, are <em>cascaded</em> from their parent <code>&lt;nav&gt;</code>.</p>
+					<p>OK, it seems like we have had a great start. Now, how can we hide the menu items by clicking the hamburger symbol again? Easy. We can get it done with the <code>if...else...</code> statement - if the items are hidden, show them, or hide them if they are present. In this first line inside the event listener below, we first check if the first sibling <code>&lt;a&gt;</code> element has a <code>none</code> value for its <code>display</code> property, and store the <em class="extra">boolean</em> value into the variable <code>hidden</code>. The presentation of all sibling <code>&lt;a&gt;</code> elements is then determined by this variable.</p>
+					<code>
+						$('nav > span').on('click', function() {
+						<code>
+							//Check if the first &lt;a&gt; is hidden<br/>
+							var hidden = ($('nav > span').siblings().eq(0).css('display') === 'none');<br/>
+							if(hidden) {
+							<code>
+								$(this).siblings().css('display', 'block');
+							</code>
+							}<br/>
+							else {
+							<code>
+								$(this).siblings().css('display', 'none');
+							</code>
+							}
+						</code>
+						});
+					</code>
+					<p>It's time to transform this drop-down menu to the one with a horizontal layout with media queries. Let's also set the <em>break point</em> to a viewport width of <em>1,200 pixels</em> in the CSS file, and our first change is to hide the hamburger symbol. Once the symbol is hidden, you don't need to be worried about clicking the symbol and trigger unexpected actions by accident. Second, let's set the <code>&lt;a&gt;</code> siblings to be <em>inline-block</em> elements. The reason is that we want the elements to be treated like a normal text flow but at the time made flexible in terms of their height and width. Now adjust the width of your Web browser, and see how the website <em>responds</em> to the change!</p>
+					<code>
+						@media only screen and (min-width: 1200px) {
+						<code>
+							nav > span {
+							<code>
+								display: none;
+							</code>
+							}<br/><br/>
+							nav > a {
+							<code>
+								display: inline-block;<br/>
+								height: 5vh;<br/>
+								width: 10%;
+							</code>
+							}
+						</code>
+						}
+					</code>
+					<h3>The hide-and-seek approach</h3>
+					<p>As mentioned above, when you adopt a hide-and-seek approach, you need to have two <code>&lt;nav&gt;</code> elements in your HTML document, which are styled differently and displayed in different contexts. Let's start with the HTML part first:</p>
+					<code>
+						&lt;nav id="desktopMenu"&gt;
+						<code>
+							&lt;a href="#"&gt;Item 1&gt;/a&gt;<br/>
+							&lt;a href="#"&gt;Item 1&gt;/a&gt;
+						</code>
+						&lt;/nav&gt;<br/>
+						&lt;nav id="mobileMenu"&gt;
+						<code>
+							&lt;span&gt;&#9776;&lt;/span&gt;<br/>
+							&lt;a href="#"&gt;Item 1&gt;/a&gt;<br/>
+							&lt;a href="#"&gt;Item 1&gt;/a&gt;
+						</code>
+						&lt;/nav&gt;
+					</code>
+					<p>With two <code>&lt;nav&gt;</code> elements that are specified with a different <code>id</code> attribute, their appearance can be made very distinct, and one could be hidden when the other is present:</p>
+					<code>
+						/* All &lt;a&gt; in &lt;nav&gt; share the same text styles and layout */<br/>
+						nav > a {
+						<code>
+							display: block;<br/>
+							background-color: grey;<br/>
+							color: black;<br/>
+							text-align: center;
+						</code>
+						}<br/>
+						/* Mobile first - mobile menu is visible by default */<br/>
+						nav#mobileMenu {
+						<code>
+							display: block;
+							background-color: black;<br/>
+							color: white;<br/>
+							height: 5vh;<br/>
+							width: 100%;<br/>
+							line-height: 5vh;
+						</code>
+						}<br/>
+						/* Desktop menu is hidden by default */<br/>
+						nav#desktopMenu {
+						<code>
+							display: none;	
+						</code>
+						}<br/>
+						/* Applied only when viewport width > 1200 px */<br/>
+						@media only screen and (min-width: 1200px) {
+						<code>
+							nav#mobileMenu {
+							<code>
+								display: none;
+							</code>
+							}<br/>
+							/* Define the desktopMenu style here */<br/>
+							nav#desktopMenu {
+							<code>
+								display:block;<br/>
+								position: fixed;<br/>
+								top: 5vh;<br/>
+								left: 10vw;<br/>
+								height: 5vh;<br/>
+								width: 10vh;<br/>
+								line-height: 5vh;
+							</code>
+							}
+						</code>
+						}
+					</code>
+					<p>Without the need to transform one <code>&lt;nav&gt;</code> layout into another, we can easily move a navigation pane away from the top/left edge in the desktop landscape view and define its menu items separately. These two logics may be applied to other elements in a webpage, but of course you don't want to duplicate everything - it's just a <em class="extra">poor practice</em> in Web design.</p>
+				</section>
+				<section>
+					<h2 id="flexbox">CSS flex box</h2>
+					<picture>
+						<img src="img/flexbox.png" style="max-width: 30%" />
+						<sub>Source: <a href="https://commons.wikimedia.org/wiki/File:CSS_grid_x_Flexbox_layout.png" target="_blank">Wikipedia</a></sub>
+					</picture>
+					<p>As noted earlier, you can't just keep being lazy and duplicate everything, let along the elements that includes the main contents of a website, since a Web browser will be loading too much trivial stuff. For instance, if someone is using a desktop computer, then there's little chance that s/he will turn the Web browser into a portrait view, and the duplicated parts for the portrait view are loaded for nothing and only slow your website down.</p>
+					<p>In this regard, it is almost necessary to adopt the <em class="extra">transforming</em> approach for the contents of a responsive website project, and you need an approach to swiftly interchange between the layouts for different contexts. No problem, <em>CSS flex(ible) box</em> is here at your disposal. CSS flex box is a powerful tool that allows you to align and order <em class="extra">block</em> elements in a container designed to be a flex box. We will go through a simple demonstration, and apply the idea to responsive Web design.</p>
+					<p>We can start with the following HTML content, in which the <code>&lt;article&gt;</code> block is set as a flexbox, and the three <code>&lt;section&gt;</code> elements are the content boxes to be arranged vertically inside the flex box and takes the full width of the viewport (mobile first, remember?).</p>
+					<code>
+						&lt;article&gt;
+						<code>
+							&lt;section&gt;Section 1&lt;/section&gt;<br/>
+							&lt;section&gt;Section 2&lt;/section&gt;<br/>
+							&lt;section&gt;Section 3&lt;/section&gt;
+						</code>
+						&lt;/article&gt;
+					</code>
+					<p>Next, you need to style the <code>&lt;article&gt;</code> element as a <code>flex</code> container with the <code>display</code> property, and we set its <code>height</code> to <code>100%</code> to manipulate the flexbox layout right inside the viewport.</p>
+					<code>
+						article {
+						<code>
+							display: flex;<br/>
+							height: 100%;
+						</code>
+						}
+					</code>
+					<p>Once these are done, you can manipulate how the block elements inside are aligned following with the following crucial properties (see also <a href="https://css-tricks.com/snippets/css/a-guide-to-flexbox/" target="_blank">this nice and complete CSS-Tricks tutorial</a>):</p>
+					<ul>
+						<li><code>flex-direction</code> - It can be <code>row</code>, <code>column</code>, <code>row-reverse</code>, or <code>column-reverse</code>, so you can display the block elements horizontally/vertically in their original/reversed order.</li>
+						<li><code>flex-wrap</code> - By default, all the block elements inside a flex box will be squeezed into the same line, but you can set the property as <code>wrap</code> so block elements that cannot fit into the current line (due to their wide dimension, for instance) will be thrown into a new line.</li>
+						<li><code>justify-content</code> - If this is set as <code>center</code>, then all the block elements are centered in the same line vertically/horizontally, depending the direction of alignment indicated with <code>flex-direction</code>. The value <code>space-evenly</code> not only gives you the aforementioned centering effect, but also set the same spacing around the block elements, which thus fill the flex box evenly. There are also other values like <code>flex-start</code>, <code>flex-end</code>, <code>space-between</code>, <code>space-around</code>, and <code>space-evenly</code> which you can play around yourself.</li>
+						<li><code>align-content</code> - While it is not entirely straightforward, this property controls how each row/column in a flex box takes up the space in the box. The value <code>center</code> helps you juxtapose all the rows/columns at the center of a screen. If you choose to use the value <code>space-around</code>, an even space is inserted between lines and edges. The default value <code>strech</code> helps divide the entire space evenly based on the number of lines in the flex box.</li>
+						<li><code>flex-grow</code> - When set to a number larger than the default value <code>0</code>, the remaining space inside a flex box is distributed to each item <em>proportionally</em> based on the value assigned to this property for it. For example, if an item is set to have a <code>flex-grow</code> of <code>1</code>, and the other has a value of <code>2</code>, the remaining space distributed to the latter would be twice as much as that distributed to the former. The end result is that the latter is twice as large as the first in the flex box. Of course, if all items in the same flex box is set to have the same value, then the remaining space will be distributed evenly to each item.</li>
+					</ul>
+					<p>So far, we would see our <code>&lt;section&gt;</code> elements squeezing in the top-left corner from left to right in our webpage, since <code>flex-direction</code> is by default <code>row</code>. In this case, the flexbox only controls how items are positioned horizontally in the same line, and the height of these elements simply takes up the remaining space of the flexbox on the vertical axis. Thus, the first thing we need to do is to change <code>flex-direction</code> to <code>column</code> for the <code>article</code> element. With this change, now the <code>&lt;section&gt;</code> elements are ordered from top to bottom in a <em>vertical</em> line, and the flexbox does not control the space on the horizontal axis and allows the <code>&lt;section&gt;</code> elements to take to the full width (do you know why?). Now we want the <code>&lt;section&gt;</code> elements to be separated from each other and from the top/bottom edge with an equal spacing, so what do we need? Yes, just add <code>justify-content</code> and use the value <code>space-evenly</code> (for a narrower spacing toward the top/bottom edge, use <code>space-around</code>).</p>
+					<code>
+						article {
+						<code>
+							display: flex;<br/>
+							flex-direction: column;<br/>
+							justify-content: space-evenly;<br/>
+							height: 100%;
+						</code>
+						}
+					</code>
+					<p>And you certainly want each of the three <code>&lt;section&gt;</code> elements to extend their height a little bit so they do not just form a line. Easy! Just specify the <code>height</code> property for these elements, and the flexbox will still handle the positioning automatically for you!</p>
+					<code>
+						section {
+						<code>
+							height: 30%;
+						</code>
+						}
+					</code>
+					<p>Alternatively, you could leave out <code>justify-content</code> for the flexbox and <code>height</code> for its items and set <code>flex-grow</code> to <code>1</code> for all <code>&lt;section&gt;</code> elements to make it possible to distribute the space in the flexbox to each of them evenly. However, if you don't set a limit on the height, an item will expand indefinitely as more contents are put into it. So, let's set a reasonable <code>max-height</code> of <code>33%</code>. If you need some space between the elements and the edges, guess what? Just add some margins! Note that <em class="extra">margin collapsing</em> does not take place here, so adding both top and bottom margins gives you the effect similar to <code>space-around</code> of the <code>justify-content</code> property. This approach would be superior to the previous one when the number of items in a flexbox is unknown, as in this approach the space distributed to each item depends on the number of items in the flexbox. In the previous approach, however, the height of an item must be set explicitly, and the position of these items in the flexbox could go wrong if you miscalculate the height.</p>
+					<code>
+						section {
+						<code>
+							flex-grow: 1;<br/>
+							max-height: 33%<br/>
+							margin: 1vh 0;
+						</code>
+						}
+					</code>
+					<p>We have now set the stage for transforming this mobile-based design into a desktop design. As usual, we set the break point to <code>1200 px</code> of the screen width in a media query. In this media query, we first re-define <code>flex-direction</code> of the <code>&lt;article&gt;</code> element from <code>column</code> to <code>row</code>. Again, we don't need to specify other CSS properties whose value does not change in different contexts. Then, instead of the top/bottom margins in the mobile-based design, we need the left/right margins in the desktop-based design. We also have to add a limit on the width of <code>&lt;section&gt;</code> for the same reason - to avoid over-expansion as more contents are put into the element. Finally, we also need to specify a different <code>max-width</code> of <code>100%</code>. Note that styles outside the media query are applied <em>by default</em>. This means that if you don't set a different <code>max-width</code> for the desktop-based design, you will get a <code>max-height</code> of <code>33%</code> here, too.</p>
+					<code>
+						@media only screen and (min-width: 1200px) {
+						<code>
+							article {
+							<code>
+								flex-direction: row;
+							</code>
+							}<br/><br/>
+							section {
+							<code>
+								max-width: 33%;<br/>
+								max-height: 100%;<br/>
+								margin: 0 1vw; /* Note the change in the length unit as well*/
+							</code>
+							}
+						</code>
+						}
+					</code>
+					<p>We're done! Now change the size of your browser windows and see how the layout is switched between the two designs seamlessly! Mobile-first is never as difficult as you imagined.</p>
+				</section>
+				<section>
+					<h2 id="touchevent">Touch events</h2>
+					<picture>
+						<img src="img/touchevents.png" style="width: 40%;" />
+						<sub>Source: <a href="https://girliemac.com/blog/2013/04/17/touchy-feely-with-dom-events-rethinking-cross-device-user-interaction/" target="_blank">Tomomi Imura</a></sub>
+					</picture>
+					<p>In the world of mobile-first Web design, you eventually will have the chance to deal with the events fired by interactions with the touchscreen. In this course, you're not asked to design a mobile Web app, so I will not pepper you with lots of techniques for it (well, let along the fact I am neither a master in this field). But we will talk about three events that you might need to further optimize your simple websites in mobile browsers:</p>
+					<ul>
+						<li><code>touchstart</code> - fired when the touchscreen detects a touching motion (e.g., a finger touches the touchscreen)</li>
+						<li><code>touchmove</code> - fired when the touching motion moves from one point to another point on the touchscreen without any interruption (e.g., a finger touches and moves across the touchscreen)</li>
+						<li><code>touchend</code> - fired when the touching motion ends (e.g., no finger touches the touchscreen)</li>
+					</ul>
+					<p>These are the three basic events involved in a mobile Web browsing content. A user might hit a button or a link in your website, which fires <code>touchstart</code> and then <code>touchend</code> in sequential order. The user might also scroll up and down in your website, which fires <code>touchstart</code>, <code>touchmove</code>, and eventually <code>touchend</code>. Wait, can't we just design our websites to listen to a <code>click</code> event in the former case? If you hit something on a touchscreen with your finger, how is it <em class="extra">essentially different</em> from clicking on something on a regular wide screen of your desktop computer with a mouse cursor? Well, most of mobile Web browser echo your question, and thus would fire a <code>click</code> event on an element even if the source is in fact a touching motion. But there's one Web browser doesn't agree with you. Guess what? It's our old pal <em class="extra">mobile Safari</em>!!! I cannot accuse Apple of being wrong here, though, because by definition touching and clicking are indeed different, but sometimes being so nit-picking doesn't really help, as I will explain below.</p>
+					<h3>touchmove vs. touchstart/touchend</h3>
+					<p>Now, to get elements listening to a <code>click</code> event working properly in mobile Safari as well, which force us to re-design the elements to listen to a touching event, too, such as <code>touchstart</code> or <code>touchend</code>. But as explained above, a touching event simulating a clicking event is confounded with a swiping event that involves <code>touchmove</code>. When you touch the screen and fire <code>touchstart</code>, it could be that you try to click on something or that you're about to scroll up/down. Likewise, when your fingers leave the screen and fire <code>touchend</code>, it could be that you complete clicking on something or that you are coming off a swiping event. The key to simulating a clicking event correctly thus lies in a successful distinction between a purely touching event and a swiping event. And this is how we are going to do in this section: Identify a <code>touchend</code> that does <em>NOT</em> follow a <code>touchmove</code> event as a parallel to a <code>clicking</code> event.</p>
+					<h3>Get in on an action</h3>
+					<p>Let's begin with the following HTML document. We have a vertically/horizontally centered <code>&lt;div&gt;</code> element serving as a button-like object. We also have another <code>&lt;div&gt;</code> element in which the fired event type will appear.</p>
+					<code>
+						&lt;div id="touchingEvent"&gt;Nothing's happening&lt;/div&gt;<br/>
+						&lt;div style="position: fixed; top: 50vh; left: 50vw;"&gt;
+						<code>
+							&lt;div style="position: relative; width: 200px; height: 200px; transform: translate(-100px, -100px);"&gt;<br/>
+							&lt;/div&gt;
+						</code>
+						&lt;/div&gt;
+					</code>
+					<p>Next, let's first write JS codes for the inner <code>&lt;div&gt;</code> to listen to a <code>touchend</code> event, which will change the content of the <code>&lt;div&gt;</code> with <code>touchingEvent</code> in the <code>id</code> attribute.</p>
+					<code>
+						$(document).ready(function() {
+						<code>
+							$('div > div').on('touchend', function(event) {
+							<code>
+								var eventType = event.type; // Get the event type, which should be 'touchend'<br/>
+								$('#touchingEvent').html(eventType); // Set the event type as the content of #touchingEvent
+							</code>
+							});
+						</code>
+						});				
+					</code>
+					<p>When you try to touch that large and big green square at the center of the screen and go, you should see <em>touchend</em> appearing at the top of your screen. However, if you start your touching motion somewhere else, swipe to that big green square, and release, you will also see the same message! This is what we expected - there's no distinction between a purely touching event and a swiping event.</p>
+					<p>To make this disction, we need to take two steps. First, we add a listener to the entire HTML document for a <code>touchmove</code> event and detect if there's a swiping motion. Second, if a swiping motion is detected before a <code>touchend</code> event is fired, when a <code>touchend</code> is fired on the big green square, nothing will happen. To achieve this goal, we need to first add a <em>global</em> boolean variable <code>swipeEvent</code> with a default value set to <code>false</code>. Then, we have to modify the event listener for the square to take actions only when <code>swipeEvent</code> is <code>false</code>.</p>
+					<code>
+						var swipeEvent = false;<br/>
+						...
+						<code>
+							if(!swipeEvent) { // TRUE only when swipeEvent = false
+							<code>
+								var eventType = event.type; // Get the event type, which should be 'touchend'<br/>
+								$('#touchingEvent').html(eventType); // Set the event type as the content of #touchingEvent
+							</code>
+							}
+						</code>
+					</code>
+					<p>Now, we need the following JS codes to allow for global swiping motion detection, so we make the entire HTML document to listen to the <code>touchmove</code> event and set the global <code>swipeEvent</code> variable as <code>true</code>. Therefore, even if you release your fingers on the big green square, it's event listener will do nothing. We can also set the message at the top of the page to indicate that the swiping event is happening.</p>
+					<code>
+						$(document).on('touchmove', function() {
+						<code>
+							swipeEvent = true; // Set the boolean 'detector' as true<br/>
+							$('#touchingEvent').html('Swiiiiiping!'); // Show the swiping message
+						</code>
+						});
+					</code>
+					<p>If we stop here, then we can do all these for just one time since from now on, <code>swipeEvent</code> is always <code>true</code> so you will never be able to get the big green square to work once again. So, we need another <em>resetting</em> event listener that reset <code>swipeEvent</code> back to <code>false</code> after the <code>touchmove</code> event is over and <code>touchend</code> is fired. We can add this event listener to the entire HTML document as well so it detects <code>touchend</code> anywhere on a touchscreen.</p>
+					<code>
+						$(document).on('touchend', function() {
+						<code>
+							swipeEvent = false; // Reset the boolean 'detector' as false<br/>
+							$('#touchingEvent').html('Nothing's happening.'); // Reset to the default message as well
+						</code>
+						});
+					</code>
+					<p>Now, it should work, right? But you just found that clicking on the big green square no longer changes the default message! The culprit is <em class="extra">event propagation</em> we have discussed in previous units. Currently the entire HTML document is listening to a <code>touchend</code> event, and the big green square is also listening to the same event. Since the big green square is part of the HTML document, a <code>touchend</code> event fired on it also propagates to the entire HTML document, so the event listener we just added above is also executed to reset the message at the top back to its default message. Consequently, it looks like nothing has ever happened because the resetting part just keeps running whether the <code>touchend</code> event is fired on the big green square or not. To solve this issue, we need to stop the event fired on the big green square from propagating with the following code:</p>
+					<code>
+						event.stopPropagation();
+					</code>
+					<p>With this line, the <code>touchend</code> event fired on the big green square will only run the part checking if <code>swipeEvent</code> is <code>false</code>, which means a purely touching event.</p>
+					<p>Web design could have been a lot easier, but thanks to Apple, your life is made more challenging and...perhaps more meaningful. And look at you! You have never been so confident, right? Your effort in learning all these will help expand your knowledge in this field exponetially!</p>
+				</section>
+				<section>
+					<h2 id="conclusion">Concluding remarks</h2>
+					<picture>
+						<img src="img/theend.png" style="max-width: 250px;" />
+						<sub>Source: <a href="https://openclipart.org/detail/261545/the-end-is-near" target="_blank">doodleguy@OPENCLIPART</a></sub>
+					</picture>
+					<p>Now that your journey of Web design has come to an end in this course, and I hope you have enjoyed everything you learned. As I kept reminding you in this course, it was just impossible to cover every single bit in the ever-changing world of Web design, but I've paved the road for you to walk into the future, and you must continue your journey on your own. Start a new website project, polish your personal website, read a book about Web design to get the most updated information, etc. If you stop right after this course, your poor memory will abandon this knowledge <em>very rapidly</em> - and you will spend a great amount of time just to re-gain everything. So, keep pushing yourself to be a Web design master. <em class="extra">Godspeed!</em></p>
+				</section>
+				<sub>All Copyright Reserved; Tsung-Ying Chen 2021</sub>
+			</article>
+		</div>
+	</body>
+</html>
