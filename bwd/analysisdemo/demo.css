@@ -158,23 +158,23 @@ ul {
 
 @media only screen and (min-width: 1024px) {
 	body {
-		font-size: 1.2vw;
-		line-height: 1.8vw;
+		font-size: 2.4vh;
+		line-height: 3.6vh;
 	}
 
 	h1 {
-		font-size: 2.4vw;
-		line-height: 3.6vw;
+		font-size: 4.8vh;
+		line-height: 7.2vh;
 	}
 
 	h2 {
-		font-size: 2vw;
-		line-height: 3vw;
+		font-size: 3.6vh;
+		line-height: 5.4vh;
 	}
 
 	h3 {
-		font-size: 1.5vw;
-		line-height: 1.8vw;
+		font-size: 3vw;
+		line-height: 4.5vw;
 	}
 
 	article {
@@ -192,7 +192,7 @@ ul {
 	nav {
 		flex-direction: row;
 		align-items: stretch;
-		font-size: 1vw;
+		font-size: 2vh;
 	}
 
 	nav > a {
