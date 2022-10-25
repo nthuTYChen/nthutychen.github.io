@@ -105,24 +105,22 @@
 						console.log(num); // Print the value of "num"<br/>
 						console.log(undefinedVar); // Print the value of "undefinedVar"
 					</code>
-					<p>Now, if someone start a conversation with you by saying <q>Did I tell you I love him so much?</q>, your first question would naturally be <q>Who the hell is <em>him</em>?</q>. Your question stems from the fact the referent of the pronoun is <em>not defined</em> in the conversational context. Similarly, in JS you cannot have access to the value of a variable before you declare it in your code:</p>
+					<p>Now, if someone start a conversation with you by saying <q>Did I tell you I love him so much?</q>, your first question would naturally be <q>Who the hell is <em>him</em>?</q>. Your question stems from the fact the referent of the pronoun is <em>not defined</em> in the conversational context. Similarly, in JS you cannot have access to the value of a variable without declaring the variable in your code, so you will get a <em class="extra">reference error</em>:</p>
 					<code>
-						console.log(him); // Who the hell is "him"?<br/>
-						var him = 'Mike'; // Give me this info first!
+						console.log(him); // Who the hell is "him"? - Reference Error<br/>
 					</code>
-					<p>Intriguingly, if you separate variable declaration from value assignment, it is in fact possible to get the value of the variable even if the variable declaration is the <em>last</em> statement in your code:</p>
+					<p>Intriguingly, if you declare the variable with <code>var</code> <em>after</em> it is accessed, there's no <em>reference error</em> - you only get <em>undefined</em>:</p>
 					<code>
-						him = 'Mike';<br/>
-						console.log(him); // I know who 'him' is!<br/>
-						var him;
+						console.log(him); // Still undefined, but no reference error<br/>
+						var him = 'Mike';
 					</code>
-					<p>This is because variable declaration is always <em class="extra">hoisted</em> in JS, so the above code is automatically interpreted as:</p>
+					<p>This is because variable declaration is always <em class="extra">hoisted</em> in JS, and the above code is automatically interpreted as follows - the variable can be found since the hoisting of <code>var him</code>, but its content is still not defined when it is accessed in <code>console.log()</code>:</p>
 					<code>
 						var him; // Hoisted variable declaration<br/>
-						him = 'Mike';<br/>
-						console.log(him); // I know who 'him' is!
+						console.log(him); // There is the container, but the content is still not defined<br/>
+						him = 'Mike';
 					</code>
-					<p>Being allowed to drink a dozen of beer doesn't mean you SHOULD drink a dozen of beer - why do you want to stupidly declare a variable in the last statement and let JS to figure it out by itself? <em class="extra">Always declare your variables first</em>, whether they are assigned a value right away.</p>
+					<p>But why would you want to stupidly declare a variable <em>after</em> it is accessed in your codes? The best practice is to <em class="extra">always declare your variables first</em> in the entire script or in a code block (see <em>var vs. let</em> below), whether they are assigned a value right away.</p>
 					<p>Once you have declared a variable with <code>var</code>, you can always assign a new value to it later without <code>var</code>:</p>
 					<code>
 						var newVal = 0; // Declare a new variable with a value 0<br/>
