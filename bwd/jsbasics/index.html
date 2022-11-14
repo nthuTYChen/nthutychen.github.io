@@ -892,10 +892,9 @@
 					<p><q>What the heck is this subheading?</q> You might ask. In this section, I've shown to you that the exclamation mark <code>!</code> means <em class="extra">not</em> in a comparison. But there is also another role it plays in a condition. When you put a <code>!</code> immediately before the name of a variable, the result is a <em>boolean</em> value that tells you if the variable is <code>null</code>, <code>undefined</code>, <code>0</code>, <code>NaN</code> (Not a Number), or <code>''</code> (empty string):</p>
 					<code>
 						var valueVar = 5, nullVar = null;<br/>
-						console.log(!valueVar); // You get a 'false'<br/>
-						console.log(valueVar); // You get a 'true' (do you know why?<br/>
 						console.log(!nullVar); // You get a 'true'<br/>
-						console.log(nullVar); // You get a 'false' (do you know why?)
+						console.log(nullVar); // You get a 'false' (do you know why?)<br/>
+						console.log(!valueVar); // You get a 'false' (do you know why?)
 					</code>
 					<p>How is this useful in styling? Well, when you use functions like <code>querySelector()</code> or <code>querySelectorAll()</code> to retrieve HTML elements, there's no guarantee that you will get any. If there's no HTML element that meets your criteria, these functions would <em>return</em> a <code>null</code> value, which literally just means...<em>nothing</em>. If this is the case, then you don't need to do any action related to styling and HTML element. For example, let's add a fourth button with a weird <code>id</code> attribute in the earlier example, and we link it to the same listener function:</p>
 					<code>
