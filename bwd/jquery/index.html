@@ -110,7 +110,7 @@
 					<p>The above line will give you the expected results, but its problems are threefold. First, if you choose to do Web programming and access HTML elements using jQuery, then you should try your best to always stay with jQuery to maintain the consistency in your codes. If this first reason is just conceptual for you, the second reason is definitely more <em>practical.</em> That is, jQuery makes every other move in plain JavaScript easier. Imagine that there is an array of HTML elements, and now you need to retrieve the <em>last</em> element of the array of an <em>unknown</em> length. What do you need to do in JavaScript? First, we know the number that represents the last position of an array is always 1 less than the length of the array, since the position number starts with <code>0</code>. Thus, you must get the length first and substract 1 from the length as the position number, and use this number to get the last item of an array:</p>
 					<code>
 						let allPs = $('p'); // Get all &lt;p&gt; elements
-						let lastPos = allPs.length - 1; // Calculated the number of the last position
+						let lastPos = allPs.length - 1; // Calculated the number of the last position<br/>
 						allPs[lastPos]; // Get the last item in the array
 					</code>
 					<p><em>Gee!</em> It's just a lot of works. The jQuery developers must have been bothered by the same problem, which drove them to create a great jQuery function to help simplify the process, namely <code>eq()</code>, which stands for <em>equal</em>. Similar to the square brackets <code>[]</code>, <code>eq()</code> allows you to choose a specific item based on an index, except that you can count backward from the last item of an array with a <em class="extra">negative</em> number:</p>
