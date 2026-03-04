@@ -24,7 +24,7 @@
 		<div class="container">
 			<article>
 				<h1>1. Introduction</h1>
-				<p>Welcome to Bilingual Web Design offered in Fall 2022! Here's the introduction to this course to help you get ready.</p>
+				<p>Welcome to Bilingual Web Design offered in Spring 2026! Here's the introduction to this course to help you get ready.</p>
 				<p><a href="#whythiscourse">Why this course?</a> / <a href="#whattolearn">What to learn?</a> / <a href="#whatdoyouneed">What do you need?</a> / <a href="#courserequirements">Course Requirements</a> / <a href="#preparationworks">Preparation Works</a> / <a href="#moreongithub">More on GitHub</a> / <a href="#filestructure">File Structure</a> / <a href="#timetoexplore">It's time to explore!</a> / <a href="#forthenextunit">For the next unit...</a></p>
 				<section>
 					<h2 id="#whythiscourse">Why this course?</h2>
@@ -56,25 +56,23 @@
 						<li><a href="https://www.w3schools.com/" target="_blank">W3CSchool</a> - Another good online Web development tutorial.</li>
 						<li><a href="https://jsfiddle.net/" target="_blank">JSFiddle</a> - A place for you to experiment different HTML, JavaScript, and CSS codes.</li>
 						<li><a href="https://google.com" target="_blank">Google</a> - I'm not kidding.</li>
-						<li>The source codes of each lecture example in <a href="https://github.com/nthuTYChen/bwdMaterials/tree/main/examples" target="_blank">GitHub</a>.</li>
-						<li>The source codes of each developmental stage of the course demo website in <a href="https://github.com/nthuTYChen/bwdMaterials/tree/master/progress" target="_blank">GitHub</a>.</li>
-						<li>The source codes of every quiz in <a href="https://github.com/nthuTYChen/bwdMaterials/tree/master/quizzes" target="_blank">GitHub</a>.</li>
-						<li>The Corpus of Contemporary American English: <a href="https://www.english-corpora.org/coca/" target="blank">https://www.english-corpora.org/coca/</a></li>
+						<li>The source codes of each lecture example and practice in <a href="https://github.com/nthuTYChen/bwdMaterials/tree/main/" target="_blank">GitHub</a>.</li>
+						<li>Submit your work to <a href="https://elearn.nthu.edu.tw/" target="_blank">NTHU eLearn</a>.</li>
 						<li><em>Meticulous efforts and a tough mindset.</em></li>
 					</ul>
 				</section>
 				<section>
-					<h2 id="courserequirements">Course Requirements</h2>
-					<p>Your performance in this course will be assessed with the following criteria:</p>
+					<h2 id="courserequirements">Course Requirements and Policies</h2>
+					<p>Your performance in this course will be assessed with the following criteria (in line with the course syllabus):</p>
 					<ul>
-						<li><em>Assigned Tasks (40%)</em><br/>
-							On every Thursday, students will spend one hour watching pre-recorded lecture videos with supplementary materials. After watching the lecture videos, students might be assigned to complete some Web-design or writing-analysis tasks. The tasks must be completed before each deadline (usually on every Thursday before midnight). <em>Late submission or plagiarized contents will NOT be accepted.</em>
+						<li><em>In-class Assignments (60%)</em><br/>
+							After each lecture lasting 2-2.5 hours every Friday, the students will spend the rest of the time in class completing assigned Web design mini tasks. The tasks will be scored at the end of the lecture. <em class="extra">There will be no make-up assignments, so if you miss a lecture, you will also miss an in-class assignment</em>.
 						</li>
-						<li><em>Bilingual Personal Website (40%)</em><br/>
-							Students have to build a bilingual personal website with the Web design skills they learn in this course. The personal website (https://xxxxxxx.github.io) must be completed on <em class="extra">Jan 9, 2023</em>, which will be assessed based on its aesthetic features, English and Chinese writing quality as well as completeness. <em class="extra">Templates cannot be used to build the bilingual personal website, and no plagiarism is allowed, or the project will NOT be graded.</em>
+						<li><em>Bilingual website projects (40%)</em><br/>
+							The students will have to complete two bilingual website projects at the end of the course on <em class="extra">Jun 13, 2026</em> before midnight. The first project is a personal website at <em>https://xxxxxxx.github.io/personal/</em> (xxxxxxx is the student’s GitHub account) and the second project is a thematic website at <em>https//xxxxxxx.github.io/writing/</em> introducing general English reading and writing guidelines with an English article. <em>Both projects must be completed following Course Project Guidelines uploaded to NTHU eLearn</em>. 
 						</li>
-						<li><em>English Essay Analysis Website (20%)</em><br/>
-							Students are also required to follow the course guidelines (https://nthutychen.github.io/analysisdemo/) to build a website focusing on a structural analysis of an expository English essay selected from The New York Times. The English essay analysis website (https://xxxxxxx.github.io/analysisdemo/) must be completed on <em class="extra">Jan 9, 2022</em> (i.e., three weeks after the last lecture), which will be assessed based on its consistency with the course demo website as well as the guidelines instructed to complete the analysis.
+						<li><em>AI Policy</em><br/>
+							For assignments to be completed on-site, the students will NOT be allowed to use any generative AI. Those who use generative AI to complete the assignments will score a zero. For the two website projects, I remain open-minded to the involvement of generative AI, although I STRONGLY ADVISE AGAINST USING IT, especially before the students are highly familiar with Web programming. Students should be learning ‘how to design a bilingual website’ in this course, rather than ‘how to use AI to design a bilingual website’. If you do not believe that learning makes you better than AI, you can just go with ‘vibe coding’ and do not have to take this course. Even if you use AI to ‘support’ your learning, your bilingual projects will still have to follow the project guidelines. In particular, <em>your websites MUST NOT include anything that is not explained in this course.</em> The students will learn enough skills to design a very professional website in this course. 
 						</li>
 					</ul>
 				</section>
@@ -113,13 +111,13 @@
 						<sub>Credit: <a href="https://www.flickr.com/photos/knobil/4521285655" target="blank">Mark Knobil</a></sub>
 					</picture>
 					<p>First of all, the local folder (xxxxxxx.github.io) for your repository in your computer is the <em class="extra">root directory</em> of the repository. The <em>index.html</em> file in this root directory would always be the default webpage loaded to a Web browser when someone visits your website at https://xxxxxxx.github.io/ (which is thus in fact equivalent to https://xxxxxxx.github.io/index.html). This root directory should be used for your personal website project.</p>
-					<p>If you create another folder in the root directory of your repository, such as <code>analysisdemo</code> for your , the folder could be accessed via <em>https://xxxxxxx.github.io/analysisdemo/</em>, and the default webpage that will be loaded in this folder will still be <em>index.html</em>. Now, you have the following file structure in your repository:</p>
+					<p>If you create another folder in the root directory of your repository, such as <code>analysisdemo</code> for your , the folder could be accessed via <em>https://xxxxxxx.github.io/writing/</em>, and the default webpage that will be loaded in this folder will still be <em>index.html</em>. Now, you have the following file structure in your repository:</p>
 					<table>
 						<tr>
 							<td>xxxxxxx.github.io/</td><td>─ index.html (default webpage in the root directory)</td><td></td>
 						</tr>
 						<tr>
-							<td></td><td>┕ /analysisdemo/ (for your Essay Analysis project)</td><td>─ index.html</td>
+							<td></td><td>┕ /writing/ (for your English Reading and Writing project)</td><td>─ index.html</td>
 						</tr>
 					</table>
 					<p>Eventually, you will have to style your website and add interactive functions to it, so you will need folders for these files for styling and interactive functions, which we call <code>css</code> and <code>js</code> for now. The location of these directories has different implications with regard to how they will be accessed in the entire website. First, let's create the two folders inside your <em>root directory</em>, which implies that the files in these two directories will be used <em class="extra">globally</em>, rather than by any specific webpage in a specific folder.</p>
@@ -128,7 +126,7 @@
 							<td>xxxxxxx.github.io/ (root)</td><td>─ index.html (default homepage)</td><td></td>
 						</tr>
 						<tr>
-							<td></td><td>┕ /analysisdemo</td><td>─ index.html</td>
+							<td></td><td>┕ /writing</td><td>─ index.html</td>
 						</tr>
 						<tr>
 							<td></td><td>┕ /css (global css files)</td><td></td>
@@ -137,16 +135,16 @@
 							<td></td><td>┕ /js (global js files)</td><td></td>
 						</tr>
 					</table>
-					<p>If you have any specific styles for your Essay Analysis website, you should then create another <code>css</code> folder inside the <code>analysisdemo</code> folder:</p>
+					<p>If you have any specific styles for your Essay Analysis website, you should then create another <code>css</code> folder inside the <code>writing</code> folder:</p>
 					<table>
 						<tr>
 							<td>xxxxxxx.github.io/ (root)</td><td>─ index.html (default homepage)</td><td></td>
 						</tr>
 						<tr>
-							<td></td><td>┕ /analysisdemo</td><td>─ index.html</td>
+							<td></td><td>┕ /writing</td><td>─ index.html</td>
 						</tr>
 						<tr>
-							<td></td><td></td><td>┕ /css (specifically for analysisdemo)</td>
+							<td></td><td></td><td>┕ /css (specifically for writing)</td>
 						</tr>
 						<tr>
 							<td></td><td>┕ /css (global css files)</td><td></td>
@@ -155,34 +153,7 @@
 							<td></td><td>┕ /js (global js files)</td><td></td>
 						</tr>
 					</table>
-					<p>Now, let's add another three folders in the root directory for your personal website, code examples, and the progress of building the essay analysis website:</p>
-					<table>
-						<tr>
-							<td>xxxxxxx.github.io/ (root)</td><td>─ index.html (default homepage)</td><td></td>
-						</tr>
-						<tr>
-							<td></td><td>┕ /analysisdemo</td><td>─ index.html</td>
-						</tr>
-						<tr>
-							<td></td><td>┕ /personal</td><td>─ index.html</td>
-						</tr>
-						<tr>
-							<td></td><td></td><td>┕ /css (specifically for analysisdemo)</td>
-						</tr>
-						<tr>
-							<td></td><td>┕ /css (global css files)</td><td></td>
-						</tr>
-						<tr>
-							<td></td><td>┕ /js (global js files)</td><td></td>
-						</tr>
-						<tr>
-							<td></td><td>┕ /examples</td><td></td>
-						</tr>
-						<tr>
-							<td></td><td>┕ /progress</td><td></td>
-						</tr>
-					</table>
-					<p>Every student should have the same file structure in their repository for this course, and <em>I will only assess the contents in https://xxxxxxx.github.io/personal/ and https://xxxxxxx.github.io/analysisdemo/.</em>.</p>
+					<p>Every student should have the same file structure in their repository for this course, and <em>I will only assess the contents in https://xxxxxxx.github.io/ and https://xxxxxxx.github.io/writing/.</em>.</p>
 				</section>
 				<section>
 					<h2 id="timetoexplore">It's time to explore!</h2>
@@ -217,7 +188,7 @@
 						}
 					</script>
 				</section>
-				<sub>All Copyright Reserved; Tsung-Ying Chen 2021</sub>
+				<sub>All Copyright Reserved; Tsung-Ying Chen 2026</sub>
 			</article>
 		</div>
 	</body>
