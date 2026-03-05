@@ -48,8 +48,8 @@
 					<p>You will also see some other markups that are not HTML elements themselves but have some special meanings. For example, we will use <code>&lt;!DOCTYPE&gt;</code> to declare the document type for a webpage, and we also use <code>&lt;!-- Here's some note! --&gt;</code> to add some important notes just for our own reference.</p>
 				</section>
 				<section>
-					<h2 id="firstindexhtml">Revisite your first index.html</h2>
-					<p>With the above overview, let's revisit your first <em>index.html</em> inside the <code>analysisdemo</code> folder to explain the HTML elements and structure necessary for a Web browser to parse the structure of a webpage and then present it.</p>
+					<h2 id="firstindexhtml">Your first HTML file</h2>
+					<p>With the above overview, let's begin with your first HTML file to explain the HTML elements and structure necessary for a Web browser to parse the structure of a webpage and then present it.</p>
 					<picture>
 						<img src="img/firsthtml.png"/>
 					</picture>
@@ -61,7 +61,7 @@
 				</section>
 				<section>
 					<h2 id="addsomespice">Add some spices</h2>
-					<p>Now that we understand how HTML tags work in our first <em>index.html</em>, we have to make some additional tweaks to optimize the decoding of your HTML document in different Web browsers.</p>
+					<p>Now that you understand how HTML tags work in your first HTML file, you have to make some additional tweaks to optimize the decoding of your HTML document in different Web browsers.</p>
 					<p>First, let's change <code>&lt;html&gt;</code> to:</p>
 					<code>&lt;html lang="en-us"&gt;</code>
 					<p>In this change, we add the <em class="extra">attribute</em> <em>lang</em> to the <code>&lt;html&gt;</code> element and enclose the <em class="extra">value</em> of the attribute with <em class="extra">double quotation marks</em>. An attribute assigns a <em>property</em> to a specific element. In the above change, the value <em>en-us</em> of the <em>lang</em> attribute explicitly requires the browser to arrange texts following <em>US English</em>. When your webpage goes bilingual, then the value of this attribute for your Taiwan Mandarin webpages should be <em class="extra">zh-Hant-TW</em> (rather than just zh-tw).</p>
@@ -143,25 +143,24 @@
 				<section>
 					<h2 id="blueprint">Making a blueprint</h2>
 					<p>OK. I know you've been waiting for this moment. But let's do something real to help develop your personal website, and we would start with its layout. When you make slides for your presentation, you also need to choose a template, don't you?</p>
-					<p>We need to consider the layout of two basic <em>blocks</em> in your website: a <code>&lt;nav&gt;</code> block and a container of the main contents, perhaps inside a <code>&lt;div&gt;</code> block, and there are two options.</p>
+					<p>We need to consider the layout of two basic <em>blocks</em> in your website: a <code>&lt;nav&gt;</code> block and a container of the main contents, perhaps inside a <code>&lt;article&gt;</code> block, and there are two options.</p>
 					<p>The first common option is to put <code>&lt;nav&gt;</code> at the top:</p>
 					<table style="height: 10vw; width: 10vw; text-align: center;">
 						<tr style="height: 30%; width: 100%; background-color: red; color: white;">
 							<td>nav</td>
 						</tr>
 						<tr style="height: 70%; width: 100%; background-color: blue; color: white;">
-							<td>div</td>
+							<td>article</td>
 						</tr>
 					</table>
 					<p>In this layout, you will have the full page width at your disposal for rich contents, but you will have to think about how to present your <code>&lt;nav&gt;</code> block when you scroll down to the bottom of the page. Another common choice is to juxtapose <code>&lt;nav&gt;</code> with the main container (<code>&lt;nav&gt;</code> to the left in this example):</p>
 					<table style="width: 10vw; height: 10vw; text-align: center;">
 						<tr style="height: 100%;">
 							<td style="width: 30%; background-color: red; color: white;">nav</td>
-							<td style="width: 70%; background-color: blue; color: white;">div</td>
+							<td style="width: 70%; background-color: blue; color: white;">article</td>
 						</tr>
 					</table>
-					<p>The benefit of this layout is rather obvious: The navigation pane would be more spacious for menu items (as if we have lots to say in our personal website!), and the presentation of the navigation pane do not interfere with that of the main contents. The drawback is also obvious; the space for the main contents would be much narrower.</p>
-					<p>We also have the third option: To create a <em>hidden menu</em> as in the demo website - We won't do it now since you need to be more familiar with CSS/JavaScript, but we'll get there. Alright! Let's add these two blocks into <code>&lt;body&gt;</code> of the <em>index.html</em> in your project directory!</p>
+					<p>The benefit of this layout is rather obvious: The navigation pane would be more spacious for menu items (as if we have lots to say in our personal website!), and the presentation of the navigation pane do not interfere with that of the main contents. The drawback is also obvious; the space for the main contents would be much narrower. Alright! Let's add these two blocks into <code>&lt;body&gt;</code> of your first HTML file!</p>
 				</section>
 				<section>
 					<h2 id="finalizethedraft">Finalize the draft</h2>
