@@ -98,7 +98,7 @@
 					</ul>
 					<p>Note that <code>&lt;header&gt;</code> and <code>&lt;footer&gt;</code> cannot contain each other.</p>
 					<h3>A heading for each semantic block</h3>
-					<p>When you has a sementic block, the Web browser expects it to have a heading. Thus, a proper heading for a sementic block helps a Web browser parse the structure of a webpage. You can use <code>&lt;h1&gt;&lt;/h1&gt;</code> for a <em class="extra">first-level</em> heading or <code>&lt;h6&gt;&lt;/h6&gt;</code> for a <em class="extra">sixth-level</em> heading (and of course, everything in between). The level of a heading for a parent block should be <em>higher</em> than that for a child block. See <a href="https://html.spec.whatwg.org/multipage/sections.html#rank" target="blank">Section & Rank</a> for more info. Again, it is not fatal even if you don't follow this suggestion, but it's going to be helpful in many ways.</p>
+					<p>When you have a sementic block, the Web browser expects it to have a heading. Thus, a proper heading for a sementic block helps a Web browser parse the structure of a webpage. You can use <code>&lt;h1&gt;&lt;/h1&gt;</code> for a <em class="extra">first-level</em> heading or <code>&lt;h6&gt;&lt;/h6&gt;</code> for a <em class="extra">sixth-level</em> heading (and of course, everything in between). The level of a heading for a parent block should be <em>higher</em> than that for a child block. See <a href="https://html.spec.whatwg.org/multipage/sections.html#rank" target="blank">Section & Rank</a> for more info. Again, it is not fatal even if you don't follow this suggestion, but it's going to be helpful in many ways.</p>
 				</section>
 				<section>
 					<h2 id="formattingsourcecodes">Formatting source codes</h2>
@@ -108,6 +108,21 @@
 						<img src="img/devtools.png"/>
 					</picture>
 					<p>It is true that even if you remove all indentions, the webpage remains unchanged (<em>try it!</em>), because a Web browser does not understand the relationship between elements based on line indentions. However, you should always indent lines in your source codes whenever appropriate. It not only means you understand the structure of your webpage, it makes your codes easier to read for others. You'll also need a similar mindset when we get to the <em>JavaScript</em> tutorials.</p>
+					<h3>Nested Structure</h3>
+					<p>Although indentations do not affect the presentation of a webpage, it does affect how you understand your code in Web programming, especially when it comes to a <em>nested structure</em>. A nested structure means one block of code is embedded inside another block of code. For instance, you can easily imagine that inside a <code>&lt;article&gt;&lt;/article&gt;</code> block, there are multiple <code>&lt;section&gt;&lt;/section&gt;</code> blocks, since an article naturally has multiple sections:</p>
+					<code>
+						&lt;article&gt;
+						<code>
+							&lt;section&gt;<br/>
+							&lt;/section&gt;
+						</code>
+						<code>
+							&lt;section&gt;<br/>
+							&lt;/section&gt;
+						</code>
+						&lt;/article&gt;
+					</code>
+					<p>In the above code, the indentations are added to clearly show that both <code>&lt;section&gt;</code> tags are enclosed inside <code>&lt;article&gt;</code>. More precisely, both <code>&lt;section&gt;</code> tags are the <em>children</em> of <code>&lt;article&gt;</code>, or, alternatively, <code>&lt;article&gt;</code> is the ancestor of the two <code>&lt;section&gt;</code> tags. With indentations, this structural relationship between HTML tags can be presented clearly.</p>
 				</section>
 				<section>
 					<h2 id="inlineelements">Inline elements</h2>
@@ -141,7 +156,7 @@
 					</picture>
 				</section>
 				<section>
-					<h2 id="blueprint">Making a blueprint</h2>
+					<h2 id="blueprint">Thinking about the General Layout</h2>
 					<p>OK. I know you've been waiting for this moment. But let's do something real to help develop your personal website, and we would start with its layout. When you make slides for your presentation, you also need to choose a template, don't you?</p>
 					<p>We need to consider the layout of two basic <em>blocks</em> in your website: a <code>&lt;nav&gt;</code> block and a container of the main contents, perhaps inside a <code>&lt;article&gt;</code> block, and there are two options.</p>
 					<p>The first common option is to put <code>&lt;nav&gt;</code> at the top:</p>
@@ -163,7 +178,7 @@
 					<p>The benefit of this layout is rather obvious: The navigation pane would be more spacious for menu items (as if we have lots to say in our personal website!), and the presentation of the navigation pane do not interfere with that of the main contents. The drawback is also obvious; the space for the main contents would be much narrower. Alright! Let's add these two blocks into <code>&lt;body&gt;</code> of your first HTML file!</p>
 				</section>
 				<section>
-					<h2 id="finalizethedraft">Finalize the draft</h2>
+					<h2 id="finalizethedraft">Finalizing the first HTML file</h2>
 					<p>Hold on! You just added the two blocks, but they were always presented vertically following their order in <code>&lt;body&gt;</code>! This is exactly the way how HTML elements are presented by default in a Web browser. We have not yet learned how to position an element, which will come next in the CSS tutorial. For now, we live with the default presentation.</p>
 					<p>Now, supposed that you already have some items in your navigation pane, how can someone use them to walk through your website? Easy - just mark up each individual item as a hyperlink using <code>&lt;a&gt;</code>, as if a item is linked to one of the webpages in the website. Crucially, we need the <em class="extra">href</em> <em>attribute</em> for this element to specify the <em class="extra">path</em> of the hyperlink, as in:</p>
 					<code>This is a &lt;a href="/somepath/"&gt;hyperlink&lt;/a&gt;!</code>
