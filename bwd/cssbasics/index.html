@@ -75,7 +75,7 @@
 				</section>
 				<section>
 					<h2 id="csssyntax">CSS syntax, a breakdown</h2>
-					<p>OK, enough life lessons. Let's first create a <em>css</em> directory <em class="extra">inside</em> your <em>cv</em> directory (because I'm assuming that your themetic website will look very distinct), and then create a <em>style.css</em> file in the <em>css</em> directory. The filename is not going to matter, but you always have to choose a <em>sensible</em> one - what could be more sensible to name the file <em>style.css</em> if the file is really just for styling...? (Let's agree to disagree). In the CSS file, the syntax of a given style should look like this:</p>
+					<p>OK, enough life lessons. Let's first create a folder with <em>index.html</em> and a <em>css</em> sub-directory, and then create a <em>style.css</em> file in the <em>css</em> sub-directory. The filename is not going to matter, but you always have to choose a <em>sensible</em> one - what could be more sensible to name the file <em>style.css</em> if the file is really just for styling...? (Let's agree to disagree). In the CSS file, the syntax of a given style should look like this:</p>
 					<code>
 						selector {
 							<code>
@@ -149,13 +149,20 @@
 				<section>
 					<h2 id="fontcolors">Fonts and colors</h2>
 					<p>You don't just use the same font in a website, not only because your website could look boring, but also because texts in a webpage generally convey different messages - titles, headings, menu items, paragraphs...They all need be made distinct so readers know what they are looking at. In this course website, I use five different fonts: One for the (page) title using the first-level heading <code>&lt;h1&gt;</code>, two for the second-level and third-level heading <code>&lt;h2&gt;</code> and <code>&lt;h3&gt;</code> respectively, one for the texts in full paragraphs, and one more for examples that mostly involve some source codes. Of course, you don't use too many fonts in your website either to avoid making reading impossible.</p>
-					<p>At the very beginning, I've already asked you to explore <a href="https://fonts.google.com/" target="blank">Google Fonts</a> to see what kind of fonts you favor. Unsurprisingly, there are more fonts for English than for other languages, given the relatively small number of characters the developers need to create. For <em>Traditional Chinese</em>, we only have two choices <em>Noto Sans TC</em> and <em>Noto Serif TC</em>, but they are still <em>way more pretty</em> than the build-in Chinese fonts in some operating systems. Plus, it's free, so we cannot ask for more from Google.</p>
-					<p>In Google Fonts, you can click on a font you like, and select the font style you need. You can include all the fonts and their styles in a list at once. Then, in a panel on the right side of the webpage, you will see the <em class="extra">Embed</em> option as in the figure below, which provides two methods of introducing the selected fonts to your website.</p>
+					<p>At the very beginning, I've already asked you to explore <a href="https://fonts.google.com/" target="blank">Google Fonts</a> to see what kind of fonts you favor. Unsurprisingly, there are more fonts for English than for other languages, given the relatively small number of characters the developers need to create. For <em>Traditional Chinese</em>, we have several choices like <em>Noto Sans TC</em>, <em>Noto Serif TC</em>, and <em>LXGW WenKai Mono TC</em>. They are <em>way more pretty</em> than the build-in Chinese fonts in some operating systems. Plus, they are free, so we cannot ask for more from Google.</p>
+					<p>In Google Fonts, you can click on a font you like, and select the font style you need. You can include all the fonts and their styles in a list at once. Then, in a panel on the right side of the webpage, you will see the <em class="extra">Get font</em> button. Clicking on <em class="extra">Get embed code</em> as in the figure below, which provides two methods of introducing the selected fonts to your website.</p>
 					<picture>
-						<img src="img/googlefonts.png"/>
+						<img src="img/googlefonts_link.jpg"/>
+					</picture>
+					<picture>
+						<img src="img/googlefonts_import.jpg"/>
 					</picture>
 					<p>The first method provides you a line of <code>&lt;link&gt;</code> codes, which you can put into the <code>&lt;head&gt;</code> element as part of the metadata of your website:</p>
-					<code>&lt;link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet"&gt;</code>
+					<code>
+						&lt;link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet"&gt;<br/>
+						&lt;link rel="preconnect" href="https://fonts.googleapis.com"&gt;<br/>
+						&lt;link rel="preconnect" href="https://fonts.gstatic.com" crossorigin&gt;
+					</code>
 					<p>The second method provides you a line of <code>@import</code> codes, which you can put into the first line of your global/local CSS file (it is in fact embedded inside the <code>&lt;style&gt;</code> element which is supposed to be inserted into <code>&lt;head&gt;</code>, but I already explained why this might not be the best idea):</p>
 					<code>@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');</code>
 					<p>I personally always prefer the second method, since the font styles I choose are usually applied across all webpages. Since I already have to load the global/local CSS file for every webpage, why don't I just load the font styles from Google in my CSS file, so I don't have to repeat the <code>&lt;link&gt;</code> codes in the metadata of every webpage.</p>
@@ -228,7 +235,7 @@
 						<li><code>vmax</code> - relative to 1% of the larger viewport dimension</li>
 						<li><code>%</code> - relative to the parent element</li>
 					</ul>
-					<p>My own strategy is even more radical. In some cases, I even start with the relative length unit as the base to make sure that the webpage is in general consistent across different devices. For instance, I might set the base font size to <code>1.5vh</code>, that is <em>1.5% of the browser window height</em>, so whether the screen width is 1920px, 768px, or 1280px, the font size is <em>proportionally the same</em> on a webpage. Why <em>vh</em>, rather than <em>vw</em>, then? Because the length of a font in fact determines the <em class="height">height</em> of the font, and its width is calculated automatically. With the baseline, the size of emphasized texts could be set to <code>2em</code>, which is equivalent to <code>3vh</code>. This strategy is also the foundation of <em class="extra">Responsive Web Design</em>, which focuses on providing a <em>unified</em> browsing experience for your website. We will be back to this a few weeks later.</p>
+					<p>My own strategy is even more radical. In some cases, I even start with the relative length unit as the base to make sure that the webpage is in general consistent across different devices. For instance, I might set the base font size to <code>1.5vh</code>, that is <em>1.5% of the browser window height</em>, so whether the screen width is 1920px, 768px, or 1280px, the font size is <em>proportionally the same</em> on a webpage. Why <em>vh</em>, rather than <em>vw</em>, then? Because the size of a font in fact represents the <em class="height">height</em> of the font, and its width is calculated automatically. With the baseline, the size of emphasized texts could be set to <code>2em</code>, which is equivalent to <code>3vh</code>. This strategy is also the foundation of <em class="extra">Responsive Web Design</em>, which focuses on providing a <em>unified</em> browsing experience for your website. We will be back to this a few weeks later.</p>
 					<p>One final thing about length unit is the complication that stems from the <em class="extra">border</em> of an element. It is common an element is decorated with borders for its edge to be visible, but now you need to choose if the calculation of height/width of the element includes the borders or not. If not, you choose to measure/define height/width with a <em class="extra">content-box</em>, which gives you the dimention of the red area in the block below. Alternatively, you could choose to measure/define the dimension of a <em class="extra">border-box</em>, which takes borders (the blue edges in below) into consideration.</p>
 					<div style="height: 10vw; width: 10vw; border: 5px solid blue; background-color: red;">
 					</div>
