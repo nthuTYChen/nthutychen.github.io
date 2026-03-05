@@ -55,25 +55,19 @@
 				<section>
 					<h2 id="globalthinking">Global thinking, efficient execution</h2>
 					<p>In the previous unit, I talked about how to organize the files in your website, which is part of the global thinking required for your Web development project. I told you that when you create a <em>css</em> directory in the <em>root</em> directory of a website project, it has the implication that the styles specified in the CSS files in this directory would apply to the entire website, presumably because, for instance, you have the same navigation pane in different webpages. You probably don't want to include styles that are specific to some elements in some specific webpages that belongs to a specific sub-project - these styles should go to a CSS file located in the <em>css</em> directory of the sub-project folder, which is only loaded when those specific webpages are presented in a Web browser.</p>
-					<p>Let me again use my course website as an example. In the file structure below, I have a <em>bwd</em> directory and a <em>meteor</em> directory right under the <em>root</em> directory because I have two course sub-projects. Under the <em>root</em> directory, I have a <em>css</em> directory for global CSS files, because I assume that my <em>bwd</em> and <em>meteor</em> would have a similar layout (for instance, the same style for the navigation pane) and I only need one CSS file for these common styles. But I also expect both projects to have some unique presentation of their contents, which requires some styles that are not useful for the other project, and I would put them into a CSS file in the <em>css</em> directory of each sub-project.</p>
+					<p>Let me again use a course website project as an example. In the <em>root</em> directory, you will have a default <em>index.html</em> as the default page of your personal website. Then, under the <em>root</em> directory, there might be a <em>css</em> directory for global CSS files, because I assume that a <em>personal website</em> and a <em>English reading and writing website</em> would share some CSS settings (for instance, the same set of fonts). Then, in the <em>root</em> directory, there is a <em>writing</em> sub-directory for your <em>English reading and writing website</em>. Inside <em>writing</em>, you might have another <em>css</em> directory for CSS settings that only applies to the <em>English reading and writing website</em>.</p>
 					<table>
 						<tr>
-							<td>/ (root)</td><td>─ index.html (default homepage)</td><td></td>
+							<td>/ (root)</td><td>─ index.html (default personal homepage)</td><td></td>
 						</tr>
 						<tr>
 							<td></td><td>┕ /css (global css files)</td><td></td>
 						</tr>
 						<tr>
-							<td></td><td>┕ /analysis</td><td>─ index.html (course default homepage)</td>
+							<td></td><td>┕ /writing</td><td>─ index.html (default writing homepage)</td>
 						</tr>
 						<tr>
-							<td></td><td></td><td>┕ /css (analysis site css files)</td>
-						</tr>
-						<tr>
-							<td></td><td>┕ /personal</td><td>─ index.html</td>
-						</tr>
-						<tr>
-							<td></td><td></td><td>┕ /css (personal css files)</td>
+							<td></td><td></td><td>┕ /css (writing site css files)</td>
 						</tr>
 					</table>
 					<h3>Are these manipulations crucial?</h3>
@@ -99,7 +93,7 @@
 						</code>
 						}
 					</code>
-					<p>Now link the CSS file to <em>index.html</em> by adding the following line into <code>&lt;head&gt;&lt;/head&gt;</code>so the default homepage would be styled based on the CSS file. Note that in our case, the path in this link does not begin with <code>/</code>, because the CSS file is not located in a <em>css</em> directory under the <em>root</em> directory. Instead, the CSS file is located in the <em>css</em> directory in your <em>analysis</em> directory, along with the <em>index.html</em> file it styles. This type of paths is called <em class="extra">relative</em> path, because the path to the linked CSS file is <em>relative</em> to the HTML file.</p>
+					<p>Now link the CSS file to an HTML file by adding the following line into <code>&lt;head&gt;&lt;/head&gt;</code>so the default homepage would be styled based on the CSS file. Note that in our case, the path in this link does not begin with <code>/</code>, because the CSS file is not located in a <em>css</em> directory under the <em>root</em> directory. Instead, the CSS file is located in the <em>css</em> directory under along with the <em>index.html</em> file it styles. This type of paths is called <em class="extra">relative</em> path, because the path to the linked CSS file is <em>relative</em> to the HTML file.</p>
 					<code>&lt;link rel="stylesheet" href="css/style.css"&gt;</code>
 					<p>If you've done everything correctly, you should see the fancy pink color in the background of the homepage of your personal website. And you would observe the <em class="extra">cascading effect</em>, too; every element inside <code>&lt;body&gt;</code> has a pink backgroud. Let's try to stop this cascading effect by specifying a different background color for the <em>children</em> of <code>&lt;body&gt;</code>...say, <code>&lt;section&gt;</code>...? Add the following style to the <em>style.css</em> file, and you will see the contrast. Most of the elements inside <code>&lt;body&gt;</code> still has a pink background, except for every single <code>&lt;section&gt;</code> element (and it's children), which now has a white background.</p>
 					<code>
