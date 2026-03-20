@@ -92,7 +92,7 @@
 						<sub>Credit: <a href="https://www.flickr.com/photos/polycart/5395209587/" target="blank">Polycart</a></sub>
 					</picture>
 					<p>When you do grocery shopping, you don't go back and forth between shelves and the casher. Instead, you get a basket or a cart with you. You grab goods on the shelves and put them into your basket/cart. Later, you would simply check your container to see the number of things there, and you don't have to go back to every corner in the grocery store to count how many times you grab things from the shelves. Of course, you could change the things in your container freely, but still, you only need to count the number of things in that container.</p>
-					<p>All programming languagues have such a container for storing information, from which you can re-use the information easily - it's called <em class="extra">variable</em>. In JS, you can use the keyword <code>var</code> to declare a variable, as in the following example:</p>
+					<p>All programming languagues have such a container for storing information, from which you can re-use the information easily - it's called <em class="extra">variable</em> (because the content can <em>vary</em>). In JS, you can use the keyword <code>var</code> to declare a variable, as in the following example:</p>
 					<code><p>var num; // Declare a variable named "num"</p></code>
 					<p>And we can put things into the container (I mean, variable) with the <code>=</code> operator introduced in the previous section:</p>
 					<code><p>var num = 5; // Declare a variable named "num" equal to a numeric value of 5</p></code>
@@ -139,7 +139,7 @@
 					</ul>
 					<p>Interestingly, you can use weird Unicode characters in your variable name, like <em>ಠ_ಠ</em>:</p>
 					<code>
-						var ಠ_ಠ = 'Raise my eyebrow'; // Declare a variable with a weird name<br/>
+						var ಠ_ಠ = 'Raise my eyebrows'; // Declare a variable with a weird name<br/>
 						console.log(ಠ_ಠ); // You should get the string assigned to it
 					</code>
 					<p>I would suggest no one to include any special Unicode characters in your variable names - imagine how emoticons could annoy other people trying to read your codes, for instance. Just use the regular English alphabet. If you have any conern over your variable names, you can check their validity on <a href="https://mothereff.in/js-variables" target="blank">this page</a>.</p>
@@ -403,7 +403,7 @@
 						profile.contact.home; // Get the home number<br/>
 						profile.contact.mobile[0]; // Get the first mobile number
 					</code>
-					<p>Now back to the statement we have been using a lot - <code>console.log()</code>; clearly, there's an object named <code>console</code>, which refers to the console tab of the Developer Tools in your Web browser in this case, and it has a key with a key named <code>log</code>, which is a <em>function</em> represented with a pair of brackets <code>( )</code> that allows you to print some message in the console (again, we will get to the function part soon). Yes, we have been in the world of object <em>since the very beginning of this tutorial!!!</em>. JS is one of the <em>obeject-oriented programming languages</em>, and thus the concept of object is crucial to the rest of this tutorial. In fact, all variables are an object regardless of they are assigned a number, string, or array as their value. For instance, once you declare a <em>string</em> variable, you actually can have access to its <code>length</code> key for the number of characters in this variable:</p>
+					<p>Now back to the statement we have been using a lot - <code>console.log()</code>; clearly, there's an object named <code>console</code>, which refers to the console tab of the Developer Tools in your Web browser in this case, and it has a key named <code>log</code>, which is a <em>function</em> represented with a pair of brackets <code>( )</code> that allows you to print some message in the console (again, we will get to the function part soon). In this case, <code>log</code> is a <em class="extra">method</em> of the <code>console</code> object. Yes, we have been in the world of object <em>since the very beginning of this tutorial!!!</em>. JS is one of the <em>obeject-oriented programming languages</em>, and thus the concept of object is crucial to the rest of this tutorial. In fact, all variables are an object regardless of they are assigned a number, string, or array as their value. For instance, once you declare a <em>string</em> variable, you actually can have access to its <code>length</code> method for the number of characters in this variable:</p>
 					<code>
 						var str = 'This is a loooooooooooooooog string!';<br/>
 						console.log(str.length); // Print the number of characters in "str"
@@ -413,12 +413,12 @@
 						var mobileNum = [0937149506, 0956771481, 0982982143];<br/>
 						console.log(mobileNum.length); // Get the number of data entries stored in "mobileNum"
 					</code>
-					<p>You can also <em>add a new entry</em> to the end of an array with the function of the <code>push</code> key of an array object:</p>
+					<p>You can also <em>add a new entry</em> to the end of an array with the function of the <code>push</code> method of an array object:</p>
 					<code>
 						mobileNum.push(0976111358); // Insert a new number to the last position of "mobileNum"<br/>
 						console.log(mobileNum[3]); // Output = 0976111358
 					</code>
-					<p>So from now on, when you see a period <code>.</code> in our JS code, you should know that it means two different things - First, it could indicate a decimal in a <em>numeric</em> value as in <em>3.14159</em>, or alternative, it could indicate a key of an object, as in <code>console.log</code>. We will see both cases a lot in the rest of this course.</p>
+					<p>So from now on, when you see a period <code>.</code> in our JS code, you should know that it means two different things - First, it could indicate a decimal in a <em>numeric</em> value as in <em>3.14159</em>, or alternative, it could indicate a key of an object, as in <code>console.log()</code>. We will see both cases a lot in the rest of this course.</p>
 					<p>Before we leave this section, we can create an object in which each key is a <em>function</em> to mimic the codes like <code>console.log</code>, which calls a function in an object. We can use the <code>userMsg</code> and <code>complexCalc</code> functions we created earlier and included them as the value of the keys with the same name in an object:</p>
 					<code>
 						var demoFuncs = {
@@ -429,7 +429,7 @@
 						</code>
 						};
 					</code>
-					<p>In the <code>demoFuncs</code> object, similar functions are grouped together since they are all some kind of demos. Then, we can call the corresponding function by referring to the specific key in the object, just like <code>console.log</code>:</p>
+					<p>In the <code>demoFuncs</code> object, similar functions are grouped together since they are all some kind of demos. Then, we can call the corresponding method by referring to the specific key name in the object, just like <code>console.log()</code>:</p>
 					<code>demoFuncs.userMsg('Victor', 'I am calling a function!');</code>
 					<p>Knowing how to create functions helps you save your effort in coding repeating processes, and knowing how to link a function to a key of an object helps you understand the nature of <em class="extra">object-oriented programming</em>.</p>
 				</section>
@@ -451,15 +451,15 @@
 						window.location.href = 'https://google.com'; // Change the current URL to Google<br/>
 						window.location.pathname = '/nosuchpath'; // Change to a path that does not exit
 					</code>
-					<p>We can also run some functions depending on the action executed in a browser window, such as popping up a message when a webpage is fully loaded in the browser window:</p>
+					<p>We can also assign a function to a specific <em>window method</em> depending on the action executed in a browser window, such as popping up a message when a webpage is fully loaded in the browser window:</p>
 					<code>
-						window.onload = function() { // Initialized a function in the "onload" key of "window"
+						window.onload = function() { // Assign a function to the "onload" key of "window"
 						<code>
 							alert('Website is ready!'); // Executed when everything in the webpage is fully loaded
 						</code>
 						};
 					</code>
-					<h3>Window.document</h3>
+					<h3>window.document</h3>
 					<p>There are many properties or functions that you can take advantage of (see the full list on this <a href="https://developer.mozilla.org/en-US/docs/Web/API/Window" target="blank">MDN Web Docs page</a>), but our focus in this section will be mostly on <code>window.document</code>, which apparently refers to the HTML document that is currently presented in a Web browser. Since hardly anyone writes JS codes without using <code>window.document</code>, JS developers decided to create a <em>shortcut</em> for it, so you can simply use <code>document</code> for <code>window.document</code>. In <code>document</code>, you can have access to the <em>DOM</em> of an HTML document, such as the title of the website specified inside <code>&lt;title&gt;&lt;/title&gt;</code>:</p>
 					<code>
 						var siteTitle = document.title;<br/>
